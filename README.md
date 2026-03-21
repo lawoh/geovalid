@@ -45,7 +45,3 @@ geovalid/
 ## Dépendances
 
 Toutes chargées via CDN : [Leaflet](https://leafletjs.com/), [SheetJS](https://sheetjs.com/), [JSZip](https://stuk.github.io/jszip/), [jsPDF](https://github.com/parallax/jsPDF), [html2canvas](https://html2canvas.hertzen.com/), [sql.js](https://sql.js.org/), [Font Awesome](https://fontawesome.com/).
-
-## Licence
-
-MIT
