@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos | GéoValid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="../css/apropos.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="../index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Retour à l'application
+            </a>
+            <div class="header-title">
+                <svg class="fleur-icon" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 5c-3 8-8 15-8 25 0 8 4 12 8 15 4-3 8-7 8-15 0-10-5-17-8-25zm-30 35c8 3 15 8 25 8 8 0 12-4 15-8-3-4-7-8-15-8-10 0-17 5-25 8zm60 0c-8-3-15-8-25-8-8 0-12 4-15 8 3 4 7 8 15 8 10 0 17-5 25-8zM50 95c3-8 8-15 8-25 0-8-4-12-8-15-4 3-8 7-8 15 0 10 5 17 8 25z"/>
+                    <circle cx="50" cy="50" r="8"/>
+                </svg>
+                <span>À propos</span>
+            </div>
+        </header>
+
+        <!-- Introduction -->
+        <section class="intro">
+            <div class="intro-icon">
+                <svg class="fleur-large" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 5c-3 8-8 15-8 25 0 8 4 12 8 15 4-3 8-7 8-15 0-10-5-17-8-25zm-30 35c8 3 15 8 25 8 8 0 12-4 15-8-3-4-7-8-15-8-10 0-17 5-25 8zm60 0c-8-3-15-8-25-8-8 0-12 4-15 8 3 4 7 8 15 8 10 0 17-5 25-8zM50 95c3-8 8-15 8-25 0-8-4-12-8-15-4 3-8 7-8 15 0 10 5 17 8 25z"/>
+                    <circle cx="50" cy="50" r="8"/>
+                </svg>
+            </div>
+            <h1>GéoValid</h1>
+            <p class="tagline">Outil de validation de données géographiques pour le Canada</p>
+        </section>
+
+        <!-- Origine du projet -->
+        <section class="origin">
+            <h2><i class="fa-solid fa-lightbulb"></i> Origine du projet</h2>
+            <div class="story-content">
+                <p>
+                    GéoValid est né d'un <strong>exercice pratique</strong> réalisé dans le cadre d'un cours 
+                    sur l'<strong>automatisation des traitements des données SIG avec Python</strong> 
+                    à l'<strong>Université de Sherbrooke</strong>.
+                </p>
+                <p>
+                    L'exercice initial consistait à développer un script Python avec une interface PyQt5 
+                    permettant de valider des coordonnées géographiques canadiennes. Face au potentiel 
+                    de cet outil et à son utilité concrète pour les professionnels du domaine géospatial, 
+                    j'ai décidé de le transformer en une <strong>application web moderne</strong>, 
+                    accessible à tous sans installation.
+                </p>
+                <p>
+                    Cette évolution a permis d'enrichir considérablement les fonctionnalités : 
+                    détection automatique des colonnes par analyse des valeurs, support de nombreux 
+                    formats SIG, visualisation cartographique interactive, et export dans les formats 
+                    standards de l'industrie.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contexte académique -->
+        <section class="academic">
+            <h2><i class="fa-solid fa-graduation-cap"></i> Contexte académique</h2>
+            <div class="academic-grid">
+                <div class="academic-card">
+                    <div class="academic-icon">
+                        <i class="fa-solid fa-university"></i>
+                    </div>
+                    <h3>Université de Sherbrooke</h3>
+                    <p>Département de géomatique appliquée</p>
+                </div>
+                <div class="academic-card">
+                    <div class="academic-icon">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <h3>Cours</h3>
+                    <p>Automatisation des traitements des données SIG avec Python</p>
+                </div>
+                <div class="academic-card">
+                    <div class="academic-icon">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Technologies initiales</h3>
+                    <p>Python, PyQt5, Pandas, GeoPandas</p>
+                </div>
+                <div class="academic-card">
+                    <div class="academic-icon">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3>Version web</h3>
+                    <p>HTML5, CSS3, JavaScript, Leaflet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fonctionnalités -->
+        <section class="features">
+            <h2><i class="fa-solid fa-star"></i> Fonctionnalités principales</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fa-solid fa-magic-wand-sparkles"></i>
+                    <div>
+                        <h3>Détection automatique</h3>
+                        <p>Analyse intelligente des valeurs pour identifier automatiquement les colonnes de coordonnées, codes postaux et provinces.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-file-import"></i>
+                    <div>
+                        <h3>Multi-formats en entrée</h3>
+                        <p>Support de 17 formats : CSV, Excel, JSON, GeoJSON, TopoJSON, KML, KMZ, GPX, Shapefile, GML, WKT et plus.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-check-double"></i>
+                    <div>
+                        <h3>Validation Canada</h3>
+                        <p>Vérification des coordonnées selon les limites géographiques du Canada, validation des codes postaux et provinces.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <div>
+                        <h3>Carte interactive</h3>
+                        <p>Visualisation des points validés sur une carte Leaflet avec clustering, plusieurs fonds de carte disponibles.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-file-export"></i>
+                    <div>
+                        <h3>Export professionnel</h3>
+                        <p>Export en 13 formats incluant Shapefile, GeoPackage, GeoJSON, KML, et carte PDF avec éléments cartographiques.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <div>
+                        <h3>Statistiques détaillées</h3>
+                        <p>Analyse par province, par préfixe postal, et synthèse des types d'erreurs rencontrées.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auteur -->
+        <section class="author">
+            <h2><i class="fa-solid fa-user"></i> À propos de l'auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div class="author-info">
+                    <h3>Laouali ADA AYA</h3>
+                    <p class="author-title">Ingénieur SIG DATA</p>
+                    <p class="author-bio">
+                        Passionné par les systèmes d'information géographique, le Geospatial Data Engineering 
+                        et l'analyse de données spatiales, je m'efforce de créer des outils pratiques 
+                        qui simplifient le travail quotidien des professionnels du domaine géospatial.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Liens -->
+        <section class="links">
+            <h2><i class="fa-solid fa-link"></i> Liens utiles</h2>
+            <div class="links-grid">
+                <a href="../index.html" class="link-card">
+                    <i class="fa-solid fa-home"></i>
+                    <span>Accueil</span>
+                </a>
+                <a href="aide.html" class="link-card">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Comment ça marche</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Développé par <strong>Laouali ADA AYA</strong> — Ingénieur SIG DATA</p>
+            <p class="version">GéoValid v1.0 • 2026</p>
+        </footer>
+    </div>
+</body>
+</html>

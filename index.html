@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GéoValid Québec | Validation de Données Géographiques</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="fleur-de-lys-bg"></div>
+    
+    <div class="app-container">
+        <!-- =============================================
+             HEADER (toujours visible)
+             ============================================= -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg class="fleur-icon" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M50 5c-3 8-8 15-8 25 0 8 4 12 8 15 4-3 8-7 8-15 0-10-5-17-8-25zm-30 35c8 3 15 8 25 8 8 0 12-4 15-8-3-4-7-8-15-8-10 0-17 5-25 8zm60 0c-8-3-15-8-25-8-8 0-12 4-15 8 3 4 7 8 15 8 10 0 17-5 25-8zM50 95c3-8 8-15 8-25 0-8-4-12-8-15-4 3-8 7-8 15 0 10 5 17 8 25z"/>
+                        <circle cx="50" cy="50" r="8"/>
+                    </svg>
+                    <div class="logo-text">
+                        <h1>GéoValid</h1>
+                        <span class="subtitle">Valideur de données géographiques</span>
+                    </div>
+                </div>
+                <nav class="header-nav">
+                    <a href="pages/aide.html" class="help-link">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Comment ça marche</span>
+                    </a>
+                    <a href="pages/apropos.html" class="help-link">
+                        <i class="fa-solid fa-info-circle"></i>
+                        <span>À propos</span>
+                    </a>
+                    <div class="header-badge">Canada</div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- =============================================
+             ZONE IMPORT (visible au départ)
+             ============================================= -->
+        <section class="section-import" id="sectionImport">
+            <div class="import-box">
+                <input type="file" id="inputFile" accept=".csv,.txt,.tsv,.xls,.xlsx,.ods,.json,.geojson,.topojson,.xml,.kml,.kmz,.gpx,.shp,.dbf,.gml,.wkt,.zip" class="file-input-hidden">
+                <div class="drop-zone" id="dropZone">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p class="drop-text-main">Glissez-déposez votre fichier ici</p>
+                    <p class="drop-text-sub">ou cliquez pour sélectionner un fichier</p>
+                    <p class="drop-text-hint">CSV, Excel, JSON, GeoJSON, TopoJSON, KML, KMZ, GPX, Shapefile, GML, WKT...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             SECTION APERÇU (apparaît après chargement fichier)
+             ============================================= -->
+        <section class="section-preview hidden" id="sectionPreview">
+            <!-- Barre fichier chargé -->
+            <div class="loaded-file-bar">
+                <div class="loaded-file-info">
+                    <span class="loaded-file-icon" id="loadedFileIcon">CSV</span>
+                    <div>
+                        <span class="loaded-file-name" id="loadedFileName">fichier.csv</span>
+                        <span class="loaded-file-meta" id="loadedFileMeta">0 lignes • 0 Ko</span>
+                    </div>
+                </div>
+                <button class="btn-text" id="btnChangerFichier">
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Changer de fichier
+                </button>
+            </div>
+
+            <!-- Colonnes détectées -->
+            <div class="detection-box">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Détection automatique des colonnes</h3>
+                <div class="detected-tags" id="detectedTags"></div>
+            </div>
+
+            <!-- Aperçu 10 premières lignes -->
+            <div class="preview-box">
+                <h3><i class="fa-solid fa-table"></i> Aperçu des données <span class="preview-count" id="previewCount">(10 premières lignes)</span></h3>
+                <div class="preview-table-container">
+                    <table class="preview-table" id="previewTable"></table>
+                </div>
+            </div>
+
+            <!-- Bouton Analyser -->
+            <div class="analyze-box">
+                <button class="btn btn-primary btn-large" id="btnAnalyser" disabled>
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    Analyser les données
+                </button>
+                <p class="analyze-message" id="analyzeMessage"></p>
+            </div>
+
+            <!-- Progression -->
+            <div class="progress-box hidden" id="progressBox">
+                <div class="progress-info">
+                    <span id="progressText">Analyse en cours...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             SECTION RÉSULTATS (apparaît après clic Analyser)
+             ============================================= -->
+        <section class="section-results hidden" id="sectionResults">
+            <!-- Stats résumé -->
+            <div class="stats-row">
+                <div class="stat-box stat-total">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <div class="stat-data">
+                        <span class="stat-number" id="statTotal">0</span>
+                        <span class="stat-label">Lignes analysées</span>
+                    </div>
+                </div>
+                <div class="stat-box stat-valid">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div class="stat-data">
+                        <span class="stat-number" id="statValid">0</span>
+                        <span class="stat-label">Valides</span>
+                    </div>
+                    <span class="stat-badge" id="validPercent">0%</span>
+                </div>
+                <div class="stat-box stat-invalid">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                    <div class="stat-data">
+                        <span class="stat-number" id="statInvalid">0</span>
+                        <span class="stat-label">Invalides</span>
+                    </div>
+                    <span class="stat-badge invalid" id="invalidPercent">0%</span>
+                </div>
+            </div>
+
+            <!-- Grille principale -->
+            <div class="results-grid">
+                <!-- Sidebar gauche: Stats détaillées + Export -->
+                <div class="sidebar-results">
+                    <!-- Stats détaillées -->
+                    <div class="card card-stats">
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Statistiques</h3>
+                        </div>
+                        <div class="tabs">
+                            <button class="tab active" data-tab="provinces">Provinces</button>
+                            <button class="tab" data-tab="prefixes">Préfixes</button>
+                            <button class="tab" data-tab="zones">Zones</button>
+                            <button class="tab" data-tab="erreurs">Erreurs</button>
+                        </div>
+                        <div class="tab-content" id="tabContent"></div>
+                    </div>
+
+                    <!-- Export -->
+                    <div class="card card-export">
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-download"></i> Exporter les données</h3>
+                        </div>
+                        <div class="export-section">
+                            <div class="export-header">
+                                <span class="export-icon valid"><i class="fa-solid fa-circle-check"></i></span>
+                                <div>
+                                    <p class="export-label">Données valides</p>
+                                    <p class="export-count" id="exportValidCount">0 lignes</p>
+                                </div>
+                            </div>
+                            <div class="export-buttons">
+                                <button type="button" class="btn-export" data-type="valid" data-format="csv">CSV</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="xlsx">Excel</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="json">JSON</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="geojson">GeoJSON</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="topojson">TopoJSON</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="kml">KML</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="gml">GML</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="gpx">GPX</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="wkt">WKT</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="shapefile">Shapefile</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="geopackage">GeoPackage</button>
+                            </div>
+                        </div>
+                        <div class="export-section">
+                            <div class="export-header">
+                                <span class="export-icon map"><i class="fa-solid fa-map"></i></span>
+                                <div>
+                                    <p class="export-label">Carte</p>
+                                    <p class="export-count">Formats disponibles</p>
+                                </div>
+                            </div>
+                            <div class="export-buttons">
+                                <button type="button" class="btn-export" data-type="map" data-format="html">
+                                    <i class="fa-solid fa-globe"></i> HTML
+                                </button>
+                                <button type="button" class="btn-export" data-type="map" data-format="pdf">
+                                    <i class="fa-solid fa-file-pdf"></i> PDF
+                                </button>
+                            </div>
+                        </div>
+                        <div class="export-section">
+                            <div class="export-header">
+                                <span class="export-icon invalid"><i class="fa-solid fa-circle-xmark"></i></span>
+                                <div>
+                                    <p class="export-label">Données invalides</p>
+                                    <p class="export-count" id="exportInvalidCount">0 lignes</p>
+                                </div>
+                            </div>
+                            <div class="export-buttons">
+                                <button type="button" class="btn-export" data-type="invalid" data-format="csv">CSV</button>
+                                <button type="button" class="btn-export" data-type="invalid" data-format="xlsx">Excel</button>
+                                <button type="button" class="btn-export" data-type="invalid" data-format="json">JSON</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte à droite -->
+                <div class="card card-map">
+                    <div class="card-head">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> Carte des points valides</h3>
+                        <div class="map-toolbar">
+                            <select id="mapLayerSelect">
+                                <option value="osm">OpenStreetMap</option>
+                                <option value="satellite">Satellite</option>
+                                <option value="terrain">Terrain</option>
+                                <option value="dark">Sombre</option>
+                            </select>
+                            <span class="map-pts" id="mapPts">0 pts</span>
+                        </div>
+                    </div>
+                    <div class="map-container">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton nouvelle analyse -->
+            <div class="new-analysis-box">
+                <button class="btn btn-outline" id="btnNouvelleAnalyse">
+                    <i class="fa-solid fa-rotate-right"></i> Nouvelle analyse
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Développé par <strong>Laouali ADA AYA</strong> — Ingénieur SIG DATA</p>
+        </footer>
+    </div>
+
+    <!-- Scripts externes -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Modules JS séparés -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/parsers.js"></script>
+    <script src="js/detection.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

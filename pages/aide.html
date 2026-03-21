@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment ça marche | GéoValid Québec</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="../css/aide.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="../index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Retour à l'application
+            </a>
+            <div class="header-title">
+                <svg class="fleur-icon" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 5c-3 8-8 15-8 25 0 8 4 12 8 15 4-3 8-7 8-15 0-10-5-17-8-25zm-30 35c8 3 15 8 25 8 8 0 12-4 15-8-3-4-7-8-15-8-10 0-17 5-25 8zm60 0c-8-3-15-8-25-8-8 0-12 4-15 8 3 4 7 8 15 8 10 0 17-5 25-8zM50 95c3-8 8-15 8-25 0-8-4-12-8-15-4 3-8 7-8 15 0 10 5 17 8 25z"/>
+                    <circle cx="50" cy="50" r="8"/>
+                </svg>
+                <span>Comment ça marche</span>
+            </div>
+        </header>
+
+        <!-- Introduction -->
+        <section class="intro">
+            <h1>Guide d'utilisation de GéoValid</h1>
+            <p>GéoValid est un outil de validation de données géographiques pour le Canada. 
+            Il détecte <strong>automatiquement</strong> vos colonnes en analysant les valeurs, 
+            pas les noms de colonnes. Vous pouvez nommer vos colonnes comme vous voulez !</p>
+        </section>
+
+        <!-- Les 3 étapes -->
+        <section class="steps">
+            <h2>Les 3 étapes simples</h2>
+            <div class="cards-row">
+                <div class="card">
+                    <div class="card-number">1</div>
+                    <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h3>Importez votre fichier</h3>
+                    <p>Glissez-déposez ou sélectionnez votre fichier. De nombreux formats sont acceptés : CSV, Excel, JSON, GeoJSON, KML, GPX...</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">2</div>
+                    <div class="card-icon"><i class="fa-solid fa-table"></i></div>
+                    <h3>Vérifiez l'aperçu</h3>
+                    <p>Consultez les 10 premières lignes et vérifiez que les colonnes latitude/longitude ont été correctement détectées.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">3</div>
+                    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Analysez & Exportez</h3>
+                    <p>Lancez l'analyse, visualisez sur la carte et exportez vos données validées dans le format de votre choix.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formats supportés -->
+        <section class="formats">
+            <h2>Formats de fichiers</h2>
+            <div class="formats-grid">
+                <div class="format-box">
+                    <h3><i class="fa-solid fa-file-import"></i> Formats d'entrée</h3>
+                    <div class="format-tags">
+                        <span>CSV</span><span>TXT</span><span>TSV</span>
+                        <span>XLS</span><span>XLSX</span><span>ODS</span>
+                        <span>JSON</span><span>GeoJSON</span><span>TopoJSON</span>
+                        <span>XML</span><span>KML</span><span>KMZ</span>
+                        <span>GPX</span><span>GML</span><span>WKT</span>
+                        <span>Shapefile</span><span>DBF</span>
+                    </div>
+                </div>
+                <div class="format-box">
+                    <h3><i class="fa-solid fa-file-export"></i> Formats d'export</h3>
+                    <div class="format-tags export">
+                        <span>CSV</span><span>Excel</span><span>JSON</span>
+                        <span>GeoJSON</span><span>TopoJSON</span><span>KML</span>
+                        <span>GML</span><span>GPX</span><span>WKT</span>
+                        <span>Shapefile</span><span>GeoPackage</span>
+                        <span>HTML (carte)</span><span>PDF (carte)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colonnes -->
+        <section class="columns">
+            <h2>Structure des données</h2>
+            <div class="columns-grid">
+                <div class="column-box required">
+                    <span class="badge required">Obligatoire</span>
+                    <h3>Latitude</h3>
+                    <p>Valeur numérique entre -90 et 90. Pour le Canada : 41.67° à 83.11°</p>
+                    <p class="hint">Détection auto par les valeurs, peu importe le nom de colonne</p>
+                </div>
+                <div class="column-box required">
+                    <span class="badge required">Obligatoire</span>
+                    <h3>Longitude</h3>
+                    <p>Valeur numérique entre -180 et 180. Pour le Canada : -141° à -52.62°</p>
+                    <p class="hint">Détection auto par les valeurs, peu importe le nom de colonne</p>
+                </div>
+                <div class="column-box optional">
+                    <span class="badge optional">Optionnel</span>
+                    <h3>Code postal</h3>
+                    <p>Format canadien : A1A ou A1A1A1</p>
+                    <p class="hint">Si présent, sera validé et inclus dans les stats</p>
+                </div>
+                <div class="column-box optional">
+                    <span class="badge optional">Optionnel</span>
+                    <h3>Province</h3>
+                    <p>Code 2 lettres : AB, BC, MB, NB, NL, NS, NT, NU, ON, PE, QC, SK, YT</p>
+                    <p class="hint">Si présente, sera incluse dans les stats par province</p>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <div>
+                    <strong>Détection intelligente :</strong> L'application analyse les valeurs de chaque colonne 
+                    pour déterminer automatiquement ce qu'elle contient. Vous n'avez pas besoin d'utiliser 
+                    des noms de colonnes spécifiques comme "lat" ou "longitude".
+                </div>
+            </div>
+        </section>
+
+        <!-- Règles de validation -->
+        <section class="validation">
+            <h2>Règles de validation</h2>
+            <div class="validation-grid">
+                <div class="validation-box valid">
+                    <h3><i class="fa-solid fa-check"></i> Données valides</h3>
+                    <ul>
+                        <li>Latitude entre 41.67° et 83.11°</li>
+                        <li>Longitude entre -141° et -52.62°</li>
+                        <li>Valeurs numériques correctes</li>
+                        <li>Code postal au bon format (si fourni)</li>
+                    </ul>
+                </div>
+                <div class="validation-box invalid">
+                    <h3><i class="fa-solid fa-xmark"></i> Données invalides</h3>
+                    <ul>
+                        <li>Coordonnées hors du Canada</li>
+                        <li>Valeurs non numériques</li>
+                        <li>Latitude ou longitude manquante</li>
+                        <li>Format code postal incorrect</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq">
+            <h2>Questions fréquentes</h2>
+            <details>
+                <summary>Mes colonnes ne sont pas détectées automatiquement</summary>
+                <p>Vérifiez que vos données de latitude sont des nombres entre -90 et 90, et vos longitudes entre -180 et 180. Pour de meilleurs résultats avec des données canadiennes, les latitudes devraient être entre 40 et 85, et les longitudes entre -145 et -50.</p>
+            </details>
+            <details>
+                <summary>Puis-je utiliser des données hors du Canada ?</summary>
+                <p>Actuellement, l'application valide uniquement les coordonnées situées dans les limites géographiques du Canada. Les points hors de ces limites seront marqués comme invalides.</p>
+            </details>
+            <details>
+                <summary>Comment fonctionne l'export Shapefile ?</summary>
+                <p>L'export Shapefile génère un fichier ZIP contenant les 4 fichiers nécessaires : .shp (géométries), .shx (index), .dbf (attributs) et .prj (projection WGS84).</p>
+            </details>
+            <details>
+                <summary>Mes données sont-elles sécurisées ?</summary>
+                <p>Oui ! Toutes les opérations sont effectuées localement dans votre navigateur. Aucune donnée n'est envoyée vers un serveur externe.</p>
+            </details>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Développé par <strong>Laouali ADA AYA</strong> — Ingénieur SIG DATA</p>
+        </footer>
+    </div>
+    
+    <script src="../js/aide.js"></script>
+</body>
+</html>
