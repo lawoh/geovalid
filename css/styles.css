@@ -453,6 +453,11 @@ body {
     color: var(--gray-500); font-size: 0.8rem;
 }
 .footer strong { color: var(--blue); }
+.footer .version {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--gray-400);
+}
 
 /* ====================================
    NOTIFICATIONS

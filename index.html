@@ -51,12 +51,12 @@
              ============================================= -->
         <section class="section-import" id="sectionImport">
             <div class="import-box">
-                <input type="file" id="inputFile" accept=".csv,.txt,.tsv,.xls,.xlsx,.ods,.json,.geojson,.topojson,.xml,.kml,.kmz,.gpx,.shp,.dbf,.gml,.wkt,.zip" class="file-input-hidden">
+                <input type="file" id="inputFile" accept=".csv,.txt,.tsv,.xls,.xlsx,.ods,.json,.geojson,.topojson,.xml,.kml,.kmz,.gpx,.shp,.dbf,.gml,.wkt,.zip,.gpkg" class="file-input-hidden">
                 <div class="drop-zone" id="dropZone">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     <p class="drop-text-main">Glissez-déposez votre fichier ici</p>
                     <p class="drop-text-sub">ou cliquez pour sélectionner un fichier</p>
-                    <p class="drop-text-hint">CSV, Excel, JSON, GeoJSON, TopoJSON, KML, KMZ, GPX, Shapefile, GML, WKT...</p>
+                    <p class="drop-text-hint">CSV, XLS, XLSX, JSON, GeoJSON, KML, GPX, Shapefile, GeoPackage, GML, WKT...</p>
                 </div>
             </div>
         </section>
@@ -155,7 +155,6 @@
                         <div class="tabs">
                             <button class="tab active" data-tab="provinces">Provinces</button>
                             <button class="tab" data-tab="prefixes">Préfixes</button>
-                            <button class="tab" data-tab="zones">Zones</button>
                             <button class="tab" data-tab="erreurs">Erreurs</button>
                         </div>
                         <div class="tab-content" id="tabContent"></div>
@@ -176,7 +175,7 @@
                             </div>
                             <div class="export-buttons">
                                 <button type="button" class="btn-export" data-type="valid" data-format="csv">CSV</button>
-                                <button type="button" class="btn-export" data-type="valid" data-format="xlsx">Excel</button>
+                                <button type="button" class="btn-export" data-type="valid" data-format="xlsx">XLSX</button>
                                 <button type="button" class="btn-export" data-type="valid" data-format="json">JSON</button>
                                 <button type="button" class="btn-export" data-type="valid" data-format="geojson">GeoJSON</button>
                                 <button type="button" class="btn-export" data-type="valid" data-format="topojson">TopoJSON</button>
@@ -215,7 +214,7 @@
                             </div>
                             <div class="export-buttons">
                                 <button type="button" class="btn-export" data-type="invalid" data-format="csv">CSV</button>
-                                <button type="button" class="btn-export" data-type="invalid" data-format="xlsx">Excel</button>
+                                <button type="button" class="btn-export" data-type="invalid" data-format="xlsx">XLSX</button>
                                 <button type="button" class="btn-export" data-type="invalid" data-format="json">JSON</button>
                             </div>
                         </div>
@@ -253,6 +252,7 @@
         <!-- Footer -->
         <footer class="footer">
             <p>Développé par <strong>Laouali ADA AYA</strong> — Ingénieur SIG DATA</p>
+            <p class="version">GéoValid v1.0 • 2026</p>
         </footer>
     </div>
 

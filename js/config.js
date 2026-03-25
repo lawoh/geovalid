@@ -38,8 +38,8 @@ const FORMATS_ENTREE = {
     csv: { nom: 'CSV', icone: 'CSV', type: 'tabular' },
     txt: { nom: 'Texte', icone: 'TXT', type: 'tabular' },
     tsv: { nom: 'TSV', icone: 'TSV', type: 'tabular' },
-    xls: { nom: 'Excel 97', icone: 'XLS', type: 'tabular' },
-    xlsx: { nom: 'Excel', icone: 'XLSX', type: 'tabular' },
+    xls: { nom: 'XLS', icone: 'XLS', type: 'tabular' },
+    xlsx: { nom: 'XLSX', icone: 'XLSX', type: 'tabular' },
     ods: { nom: 'OpenDocument', icone: 'ODS', type: 'tabular' },
     // Formats JSON
     json: { nom: 'JSON', icone: 'JSON', type: 'json' },
@@ -55,14 +55,15 @@ const FORMATS_ENTREE = {
     shp: { nom: 'Shapefile', icone: 'SHP', type: 'shapefile' },
     dbf: { nom: 'dBASE', icone: 'DBF', type: 'dbf' },
     gml: { nom: 'GML', icone: 'GML', type: 'gml' },
-    wkt: { nom: 'WKT', icone: 'WKT', type: 'wkt' }
+    wkt: { nom: 'WKT', icone: 'WKT', type: 'wkt' },
+    gpkg: { nom: 'GeoPackage', icone: 'GPKG', type: 'geopackage' }
 };
 
 // Formats de fichiers supportés en SORTIE
 const FORMATS_SORTIE = {
     // Formats tabulaires
     csv: { nom: 'CSV', extension: '.csv', description: 'Valeurs séparées par virgules' },
-    xlsx: { nom: 'Excel', extension: '.xlsx', description: 'Microsoft Excel' },
+    xlsx: { nom: 'XLSX', extension: '.xlsx', description: 'Format tableur Microsoft' },
     // Formats JSON
     json: { nom: 'JSON', extension: '.json', description: 'JavaScript Object Notation' },
     geojson: { nom: 'GeoJSON', extension: '.geojson', description: 'Format géospatial JSON' },

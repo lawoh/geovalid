@@ -36,6 +36,8 @@ async function parseFile(file, format) {
             return await parseShapefile(file);
         case 'dbf':
             return await parseDBF(file);
+        case 'gpkg':
+            return await parseGeoPackage(file);
         default:
             throw new Error(`Format non supporté: ${format}`);
     }
@@ -505,4 +507,165 @@ function parseDBFBuffer(arrayBuffer) {
     }
     
     return { headers, data };
+}
+
+// Parser GeoPackage (.gpkg)
+async function parseGeoPackage(file) {
+    // Charger sql.js si pas déjà chargé
+    if (!window.initSqlJs) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js';
+        document.head.appendChild(script);
+        await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = () => reject(new Error('Impossible de charger sql.js'));
+        });
+    }
+    
+    const SQL = await initSqlJs({
+        locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+    });
+    
+    const arrayBuffer = await file.arrayBuffer();
+    const db = new SQL.Database(new Uint8Array(arrayBuffer));
+    
+    // Trouver les tables avec géométrie
+    const gpkgContents = db.exec("SELECT table_name, data_type FROM gpkg_contents WHERE data_type = 'features'");
+    
+    if (!gpkgContents.length || !gpkgContents[0].values.length) {
+        // Essayer de trouver des tables directement
+        const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'");
+        if (!tables.length) throw new Error('Aucune table trouvée dans le GeoPackage');
+    }
+    
+    // Récupérer le nom de la table et de la colonne géométrique
+    let tableName = null;
+    let geomColumn = 'geom';
+    
+    if (gpkgContents.length && gpkgContents[0].values.length) {
+        tableName = gpkgContents[0].values[0][0];
+    } else {
+        // Chercher une table avec une colonne géométrique
+        const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'gpkg_%' AND name NOT LIKE 'sqlite_%'");
+        if (tables.length && tables[0].values.length) {
+            tableName = tables[0].values[0][0];
+        }
+    }
+    
+    if (!tableName) throw new Error('Aucune table de features trouvée');
+    
+    // Vérifier la colonne géométrique
+    const geomCols = db.exec(`SELECT column_name FROM gpkg_geometry_columns WHERE table_name = '${tableName}'`);
+    if (geomCols.length && geomCols[0].values.length) {
+        geomColumn = geomCols[0].values[0][0];
+    }
+    
+    // Récupérer les colonnes de la table
+    const tableInfo = db.exec(`PRAGMA table_info('${tableName}')`);
+    const columns = tableInfo[0].values.map(row => row[1]).filter(col => col !== geomColumn);
+    
+    // Récupérer les données
+    const selectCols = columns.length > 0 ? columns.join(', ') + ', ' : '';
+    const results = db.exec(`SELECT ${selectCols}${geomColumn} FROM ${tableName}`);
+    
+    if (!results.length) throw new Error('Aucune donnée dans la table');
+    
+    const data = [];
+    const allKeys = new Set(['_longitude_', '_latitude_']);
+    columns.forEach(c => allKeys.add(c));
+    
+    results[0].values.forEach(row => {
+        const geomBlob = row[row.length - 1];
+        
+        // Parser le blob de géométrie GeoPackage
+        const coords = parseGpkgGeometry(geomBlob);
+        
+        if (coords) {
+            const rowData = {
+                _longitude_: String(coords.lon),
+                _latitude_: String(coords.lat)
+            };
+            
+            // Ajouter les autres colonnes
+            columns.forEach((col, idx) => {
+                rowData[col] = String(row[idx] ?? '');
+            });
+            
+            data.push(rowData);
+        }
+    });
+    
+    db.close();
+    
+    if (data.length === 0) throw new Error('Aucun point trouvé dans le GeoPackage');
+    return { headers: Array.from(allKeys), data };
+}
+
+// Parser la géométrie binaire GeoPackage
+function parseGpkgGeometry(blob) {
+    if (!blob || blob.length < 17) return null;
+    
+    try {
+        const bytes = blob instanceof Uint8Array ? blob : new Uint8Array(blob);
+        const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+        
+        // Vérifier le magic number GP
+        if (bytes[0] !== 0x47 || bytes[1] !== 0x50) {
+            // Peut-être un format WKB standard
+            return parseWKBPoint(bytes);
+        }
+        
+        // Lire les flags
+        const flags = bytes[3];
+        const littleEndian = (flags & 0x01) === 1;
+        const envelopeType = (flags >> 1) & 0x07;
+        
+        // Calculer la taille de l'enveloppe
+        let envelopeSize = 0;
+        switch (envelopeType) {
+            case 1: envelopeSize = 32; break; // minx, maxx, miny, maxy
+            case 2: envelopeSize = 48; break; // + minz, maxz
+            case 3: envelopeSize = 48; break; // + minm, maxm
+            case 4: envelopeSize = 64; break; // + minz, maxz, minm, maxm
+        }
+        
+        // Offset vers les données WKB
+        const wkbOffset = 8 + envelopeSize;
+        
+        if (bytes.length < wkbOffset + 21) return null;
+        
+        // Lire le type de géométrie WKB
+        const wkbByteOrder = bytes[wkbOffset];
+        const wkbLittleEndian = wkbByteOrder === 1;
+        const wkbType = view.getUint32(wkbOffset + 1, wkbLittleEndian);
+        
+        // Type Point = 1 (ou 1001 pour PointZ, 2001 pour PointM, 3001 pour PointZM)
+        if (wkbType !== 1 && wkbType !== 1001 && wkbType !== 2001 && wkbType !== 3001) {
+            return null; // Pas un point
+        }
+        
+        const lon = view.getFloat64(wkbOffset + 5, wkbLittleEndian);
+        const lat = view.getFloat64(wkbOffset + 13, wkbLittleEndian);
+        
+        return { lon, lat };
+    } catch (e) {
+        console.error('Erreur parsing géométrie:', e);
+        return null;
+    }
+}
+
+// Parser WKB standard (pour les géométries non-GPKG)
+function parseWKBPoint(bytes) {
+    if (bytes.length < 21) return null;
+    
+    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    const littleEndian = bytes[0] === 1;
+    const wkbType = view.getUint32(1, littleEndian);
+    
+    if (wkbType !== 1) return null; // Pas un point
+    
+    const lon = view.getFloat64(5, littleEndian);
+    const lat = view.getFloat64(13, littleEndian);
+    
+    return { lon, lat };
 }

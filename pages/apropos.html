@@ -113,7 +113,7 @@
                     <i class="fa-solid fa-file-import"></i>
                     <div>
                         <h3>Multi-formats en entrée</h3>
-                        <p>Support de 17 formats : CSV, Excel, JSON, GeoJSON, TopoJSON, KML, KMZ, GPX, Shapefile, GML, WKT et plus.</p>
+                        <p>Support de 18 formats : CSV, XLS, XLSX, JSON, GeoJSON, TopoJSON, KML, KMZ, GPX, Shapefile, GeoPackage, GML, WKT et plus.</p>
                     </div>
                 </div>
                 <div class="feature-item">
@@ -187,5 +187,31 @@
             <p class="version">GéoValid v1.0 • 2026</p>
         </footer>
     </div>
+    
+    <!-- Bouton retour en haut -->
+    <button class="btn-top" id="btnTop" title="Retour en haut">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+    
+    <script>
+        // Bouton retour en haut
+        const btnTop = document.getElementById('btnTop');
+        if (btnTop) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    btnTop.classList.add('visible');
+                } else {
+                    btnTop.classList.remove('visible');
+                }
+            });
+            
+            btnTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Page d'aide
+ * GéoValid - Page d'aide
  * Animations et interactions
  */
 
@@ -27,5 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstDetails = document.querySelector('.faq details');
     if (firstDetails) {
         firstDetails.open = true;
+    }
+    
+    // Bouton retour en haut
+    const btnTop = document.getElementById('btnTop');
+    if (btnTop) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                btnTop.classList.add('visible');
+            } else {
+                btnTop.classList.remove('visible');
+            }
+        });
+        
+        btnTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     }
 });
