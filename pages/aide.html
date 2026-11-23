@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../css/aide.css?v=1.1.1">
+    <link rel="stylesheet" href="../css/aide.css?v=1.2.0">
 </head>
 <body>
     <div class="container">
@@ -138,6 +138,9 @@
                         <li>Longitude entre -141° et -52.62°</li>
                         <li>Valeurs numériques correctes</li>
                         <li>Code postal au bon format (si fourni)</li>
+                        <li>Lignes d'au moins 2 points</li>
+                        <li>Polygones fermés, d'au moins 4 sommets, sans auto-intersection</li>
+                        <li>Tous les sommets d'une ligne ou d'un polygone dans le Canada</li>
                     </ul>
                 </div>
                 <div class="validation-box invalid">
@@ -147,6 +150,33 @@
                         <li>Valeurs non numériques</li>
                         <li>Latitude ou longitude manquante</li>
                         <li>Format code postal incorrect</li>
+                        <li>Géométrie vide ou type non supporté</li>
+                        <li>Polygone non fermé ou auto-intersecté</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Géométries et projections (v1.2) -->
+        <section class="validation">
+            <h2>Géométries et projections</h2>
+            <div class="validation-grid">
+                <div class="validation-box valid">
+                    <h3><i class="fa-solid fa-draw-polygon"></i> Types de géométrie</h3>
+                    <ul>
+                        <li>Points, lignes et polygones (avec trous)</li>
+                        <li>MultiPoint, MultiLineString, MultiPolygon</li>
+                        <li>GeoJSON, GeoPackage, Shapefile, KML/KMZ, GML, GPX, TopoJSON, WKT</li>
+                        <li>CSV ou Excel avec une colonne WKT</li>
+                    </ul>
+                </div>
+                <div class="validation-box valid">
+                    <h3><i class="fa-solid fa-globe"></i> Systèmes de projection</h3>
+                    <ul>
+                        <li>Projection lue dans le fichier : .prj (Shapefile), GeoPackage, GeoJSON, GML</li>
+                        <li>Sans indication : WGS 84 si les coordonnées sont en degrés</li>
+                        <li>Reprojection automatique en WGS 84 pour la validation et les exports</li>
+                        <li>Lambert Québec, Canada Atlas Lambert, UTM, MTM, Web Mercator, Lambert-93…</li>
                     </ul>
                 </div>
             </div>
@@ -184,7 +214,7 @@
         <!-- Footer -->
         <footer class="footer">
             <p>Développé par <strong>Laouali ADA AYA</strong> — Ingénieur SIG DATA</p>
-            <p class="version">GeoValidator v1.1 • 2026</p>
+            <p class="version">GeoValidator v1.2 • 2026</p>
         </footer>
     </div>
     
@@ -193,6 +223,6 @@
         <i class="fa-solid fa-chevron-up"></i>
     </button>
     
-    <script src="../js/aide.js?v=1.1.1"></script>
+    <script src="../js/aide.js?v=1.2.0"></script>
 </body>
 </html>

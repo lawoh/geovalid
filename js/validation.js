@@ -3,6 +3,7 @@
  * Fichier: js/validation.js
  * 
  * v1.1: Support des coordonnées DMS (Degrés Minutes Secondes)
+ * v1.2: Validation des géométries (lignes, polygones, multi-géométries)
  */
 
 // Valider toutes les données
@@ -23,9 +24,19 @@ function validateData(data, colonnesDetectees) {
         const cpStr = colonnesDetectees.codePostal ? String(row[colonnesDetectees.codePostal] || '').trim() : '';
         const provStr = colonnesDetectees.province ? String(row[colonnesDetectees.province] || '').trim().toUpperCase() : '';
         
-        // Valider latitude (obligatoire) - v1.1: support DMS
+        // v1.2 : fichier avec géométries (points, lignes, polygones, multi)
+        const geom = row._geom_;
         let lat = null;
-        if (!latStr) {
+        let lon = null;
+        if (geom !== undefined) {
+            validerGeometrie(geom).forEach(e => erreurs.push(e));
+            if (geom && erreurs.length === 0) {
+                [lon, lat] = pointRepresentatif(geom);
+            }
+        }
+        
+        // Valider latitude (obligatoire) - v1.1: support DMS
+        else if (!latStr) {
             erreurs.push('Latitude manquante');
         } else {
             lat = parseCoordinate(latStr); // Supporte DD et DMS
@@ -37,8 +48,9 @@ function validateData(data, colonnesDetectees) {
         }
         
         // Valider longitude (obligatoire) - v1.1: support DMS
-        let lon = null;
-        if (!lonStr) {
+        if (geom !== undefined) {
+            // déjà validée avec la géométrie
+        } else if (!lonStr) {
             erreurs.push('Longitude manquante');
         } else {
             lon = parseCoordinate(lonStr); // Supporte DD et DMS
@@ -78,7 +90,8 @@ function validateData(data, colonnesDetectees) {
                 lat: lat,
                 lon: lon,
                 zipcode: cp,
-                pr: prov
+                pr: prov,
+                geom: geom
             });
             
             // Stats par province
@@ -103,6 +116,7 @@ function validateData(data, colonnesDetectees) {
                 lon: lonStr,
                 zipcode: cpStr,
                 pr: provStr,
+                geom: geom,
                 erreurs: erreurs.join('; ')
             });
             

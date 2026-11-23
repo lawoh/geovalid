@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document>
+<Placemark><name>Québec avec trou</name><Polygon><outerBoundaryIs><LinearRing><coordinates>-71.4,46.7,0 -71.1,46.7,0 -71.1,46.9,0 -71.4,46.9,0 -71.4,46.7,0</coordinates></LinearRing></outerBoundaryIs><innerBoundaryIs><LinearRing><coordinates>-71.3,46.75,0 -71.3,46.85,0 -71.2,46.85,0 -71.2,46.75,0 -71.3,46.75,0</coordinates></LinearRing></innerBoundaryIs></Polygon></Placemark>
+<Placemark><name>Montréal-Québec</name><LineString><coordinates>-73.57,45.5,0 -72.55,46.35,0 -71.21,46.81,0</coordinates></LineString></Placemark>
+<Placemark><name>Deux villes</name><MultiGeometry><Point><coordinates>-73.5674,45.5019,0</coordinates></Point><Point><coordinates>-71.2082,46.8139,0</coordinates></Point></MultiGeometry></Placemark>
+<Placemark><name>Papillon</name><Polygon><outerBoundaryIs><LinearRing><coordinates>-72.0,45.3,0 -71.8,45.5,0 -71.8,45.3,0 -72.0,45.5,0 -72.0,45.3,0</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>
+<Placemark><name>Floride</name><Polygon><outerBoundaryIs><LinearRing><coordinates>-81.0,25.0,0 -80.5,25.0,0 -80.5,25.5,0 -81.0,25.5,0 -81.0,25.0,0</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>
+</Document></kml>

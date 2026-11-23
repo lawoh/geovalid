@@ -113,25 +113,26 @@ async function parseJSON(file) {
     const content = await file.text();
     let json = JSON.parse(content);
     
-    // GeoJSON FeatureCollection
+    // GeoJSON : FeatureCollection, Feature seul ou géométrie seule
+    if (json.type === 'Feature') json = { type: 'FeatureCollection', features: [json] };
+    if (TYPES_GEOMETRIE.includes(json.type)) json = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: json, properties: {} }] };
+    
     if (json.type === 'FeatureCollection' && Array.isArray(json.features)) {
         const data = [];
         const allKeys = new Set();
         
         json.features.forEach(f => {
-            if (f.geometry && f.geometry.type === 'Point') {
-                const [lon, lat] = f.geometry.coordinates;
-                const row = { _longitude_: String(lon), _latitude_: String(lat) };
-                Object.entries(f.properties || {}).forEach(([k, v]) => {
-                    row[k] = String(v ?? '');
-                    allKeys.add(k);
-                });
-                data.push(row);
-            }
+            const row = { _geom_: f.geometry || null };
+            Object.entries(f.properties || {}).forEach(([k, v]) => {
+                row[k] = (v !== null && typeof v === 'object') ? JSON.stringify(v) : String(v ?? '');
+                allKeys.add(k);
+            });
+            data.push(row);
         });
         
-        const headers = ['_longitude_', '_latitude_', ...Array.from(allKeys)];
-        return { headers, data };
+        // Projection déclarée (membre "crs" des anciens GeoJSON)
+        const srs = json.crs?.properties?.name ? { code: lireCodeEPSG(json.crs.properties.name) } : null;
+        return { headers: Array.from(allKeys), data, srs };
     }
     
     // JSON array
@@ -153,7 +154,6 @@ async function parseJSON(file) {
     
     return { headers, data };
 }
-
 // Parser XML
 async function parseXML(file) {
     const content = await file.text();
@@ -228,24 +228,20 @@ async function parseKMZ(file) {
 function parseKMLContent(content) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/xml');
-    const placemarks = doc.querySelectorAll('Placemark');
+    const placemarks = doc.getElementsByTagName('Placemark');
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
+    const allKeys = new Set();
     
-    placemarks.forEach(pm => {
+    for (const pm of placemarks) {
         const row = {};
         
-        const name = pm.querySelector('name');
+        const name = pm.getElementsByTagName('name')[0];
         if (name) { row.name = name.textContent.trim(); allKeys.add('name'); }
         
-        const coords = pm.querySelector('coordinates');
-        if (coords) {
-            const parts = coords.textContent.trim().split(',');
-            if (parts.length >= 2) {
-                row._longitude_ = parts[0].trim();
-                row._latitude_ = parts[1].trim();
-            }
-        }
+        // Géométrie : Point, LineString, LinearRing, Polygon ou MultiGeometry
+        const geomElement = [...pm.children].find(e => TYPES_KML.includes(e.localName));
+        if (!geomElement) continue;
+        row._geom_ = lireGeometrieKML(geomElement);
         
         pm.querySelectorAll('ExtendedData Data, SchemaData SimpleData').forEach(d => {
             const fieldName = d.getAttribute('name') || d.tagName;
@@ -254,44 +250,50 @@ function parseKMLContent(content) {
             allKeys.add(fieldName);
         });
         
-        if (row._longitude_ && row._latitude_) data.push(row);
-    });
+        data.push(row);
+    }
     
-    if (data.length === 0) throw new Error('Aucun point trouvé dans le KML');
-    return { headers: Array.from(allKeys), data };
+    if (data.length === 0) throw new Error('Aucune géométrie trouvée dans le KML');
+    // Le KML est toujours en WGS 84
+    return { headers: Array.from(allKeys), data, srs: { code: 4326 } };
 }
-
-// Parser GPX
+// Parser GPX : waypoints (points), routes et traces (lignes)
 async function parseGPX(file) {
     const content = await file.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/xml');
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
+    const allKeys = new Set(['name']);
+    
+    const position = pt => [parseFloat(pt.getAttribute('lon')), parseFloat(pt.getAttribute('lat'))];
+    const nom = el => [...el.children].find(e => e.localName === 'name')?.textContent.trim() || '';
     
     // Waypoints
-    doc.querySelectorAll('wpt').forEach(wpt => {
-        const row = {
-            _latitude_: wpt.getAttribute('lat'),
-            _longitude_: wpt.getAttribute('lon')
-        };
-        const name = wpt.querySelector('name');
-        if (name) { row.name = name.textContent.trim(); allKeys.add('name'); }
-        const desc = wpt.querySelector('desc');
+    for (const wpt of doc.getElementsByTagName('wpt')) {
+        const row = { _geom_: { type: 'Point', coordinates: position(wpt) }, name: nom(wpt) };
+        const desc = wpt.getElementsByTagName('desc')[0];
         if (desc) { row.description = desc.textContent.trim(); allKeys.add('description'); }
         data.push(row);
-    });
+    }
     
-    // Trackpoints
-    doc.querySelectorAll('trkpt').forEach(trkpt => {
-        data.push({
-            _latitude_: trkpt.getAttribute('lat'),
-            _longitude_: trkpt.getAttribute('lon')
-        });
-    });
+    // Routes
+    for (const rte of doc.getElementsByTagName('rte')) {
+        const points = [...rte.getElementsByTagName('rtept')].map(position);
+        data.push({ _geom_: { type: 'LineString', coordinates: points }, name: nom(rte) });
+    }
     
-    if (data.length === 0) throw new Error('Aucun point trouvé dans le GPX');
-    return { headers: Array.from(allKeys), data };
+    // Traces : un segment = une ligne
+    for (const trk of doc.getElementsByTagName('trk')) {
+        const segments = [...trk.getElementsByTagName('trkseg')].map(seg => [...seg.getElementsByTagName('trkpt')].map(position));
+        const geom = segments.length === 1
+            ? { type: 'LineString', coordinates: segments[0] }
+            : { type: 'MultiLineString', coordinates: segments };
+        data.push({ _geom_: geom, name: nom(trk) });
+    }
+    
+    if (data.length === 0) throw new Error('Aucune géométrie trouvée dans le GPX');
+    // Le GPX est toujours en WGS 84
+    return { headers: Array.from(allKeys), data, srs: { code: 4326 } };
 }
 
 // Parser TopoJSON
@@ -300,108 +302,122 @@ async function parseTopoJSON(file) {
     const topo = JSON.parse(content);
     
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
+    const allKeys = new Set();
     
     // Parcourir les objets du TopoJSON
     Object.values(topo.objects || {}).forEach(obj => {
-        if (obj.geometries) {
-            obj.geometries.forEach(geom => {
-                if (geom.type === 'Point' && geom.coordinates) {
-                    const [x, y] = geom.coordinates;
-                    // Convertir les coordonnées arc en coordonnées réelles
-                    const lon = topo.transform ? x * topo.transform.scale[0] + topo.transform.translate[0] : x;
-                    const lat = topo.transform ? y * topo.transform.scale[1] + topo.transform.translate[1] : y;
-                    
-                    const row = { _longitude_: String(lon), _latitude_: String(lat) };
-                    Object.entries(geom.properties || {}).forEach(([k, v]) => {
-                        row[k] = String(v ?? '');
-                        allKeys.add(k);
-                    });
-                    data.push(row);
-                }
+        const geometries = obj.type === 'GeometryCollection' ? (obj.geometries || []) : [obj];
+        geometries.forEach(geom => {
+            const row = { _geom_: lireGeometrieTopo(geom, topo) };
+            Object.entries(geom.properties || {}).forEach(([k, v]) => {
+                row[k] = String(v ?? '');
+                allKeys.add(k);
             });
-        }
+            data.push(row);
+        });
     });
     
-    if (data.length === 0) throw new Error('Aucun point trouvé dans le TopoJSON');
+    if (data.length === 0) throw new Error('Aucune géométrie trouvée dans le TopoJSON');
     return { headers: Array.from(allKeys), data };
 }
 
-// Parser GML
+// Parser GML (GML 2 et 3)
 async function parseGML(file) {
     const content = await file.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/xml');
     
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
+    const allKeys = new Set();
     
-    // Chercher les éléments Point
-    const namespaces = {
-        gml: 'http://www.opengis.net/gml',
-        gml32: 'http://www.opengis.net/gml/3.2'
-    };
+    // Projection : premier srsName du fichier
+    const avecSrs = doc.querySelector('[srsName]');
+    const srsName = avecSrs ? avecSrs.getAttribute('srsName') : null;
     
-    // Points GML
-    doc.querySelectorAll('Point, gml\\:Point').forEach(point => {
-        const pos = point.querySelector('pos, gml\\:pos, coordinates, gml\\:coordinates');
-        if (pos) {
-            const coords = pos.textContent.trim().split(/[\s,]+/);
-            if (coords.length >= 2) {
-                const row = {
-                    _longitude_: coords[0],
-                    _latitude_: coords[1]
-                };
-                // Récupérer les propriétés du parent
-                const feature = point.closest('featureMember, gml\\:featureMember')?.firstElementChild;
-                if (feature) {
-                    Array.from(feature.children).forEach(child => {
-                        if (!child.querySelector('Point, gml\\:Point')) {
-                            row[child.localName] = child.textContent.trim();
-                            allKeys.add(child.localName);
-                        }
-                    });
-                }
-                data.push(row);
-            }
+    // Entités : enfants de featureMember / member, ou de featureMembers
+    const entites = [];
+    ['featureMember', 'member'].forEach(nom => {
+        for (const m of doc.getElementsByTagNameNS('*', nom)) {
+            if (m.firstElementChild) entites.push(m.firstElementChild);
         }
     });
+    for (const m of doc.getElementsByTagNameNS('*', 'featureMembers')) entites.push(...m.children);
     
-    if (data.length === 0) throw new Error('Aucun point trouvé dans le GML');
-    return { headers: Array.from(allKeys), data };
+    entites.forEach(feature => {
+        const row = {};
+        let geometrie = null;
+        
+        Array.from(feature.children).forEach(child => {
+            // Propriété géométrique : contient un élément Point, LineString, Polygon, Multi*...
+            const geomElement = TYPES_GML.includes(child.localName) ? child : [...child.children].find(e => TYPES_GML.includes(e.localName));
+            if (geomElement) {
+                const srs = geomElement.getAttribute('srsName') || srsName;
+                geometrie = lireGeometrieGML(geomElement, axesInverses(srs));
+            } else if (child.localName !== 'boundedBy') {
+                row[child.localName] = child.textContent.trim();
+                allKeys.add(child.localName);
+            }
+        });
+        
+        row._geom_ = geometrie;
+        data.push(row);
+    });
+    
+    if (data.length === 0) throw new Error('Aucune entité trouvée dans le GML');
+    return { headers: Array.from(allKeys), data, srs: srsName ? { code: lireCodeEPSG(srsName) } : null };
 }
 
-// Parser WKT (Well-Known Text)
+// Parser WKT (Well-Known Text) : une géométrie par ligne ou à la suite
 async function parseWKT(file) {
     const content = await file.text();
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
     
-    // Regex pour POINT
-    const pointRegex = /POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)/gi;
+    // Repérer chaque géométrie et prendre le texte jusqu'à la parenthèse fermante correspondante
+    const regex = /\b(MULTIPOINT|MULTILINESTRING|MULTIPOLYGON|POINT|LINESTRING|POLYGON|GEOMETRYCOLLECTION)\b/gi;
     let match;
     let id = 1;
     
-    while ((match = pointRegex.exec(content)) !== null) {
-        data.push({
-            _longitude_: match[1],
-            _latitude_: match[2],
-            id: String(id++)
-        });
+    while ((match = regex.exec(content)) !== null) {
+        const debut = match.index;
+        let pos = debut + match[0].length;
+        let profondeur = 0;
+        const vide = /^\s*(ZM|Z|M)?\s*EMPTY/i.exec(content.slice(pos));
+        if (vide) {
+            pos += vide[0].length;
+        } else {
+            while (pos < content.length) {
+                if (content[pos] === '(') profondeur++;
+                if (content[pos] === ')') {
+                    profondeur--;
+                    if (profondeur === 0) { pos++; break; }
+                }
+                pos++;
+            }
+        }
+        
+        let geom;
+        try {
+            geom = lireWKT(content.slice(debut, pos));
+        } catch (e) {
+            geom = { type: 'WKT invalide', coordinates: [] };
+        }
+        data.push({ _geom_: geom, id: String(id++) });
+        regex.lastIndex = pos;
     }
-    allKeys.add('id');
     
-    if (data.length === 0) throw new Error('Aucun POINT trouvé dans le WKT');
-    return { headers: Array.from(allKeys), data };
+    if (data.length === 0) throw new Error('Aucune géométrie trouvée dans le WKT');
+    const srid = content.match(/SRID=(\d+);/i);
+    return { headers: ['id'], data, srs: srid ? { code: parseInt(srid[1]) } : null };
 }
 
-// Parser Shapefile (ZIP contenant .shp, .dbf, etc.)
+// Parser Shapefile (ZIP contenant .shp, .dbf, .prj)
 async function parseShapefile(file) {
     const arrayBuffer = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(arrayBuffer);
     
     let shpFile = null;
     let dbfFile = null;
+    let prjTexte = null;
     
     for (const [filename, entry] of Object.entries(zip.files)) {
         const lowerName = filename.toLowerCase();
@@ -409,39 +425,22 @@ async function parseShapefile(file) {
             shpFile = await entry.async('arraybuffer');
         } else if (lowerName.endsWith('.dbf')) {
             dbfFile = await entry.async('arraybuffer');
+        } else if (lowerName.endsWith('.prj')) {
+            prjTexte = await entry.async('text');
         }
     }
     
     if (!shpFile) throw new Error('Fichier .shp non trouvé dans le ZIP');
     
-    // Parser le SHP
     const shpView = new DataView(shpFile);
-    const shapeType = shpView.getInt32(32, true);
-    
-    if (shapeType !== 1 && shapeType !== 11 && shapeType !== 21) {
-        throw new Error('Seuls les Shapefiles de points sont supportés');
-    }
-    
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
+    const allKeys = new Set();
     
-    // Lire les enregistrements SHP
+    // Lire les enregistrements SHP (points, lignes, polygones, multipoints)
     let offset = 100;
-    let id = 0;
     while (offset < shpFile.byteLength - 8) {
         const recordLength = shpView.getInt32(offset + 4, false) * 2;
-        const recordType = shpView.getInt32(offset + 8, true);
-        
-        if (recordType === 1) { // Point
-            const x = shpView.getFloat64(offset + 12, true);
-            const y = shpView.getFloat64(offset + 20, true);
-            data.push({
-                _longitude_: String(x),
-                _latitude_: String(y),
-                _id_: String(++id)
-            });
-        }
-        
+        data.push({ _geom_: lireGeometrieSHP(shpView, offset + 8) });
         offset += 8 + recordLength;
     }
     
@@ -457,11 +456,9 @@ async function parseShapefile(file) {
         });
     }
     
-    allKeys.add('_id_');
-    if (data.length === 0) throw new Error('Aucun point trouvé dans le Shapefile');
-    return { headers: Array.from(allKeys), data };
+    if (data.length === 0) throw new Error('Aucune entité trouvée dans le Shapefile');
+    return { headers: Array.from(allKeys), data, srs: prjTexte ? { wkt: prjTexte.trim() } : null };
 }
-
 // Parser DBF
 async function parseDBF(file) {
     const arrayBuffer = await file.arrayBuffer();
@@ -532,12 +529,6 @@ async function parseGeoPackage(file) {
     // Trouver les tables avec géométrie
     const gpkgContents = db.exec("SELECT table_name, data_type FROM gpkg_contents WHERE data_type = 'features'");
     
-    if (!gpkgContents.length || !gpkgContents[0].values.length) {
-        // Essayer de trouver des tables directement
-        const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'");
-        if (!tables.length) throw new Error('Aucune table trouvée dans le GeoPackage');
-    }
-    
     // Récupérer le nom de la table et de la colonne géométrique
     let tableName = null;
     let geomColumn = 'geom';
@@ -546,7 +537,7 @@ async function parseGeoPackage(file) {
         tableName = gpkgContents[0].values[0][0];
     } else {
         // Chercher une table avec une colonne géométrique
-        const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'gpkg_%' AND name NOT LIKE 'sqlite_%'");
+        const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'gpkg_%' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'rtree_%'");
         if (tables.length && tables[0].values.length) {
             tableName = tables[0].values[0][0];
         }
@@ -554,10 +545,20 @@ async function parseGeoPackage(file) {
     
     if (!tableName) throw new Error('Aucune table de features trouvée');
     
-    // Vérifier la colonne géométrique
-    const geomCols = db.exec(`SELECT column_name FROM gpkg_geometry_columns WHERE table_name = '${tableName}'`);
+    // Colonne géométrique et projection
+    let srs = null;
+    const geomCols = db.exec(`SELECT column_name, srs_id FROM gpkg_geometry_columns WHERE table_name = '${tableName}'`);
     if (geomCols.length && geomCols[0].values.length) {
         geomColumn = geomCols[0].values[0][0];
+        const srsId = geomCols[0].values[0][1];
+        const srsInfo = db.exec(`SELECT organization, organization_coordsys_id, definition FROM gpkg_spatial_ref_sys WHERE srs_id = ${parseInt(srsId)}`);
+        if (srsInfo.length && srsInfo[0].values.length) {
+            const [organisation, codeOrg, definition] = srsInfo[0].values[0];
+            srs = {
+                code: String(organisation).toUpperCase() === 'EPSG' ? parseInt(codeOrg) : null,
+                wkt: definition && definition !== 'undefined' ? definition : null
+            };
+        }
     }
     
     // Récupérer les colonnes de la table
@@ -565,107 +566,48 @@ async function parseGeoPackage(file) {
     const columns = tableInfo[0].values.map(row => row[1]).filter(col => col !== geomColumn);
     
     // Récupérer les données
-    const selectCols = columns.length > 0 ? columns.join(', ') + ', ' : '';
-    const results = db.exec(`SELECT ${selectCols}${geomColumn} FROM ${tableName}`);
+    const selectCols = columns.length > 0 ? columns.map(c => `"${c}"`).join(', ') + ', ' : '';
+    const results = db.exec(`SELECT ${selectCols}"${geomColumn}" FROM "${tableName}"`);
+    
+    db.close();
     
     if (!results.length) throw new Error('Aucune donnée dans la table');
     
     const data = [];
-    const allKeys = new Set(['_longitude_', '_latitude_']);
-    columns.forEach(c => allKeys.add(c));
-    
     results[0].values.forEach(row => {
-        const geomBlob = row[row.length - 1];
-        
-        // Parser le blob de géométrie GeoPackage
-        const coords = parseGpkgGeometry(geomBlob);
-        
-        if (coords) {
-            const rowData = {
-                _longitude_: String(coords.lon),
-                _latitude_: String(coords.lat)
-            };
-            
-            // Ajouter les autres colonnes
-            columns.forEach((col, idx) => {
-                rowData[col] = String(row[idx] ?? '');
-            });
-            
-            data.push(rowData);
-        }
+        const rowData = { _geom_: parseGpkgGeometry(row[row.length - 1]) };
+        columns.forEach((col, idx) => {
+            rowData[col] = String(row[idx] ?? '');
+        });
+        data.push(rowData);
     });
     
-    db.close();
-    
-    if (data.length === 0) throw new Error('Aucun point trouvé dans le GeoPackage');
-    return { headers: Array.from(allKeys), data };
+    return { headers: columns, data, srs };
 }
 
-// Parser la géométrie binaire GeoPackage
+// Parser la géométrie binaire GeoPackage (en-tête GP + WKB)
 function parseGpkgGeometry(blob) {
-    if (!blob || blob.length < 17) return null;
+    if (!blob || blob.length < 5) return null;
+    
+    const bytes = blob instanceof Uint8Array ? blob : new Uint8Array(blob);
     
     try {
-        const bytes = blob instanceof Uint8Array ? blob : new Uint8Array(blob);
-        const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-        
-        // Vérifier le magic number GP
+        // Sans en-tête GP : WKB standard
         if (bytes[0] !== 0x47 || bytes[1] !== 0x50) {
-            // Peut-être un format WKB standard
-            return parseWKBPoint(bytes);
+            return lireWKB(bytes, 0);
         }
         
         // Lire les flags
         const flags = bytes[3];
-        const littleEndian = (flags & 0x01) === 1;
+        if (flags & 0x10) return null; // géométrie vide
         const envelopeType = (flags >> 1) & 0x07;
         
-        // Calculer la taille de l'enveloppe
-        let envelopeSize = 0;
-        switch (envelopeType) {
-            case 1: envelopeSize = 32; break; // minx, maxx, miny, maxy
-            case 2: envelopeSize = 48; break; // + minz, maxz
-            case 3: envelopeSize = 48; break; // + minm, maxm
-            case 4: envelopeSize = 64; break; // + minz, maxz, minm, maxm
-        }
+        // Taille de l'enveloppe : 0, 32 (xy), 48 (xyz ou xym), 64 (xyzm)
+        const envelopeSize = [0, 32, 48, 48, 64][envelopeType] || 0;
         
-        // Offset vers les données WKB
-        const wkbOffset = 8 + envelopeSize;
-        
-        if (bytes.length < wkbOffset + 21) return null;
-        
-        // Lire le type de géométrie WKB
-        const wkbByteOrder = bytes[wkbOffset];
-        const wkbLittleEndian = wkbByteOrder === 1;
-        const wkbType = view.getUint32(wkbOffset + 1, wkbLittleEndian);
-        
-        // Type Point = 1 (ou 1001 pour PointZ, 2001 pour PointM, 3001 pour PointZM)
-        if (wkbType !== 1 && wkbType !== 1001 && wkbType !== 2001 && wkbType !== 3001) {
-            return null; // Pas un point
-        }
-        
-        const lon = view.getFloat64(wkbOffset + 5, wkbLittleEndian);
-        const lat = view.getFloat64(wkbOffset + 13, wkbLittleEndian);
-        
-        return { lon, lat };
+        return lireWKB(bytes, 8 + envelopeSize);
     } catch (e) {
-        console.error('Erreur parsing géométrie:', e);
-        return null;
+        console.error('Erreur lecture géométrie:', e);
+        return { type: 'Géométrie illisible', coordinates: [] };
     }
-}
-
-// Parser WKB standard (pour les géométries non-GPKG)
-function parseWKBPoint(bytes) {
-    if (bytes.length < 21) return null;
-    
-    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-    const littleEndian = bytes[0] === 1;
-    const wkbType = view.getUint32(1, littleEndian);
-    
-    if (wkbType !== 1) return null; // Pas un point
-    
-    const lon = view.getFloat64(5, littleEndian);
-    const lat = view.getFloat64(13, littleEndian);
-    
-    return { lon, lat };
 }

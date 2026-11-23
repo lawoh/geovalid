@@ -112,6 +112,10 @@ async function handleFileSelect(file) {
     try {
         // Parser le fichier
         const result = await parseFile(file, ext);
+        
+        // v1.2 : géométries, détection de la projection et reprojection en WGS 84
+        await preparerGeometries(result);
+        
         AppState.headers = result.headers;
         AppState.donneesBrutes = result.data;
         
@@ -135,8 +139,8 @@ async function handleFileSelect(file) {
         // Afficher l'aperçu (10 premières lignes)
         displayPreviewTable(result.headers, result.data, AppState.colonnesDetectees);
         
-        // Vérifier si on peut analyser (lat + lon obligatoires)
-        if (AppState.colonnesDetectees.latitude && AppState.colonnesDetectees.longitude) {
+        // Vérifier si on peut analyser (géométries, ou lat + lon obligatoires)
+        if (AppState.projection || (AppState.colonnesDetectees.latitude && AppState.colonnesDetectees.longitude)) {
             updateAnalyzeButton(true, 'Prêt pour l\'analyse. Cliquez sur le bouton ci-dessus.');
         } else {
             let missing = [];
@@ -155,7 +159,7 @@ async function handleFileSelect(file) {
 
 // Lancer l'analyse
 async function runAnalysis() {
-    if (!AppState.colonnesDetectees.latitude || !AppState.colonnesDetectees.longitude) {
+    if (!AppState.projection && (!AppState.colonnesDetectees.latitude || !AppState.colonnesDetectees.longitude)) {
         showNotification('Latitude et longitude non détectées', 'error');
         return;
     }

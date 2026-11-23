@@ -64,6 +64,9 @@ function initMap() {
         maxClusterRadius: 50,
         spiderfyOnMaxZoom: true
     });
+    
+    // v1.2 : couche des lignes et polygones
+    AppState.geometriesLayer = L.featureGroup();
 }
 
 // Afficher les points valides sur la carte
@@ -74,10 +77,34 @@ function displayPointsOnMap(donnees) {
     if (AppState.markersLayer) {
         AppState.markersLayer.clearLayers();
     }
+    if (AppState.geometriesLayer) {
+        AppState.geometriesLayer.clearLayers();
+    }
     
     const bounds = [];
     
     donnees.forEach(d => {
+        // v1.2 : lignes, polygones et multi-géométries
+        if (d.geom && d.geom.type !== 'Point') {
+            const forme = L.geoJSON(d.geom, {
+                style: { color: '#003DA5', weight: 2, fillColor: '#003DA5', fillOpacity: 0.25 },
+                pointToLayer: (f, latlng) => L.circleMarker(latlng, { radius: 6, fillColor: '#003DA5', color: '#FFFFFF', weight: 2, fillOpacity: 0.8 })
+            });
+            let contenu = `<div style="font-family: var(--font-body); min-width: 150px;">
+                <div style="font-weight: 600; color: #003DA5; margin-bottom: 6px;">${d.geom.type}</div>
+                <table style="font-size: 12px; width: 100%;">
+                    <tr><td style="color: #666;">Sommets</td><td style="font-weight: 500;">${listerSommets(d.geom).length}</td></tr>`;
+            if (d.zipcode) contenu += `<tr><td style="color: #666;">Code postal</td><td style="font-weight: 500;">${d.zipcode}</td></tr>`;
+            if (d.pr) contenu += `<tr><td style="color: #666;">Province</td><td style="font-weight: 500;">${d.pr}</td></tr>`;
+            contenu += '</table></div>';
+            forme.bindPopup(contenu);
+            
+            AppState.geometriesLayer.addLayer(forme);
+            const b = forme.getBounds();
+            bounds.push(b.getSouthWest(), b.getNorthEast());
+            return;
+        }
+        
         const marker = L.circleMarker([d.lat, d.lon], {
             radius: 6,
             fillColor: '#003DA5',
@@ -108,6 +135,7 @@ function displayPointsOnMap(donnees) {
     });
     
     AppState.map.addLayer(AppState.markersLayer);
+    AppState.map.addLayer(AppState.geometriesLayer);
     
     // Ajuster la vue avec zoom réduit
     if (bounds.length > 0) {
@@ -115,7 +143,7 @@ function displayPointsOnMap(donnees) {
     }
     
     // Mettre à jour le compteur
-    document.getElementById('mapPts').textContent = `${donnees.length} pts`;
+    document.getElementById('mapPts').textContent = `${donnees.length} ${AppState.projection ? 'entités' : 'pts'}`;
 }
 
 // Changer le fond de carte

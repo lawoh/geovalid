@@ -73,17 +73,34 @@ function displayFileInfo(file, format, rowCount) {
 function displayDetectedColumns(detected) {
     UI.detectedTags.innerHTML = '';
     
-    // Latitude (obligatoire)
-    const latTag = document.createElement('span');
-    latTag.className = `tag ${detected.latitude ? 'ok' : 'missing'}`;
-    latTag.textContent = detected.latitude ? `Latitude: ${detected.latitude}` : 'Latitude: non détectée';
-    UI.detectedTags.appendChild(latTag);
+    // v1.2 : fichier avec géométries → types de géométrie et projection
+    if (AppState.projection) {
+        const p = AppState.projection;
+        const geomTag = document.createElement('span');
+        geomTag.className = 'tag ok';
+        geomTag.textContent = `Géométrie: ${p.types.join(', ') || 'aucune'}`;
+        UI.detectedTags.appendChild(geomTag);
+        
+        const projTag = document.createElement('span');
+        projTag.className = 'tag ok';
+        const code = p.code ? `EPSG:${p.code} – ` : '';
+        projTag.textContent = `Projection: ${code}${p.nom} (${p.source})` + (p.reprojete ? ' → reprojetée en WGS 84' : '');
+        UI.detectedTags.appendChild(projTag);
+    }
     
-    // Longitude (obligatoire)
-    const lonTag = document.createElement('span');
-    lonTag.className = `tag ${detected.longitude ? 'ok' : 'missing'}`;
-    lonTag.textContent = detected.longitude ? `Longitude: ${detected.longitude}` : 'Longitude: non détectée';
-    UI.detectedTags.appendChild(lonTag);
+    // Latitude et longitude (obligatoires sauf si le fichier contient des géométries)
+    if (!AppState.projection) {
+        const latTag = document.createElement('span');
+        latTag.className = `tag ${detected.latitude ? 'ok' : 'missing'}`;
+        latTag.textContent = detected.latitude ? `Latitude: ${detected.latitude}` : 'Latitude: non détectée';
+        UI.detectedTags.appendChild(latTag);
+    
+        // Longitude (obligatoire)
+        const lonTag = document.createElement('span');
+        lonTag.className = `tag ${detected.longitude ? 'ok' : 'missing'}`;
+        lonTag.textContent = detected.longitude ? `Longitude: ${detected.longitude}` : 'Longitude: non détectée';
+        UI.detectedTags.appendChild(lonTag);
+    }
     
     // Code postal (optionnel)
     if (detected.codePostal) {

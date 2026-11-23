@@ -94,8 +94,10 @@ const AppState = {
     donneesValides: [],
     donneesInvalides: [],
     statistiques: null,
+    projection: null,       // v1.2 : projection détectée (fichiers avec géométries)
     map: null,
     markersLayer: null,
+    geometriesLayer: null,  // v1.2 : lignes et polygones sur la carte
     baseLayers: {}
 };
 
@@ -109,4 +111,5 @@ function resetAppState() {
     AppState.donneesValides = [];
     AppState.donneesInvalides = [];
     AppState.statistiques = null;
+    AppState.projection = null;
 }

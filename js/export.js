@@ -87,13 +87,35 @@ async function exportData(type, format) {
     }
 }
 
+// v1.2 : géométrie d'une donnée exportée (fichiers tabulaires : point lon/lat)
+function geometrieDe(d) {
+    return d.geom || { type: 'Point', coordinates: [d.lon, d.lat] };
+}
+
+// v1.2 : les données contiennent-elles des lignes ou des polygones ?
+function contientFormes(data) {
+    return data.some(d => d.geom && d.geom.type !== 'Point');
+}
+
+// v1.2 : emprise de toutes les géométries [minX, minY, maxX, maxY]
+function emprise(data) {
+    const sommets = [];
+    data.forEach(d => sommets.push(...listerSommets(geometrieDe(d))));
+    const xs = sommets.map(c => c[0]), ys = sommets.map(c => c[1]);
+    return [safeMin(xs), safeMin(ys), safeMax(xs), safeMax(ys)];
+}
+
 // Export CSV
 function exportCSV(data, filename, includeErrors = false) {
-    let header = 'longitude,latitude,code_postal,province';
+    // v1.2 : lignes et polygones exportés en WKT
+    const formes = contientFormes(data);
+    let header = formes ? 'wkt,code_postal,province' : 'longitude,latitude,code_postal,province';
     if (includeErrors) header += ',erreurs';
     
     const rows = data.map(d => {
-        let row = `${d.lon},${d.lat},"${d.zipcode || ''}","${d.pr || ''}"`;
+        let row = formes
+            ? `"${versWKT(d.geom)}","${d.zipcode || ''}","${d.pr || ''}"`
+            : `${d.lon},${d.lat},"${d.zipcode || ''}","${d.pr || ''}"`;
         if (includeErrors) row += `,"${d.erreurs || ''}"`;
         return row;
     });
@@ -104,12 +126,16 @@ function exportCSV(data, filename, includeErrors = false) {
 
 // Export Excel
 function exportExcel(data, filename, includeErrors = false) {
-    let header = ['longitude', 'latitude', 'code_postal', 'province'];
+    // v1.2 : lignes et polygones exportés en WKT
+    const formes = contientFormes(data);
+    let header = formes ? ['wkt', 'code_postal', 'province'] : ['longitude', 'latitude', 'code_postal', 'province'];
     if (includeErrors) header.push('erreurs');
     
     const wsData = [header];
     data.forEach(d => {
-        let row = [d.lon, d.lat, d.zipcode || '', d.pr || ''];
+        let row = formes
+            ? [versWKT(d.geom), d.zipcode || '', d.pr || '']
+            : [d.lon, d.lat, d.zipcode || '', d.pr || ''];
         if (includeErrors) row.push(d.erreurs || '');
         wsData.push(row);
     });
@@ -141,41 +167,45 @@ function exportGeoJSON(data, filename) {
                 code_postal: d.zipcode || '',
                 province: d.pr || ''
             },
-            geometry: {
-                type: 'Point',
-                coordinates: [d.lon, d.lat]
-            }
+            geometry: geometrieDe(d)
         }))
     };
     downloadFile(filename, JSON.stringify(geojson, null, 2), 'application/geo+json');
 }
 
-// Export TopoJSON
+// Export TopoJSON (chaque ligne ou anneau devient un arc, sans topologie partagée)
 function exportTopoJSON(data, filename) {
-    const features = data.map((d, i) => ({
-        type: 'Feature',
-        id: i + 1,
+    const arcs = [];
+    const ajouterArc = coords => {
+        arcs.push(coords);
+        return arcs.length - 1;
+    };
+    const versTopo = g => {
+        switch (g.type) {
+            case 'LineString': return { type: g.type, arcs: [ajouterArc(g.coordinates)] };
+            case 'MultiLineString': return { type: g.type, arcs: g.coordinates.map(l => [ajouterArc(l)]) };
+            case 'Polygon': return { type: g.type, arcs: g.coordinates.map(a => [ajouterArc(a)]) };
+            case 'MultiPolygon': return { type: g.type, arcs: g.coordinates.map(p => p.map(a => [ajouterArc(a)])) };
+            default: return { type: g.type, coordinates: g.coordinates };
+        }
+    };
+    
+    const geometries = data.map((d, i) => ({
+        ...versTopo(geometrieDe(d)),
         properties: {
             id: i + 1,
             code_postal: d.zipcode || '',
             province: d.pr || ''
-        },
-        geometry: {
-            type: 'Point',
-            coordinates: [d.lon, d.lat]
         }
     }));
     
     const topojson = {
         type: 'Topology',
+        arcs,
         objects: {
-            points: {
+            donnees: {
                 type: 'GeometryCollection',
-                geometries: features.map(f => ({
-                    type: 'Point',
-                    coordinates: f.geometry.coordinates,
-                    properties: f.properties
-                }))
+                geometries
             }
         }
     };
@@ -187,9 +217,9 @@ function exportTopoJSON(data, filename) {
 function exportKML(data, filename) {
     let placemarks = data.map((d, i) => `
     <Placemark>
-      <name>Point ${i + 1}</name>
+      <name>${geometrieDe(d).type} ${i + 1}</name>
       <description>${d.zipcode || ''} ${d.pr || ''}</description>
-      <Point><coordinates>${d.lon},${d.lat},0</coordinates></Point>
+      ${versKML(geometrieDe(d))}
     </Placemark>`).join('');
     
     const kml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -207,26 +237,22 @@ function exportKML(data, filename) {
 function exportGML(data, filename) {
     let features = data.map((d, i) => `
     <gml:featureMember>
-        <Point gml:id="point_${i + 1}">
+        <Entite gml:id="entite_${i + 1}">
             <code_postal>${d.zipcode || ''}</code_postal>
             <province>${d.pr || ''}</province>
-            <gml:pointProperty>
-                <gml:Point srsName="EPSG:4326">
-                    <gml:coordinates>${d.lon},${d.lat}</gml:coordinates>
-                </gml:Point>
-            </gml:pointProperty>
-        </Point>
+            <geometrie>${versGML(geometrieDe(d))}</geometrie>
+        </Entite>
     </gml:featureMember>`).join('');
     
+    const [minX, minY, maxX, maxY] = emprise(data);
     const gml = `<?xml version="1.0" encoding="UTF-8"?>
 <gml:FeatureCollection 
     xmlns:gml="http://www.opengis.net/gml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <gml:boundedBy>
-        <gml:Envelope srsName="EPSG:4326">
-            <gml:lowerCorner>${safeMin(data.map(d => d.lon))} ${safeMin(data.map(d => d.lat))}</gml:lowerCorner>
-            <gml:upperCorner>${safeMax(data.map(d => d.lon))} ${safeMax(data.map(d => d.lat))}</gml:upperCorner>
-        </gml:Envelope>
+        <gml:Box srsName="EPSG:4326">
+            <gml:coordinates>${minX},${minY} ${maxX},${maxY}</gml:coordinates>
+        </gml:Box>
     </gml:boundedBy>
     ${features}
 </gml:FeatureCollection>`;
@@ -234,17 +260,45 @@ function exportGML(data, filename) {
     downloadFile(filename, gml, 'application/gml+xml');
 }
 
-// Export GPX
+// Export GPX : points en waypoints, lignes en traces (le GPX ne gère pas les polygones)
 function exportGPX(data, filename) {
-    let waypoints = data.map((d, i) => `
-  <wpt lat="${d.lat}" lon="${d.lon}">
+    const position = c => `lat="${c[1]}" lon="${c[0]}"`;
+    const trace = (segments, nom) => `
+  <trk>
+    <name>${nom}</name>
+    ${segments.map(s => `<trkseg>${s.map(c => `<trkpt ${position(c)}/>`).join('')}</trkseg>`).join('\n    ')}
+  </trk>`;
+    
+    let contenu = '';
+    let ignores = 0;
+    data.forEach((d, i) => {
+        const g = geometrieDe(d);
+        const desc = `${d.zipcode || ''} ${d.pr || ''}`;
+        if (g.type === 'Point' || g.type === 'MultiPoint') {
+            const points = g.type === 'Point' ? [g.coordinates] : g.coordinates;
+            points.forEach(c => {
+                contenu += `
+  <wpt ${position(c)}>
     <name>Point ${i + 1}</name>
-    <desc>${d.zipcode || ''} ${d.pr || ''}</desc>
-  </wpt>`).join('');
+    <desc>${desc}</desc>
+  </wpt>`;
+            });
+        } else if (g.type === 'LineString') {
+            contenu += trace([g.coordinates], `Ligne ${i + 1}`);
+        } else if (g.type === 'MultiLineString') {
+            contenu += trace(g.coordinates, `Ligne ${i + 1}`);
+        } else {
+            ignores++;
+        }
+    });
+    
+    if (ignores > 0) {
+        showNotification(`GPX : ${ignores} polygone(s) non exporté(s), ce format ne gère que les points et les lignes`, 'info');
+    }
     
     const gpx = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="GeoValidator">
-  ${waypoints}
+<gpx version="1.1" creator="GeoValidator" xmlns="http://www.topografix.com/GPX/1/1">
+  ${contenu}
 </gpx>`;
     
     downloadFile(filename, gpx, 'application/gpx+xml');
@@ -252,91 +306,150 @@ function exportGPX(data, filename) {
 
 // Export WKT
 function exportWKT(data, filename) {
-    const wkt = data.map(d => `POINT(${d.lon} ${d.lat})`).join('\n');
+    const wkt = data.map(d => versWKT(geometrieDe(d))).join('\n');
     downloadFile(filename, wkt, 'text/plain');
 }
 
 // Export Shapefile (ZIP avec SHP, SHX, DBF, PRJ)
+// v1.2 : un Shapefile ne contient qu'un type de forme → un jeu de fichiers par type
 async function exportShapefile(data, filename) {
     const zip = new JSZip();
     
-    const shp = generateSHP(data);
-    const shx = generateSHX(data);
-    const dbf = generateDBF(data);
-    const prj = generatePRJ();
+    const familles = [
+        { nom: 'points', shapeType: 1, types: ['Point'] },
+        { nom: 'multipoints', shapeType: 8, types: ['MultiPoint'] },
+        { nom: 'lignes', shapeType: 3, types: ['LineString', 'MultiLineString'] },
+        { nom: 'polygones', shapeType: 5, types: ['Polygon', 'MultiPolygon'] }
+    ];
     
-    zip.file('points.shp', shp);
-    zip.file('points.shx', shx);
-    zip.file('points.dbf', dbf);
-    zip.file('points.prj', prj);
+    familles.forEach(f => {
+        const sousEnsemble = data.filter(d => f.types.includes(geometrieDe(d).type));
+        if (sousEnsemble.length === 0) return;
+        zip.file(`${f.nom}.shp`, generateSHP(sousEnsemble, f.shapeType));
+        zip.file(`${f.nom}.shx`, generateSHX(sousEnsemble, f.shapeType));
+        zip.file(`${f.nom}.dbf`, generateDBF(sousEnsemble));
+        zip.file(`${f.nom}.prj`, generatePRJ());
+    });
     
     const blob = await zip.generateAsync({ type: 'blob' });
     downloadFile(filename, blob, 'application/zip');
 }
 
-function generateSHP(data) {
-    const headerSize = 100;
-    const recordSize = 28;
-    const fileLength = (headerSize + data.length * recordSize) / 2;
+// Contenu d'un enregistrement SHP (sans l'en-tête de 8 octets)
+function contenuEnregistrementSHP(geom, shapeType) {
+    const sommets = listerSommets(geom);
     
-    const minX = safeMin(data.map(d => d.lon));
-    const maxX = safeMax(data.map(d => d.lon));
-    const minY = safeMin(data.map(d => d.lat));
-    const maxY = safeMax(data.map(d => d.lat));
+    if (shapeType === 1) {
+        const buffer = new ArrayBuffer(20);
+        const view = new DataView(buffer);
+        view.setInt32(0, 1, true);
+        view.setFloat64(4, geom.coordinates[0], true);
+        view.setFloat64(12, geom.coordinates[1], true);
+        return new Uint8Array(buffer);
+    }
     
-    const buffer = new ArrayBuffer(headerSize + data.length * recordSize);
+    // Parties : lignes, ou anneaux (extérieur sens horaire, trous sens anti-horaire)
+    let parties;
+    if (shapeType === 8) {
+        parties = [];
+    } else if (geom.type === 'LineString') {
+        parties = [geom.coordinates];
+    } else if (geom.type === 'MultiLineString') {
+        parties = geom.coordinates;
+    } else {
+        const polygones = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
+        parties = [];
+        polygones.forEach(p => p.forEach((anneau, k) => {
+            const horaire = aireSignee(anneau) < 0;
+            const doitEtreHoraire = k === 0;
+            parties.push(horaire === doitEtreHoraire ? anneau : anneau.slice().reverse());
+        }));
+    }
+    
+    const points = shapeType === 8 ? sommets : [].concat(...parties);
+    const taille = shapeType === 8 ? 40 + 16 * points.length : 44 + 4 * parties.length + 16 * points.length;
+    const buffer = new ArrayBuffer(taille);
     const view = new DataView(buffer);
+    const xs = sommets.map(c => c[0]), ys = sommets.map(c => c[1]);
     
-    view.setInt32(0, 9994, false);
-    view.setInt32(24, fileLength, false);
-    view.setInt32(28, 1000, true);
-    view.setInt32(32, 1, true);
-    view.setFloat64(36, minX, true);
-    view.setFloat64(44, minY, true);
-    view.setFloat64(52, maxX, true);
-    view.setFloat64(60, maxY, true);
+    view.setInt32(0, shapeType, true);
+    view.setFloat64(4, safeMin(xs), true);
+    view.setFloat64(12, safeMin(ys), true);
+    view.setFloat64(20, safeMax(xs), true);
+    view.setFloat64(28, safeMax(ys), true);
     
-    let offset = 100;
-    data.forEach((d, i) => {
-        view.setInt32(offset, i + 1, false);
-        view.setInt32(offset + 4, 10, false);
-        view.setInt32(offset + 8, 1, true);
-        view.setFloat64(offset + 12, d.lon, true);
-        view.setFloat64(offset + 20, d.lat, true);
-        offset += 28;
+    let pos;
+    if (shapeType === 8) {
+        view.setInt32(36, points.length, true);
+        pos = 40;
+    } else {
+        view.setInt32(36, parties.length, true);
+        view.setInt32(40, points.length, true);
+        pos = 44;
+        let indice = 0;
+        parties.forEach(p => {
+            view.setInt32(pos, indice, true);
+            indice += p.length;
+            pos += 4;
+        });
+    }
+    points.forEach(c => {
+        view.setFloat64(pos, c[0], true);
+        view.setFloat64(pos + 8, c[1], true);
+        pos += 16;
     });
     
     return new Uint8Array(buffer);
 }
 
-function generateSHX(data) {
-    const headerSize = 100;
-    const fileLength = (headerSize + data.length * 8) / 2;
-    
-    const minX = safeMin(data.map(d => d.lon));
-    const maxX = safeMax(data.map(d => d.lon));
-    const minY = safeMin(data.map(d => d.lat));
-    const maxY = safeMax(data.map(d => d.lat));
-    
-    const buffer = new ArrayBuffer(headerSize + data.length * 8);
-    const view = new DataView(buffer);
-    
+// En-tête commun SHP / SHX (100 octets)
+function enTeteSHP(view, longueurOctets, shapeType, data) {
+    const [minX, minY, maxX, maxY] = emprise(data);
     view.setInt32(0, 9994, false);
-    view.setInt32(24, fileLength, false);
+    view.setInt32(24, longueurOctets / 2, false);
     view.setInt32(28, 1000, true);
-    view.setInt32(32, 1, true);
+    view.setInt32(32, shapeType, true);
     view.setFloat64(36, minX, true);
     view.setFloat64(44, minY, true);
     view.setFloat64(52, maxX, true);
     view.setFloat64(60, maxY, true);
+}
+
+function generateSHP(data, shapeType = 1) {
+    const contenus = data.map(d => contenuEnregistrementSHP(geometrieDe(d), shapeType));
+    const taille = 100 + contenus.reduce((s, c) => s + 8 + c.length, 0);
+    
+    const buffer = new ArrayBuffer(taille);
+    const view = new DataView(buffer);
+    const bytes = new Uint8Array(buffer);
+    enTeteSHP(view, taille, shapeType, data);
     
     let offset = 100;
-    let recordOffset = 50;
-    data.forEach((d, i) => {
-        view.setInt32(offset, recordOffset, false);
-        view.setInt32(offset + 4, 10, false);
+    contenus.forEach((c, i) => {
+        view.setInt32(offset, i + 1, false);
+        view.setInt32(offset + 4, c.length / 2, false);
+        bytes.set(c, offset + 8);
+        offset += 8 + c.length;
+    });
+    
+    return bytes;
+}
+
+function generateSHX(data, shapeType = 1) {
+    const contenus = data.map(d => contenuEnregistrementSHP(geometrieDe(d), shapeType));
+    const taille = 100 + data.length * 8;
+    
+    const buffer = new ArrayBuffer(taille);
+    const view = new DataView(buffer);
+    enTeteSHP(view, taille, shapeType, data);
+    
+    let offset = 100;
+    let recordOffset = 100;
+    contenus.forEach(c => {
+        view.setInt32(offset, recordOffset / 2, false);
+        view.setInt32(offset + 4, c.length / 2, false);
         offset += 8;
-        recordOffset += 14;
+        recordOffset += 8 + c.length;
     });
     
     return new Uint8Array(buffer);
@@ -408,8 +521,7 @@ async function exportGeoPackage(data, filename) {
     showNotification('Génération du GeoPackage...', 'info');
     
     try {
-        const initSqlJs = window.initSqlJs;
-        if (!initSqlJs) {
+        if (!window.initSqlJs) {
             const script = document.createElement('script');
             script.src = 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js';
             document.head.appendChild(script);
@@ -456,27 +568,28 @@ async function exportGeoPackage(data, filename) {
             m INTEGER NOT NULL
         )`);
         
-        db.run(`CREATE TABLE points (
+        // v1.2 : type de géométrie de la table (GEOMETRY si plusieurs types)
+        const types = new Set(data.map(d => geometrieDe(d).type));
+        const typeTable = types.size === 1 ? [...types][0].toUpperCase() : 'GEOMETRY';
+        const table = typeTable === 'POINT' ? 'points' : 'entites';
+        
+        db.run(`CREATE TABLE ${table} (
             fid INTEGER PRIMARY KEY AUTOINCREMENT,
             geom BLOB,
             code_postal TEXT,
             province TEXT
         )`);
         
-        const minX = safeMin(data.map(d => d.lon));
-        const maxX = safeMax(data.map(d => d.lon));
-        const minY = safeMin(data.map(d => d.lat));
-        const maxY = safeMax(data.map(d => d.lat));
+        const [minX, minY, maxX, maxY] = emprise(data);
         
-        db.run(`INSERT INTO gpkg_contents VALUES ('points', 'features', 'points', 'Points validés', datetime('now'), ?, ?, ?, ?, 4326)`,
+        db.run(`INSERT INTO gpkg_contents VALUES ('${table}', 'features', '${table}', 'Données validées', datetime('now'), ?, ?, ?, ?, 4326)`,
             [minX, minY, maxX, maxY]);
         
-        db.run(`INSERT INTO gpkg_geometry_columns VALUES ('points', 'geom', 'POINT', 4326, 0, 0)`);
+        db.run(`INSERT INTO gpkg_geometry_columns VALUES ('${table}', 'geom', '${typeTable}', 4326, 0, 0)`);
         
         data.forEach(d => {
-            const geomBlob = createGpkgPointBlob(d.lon, d.lat);
-            db.run(`INSERT INTO points (geom, code_postal, province) VALUES (?, ?, ?)`,
-                [geomBlob, d.zipcode || '', d.pr || '']);
+            db.run(`INSERT INTO ${table} (geom, code_postal, province) VALUES (?, ?, ?)`,
+                [createGpkgBlob(geometrieDe(d)), d.zipcode || '', d.pr || '']);
         });
         
         const dbData = db.export();
@@ -490,20 +603,18 @@ async function exportGeoPackage(data, filename) {
     }
 }
 
-function createGpkgPointBlob(lon, lat) {
-    const buffer = new ArrayBuffer(37);
-    const view = new DataView(buffer);
-    const bytes = new Uint8Array(buffer);
+// Géométrie GeoPackage : en-tête GP (8 octets, sans enveloppe, SRID 4326) + WKB
+function createGpkgBlob(geom) {
+    const wkb = ecrireWKB(geom);
+    const bytes = new Uint8Array(8 + wkb.length);
+    const view = new DataView(bytes.buffer);
     
-    bytes[0] = 0x47;
-    bytes[1] = 0x50;
-    view.setUint8(2, 0x00);
-    view.setUint8(3, 0x01);
+    bytes[0] = 0x47; // G
+    bytes[1] = 0x50; // P
+    bytes[2] = 0x00; // version
+    bytes[3] = 0x01; // little-endian, pas d'enveloppe
     view.setInt32(4, 4326, true);
-    
-    view.setUint8(8, 0x01);
-    view.setFloat64(9, lon, true);
-    view.setFloat64(17, lat, true);
+    bytes.set(wkb, 8);
     
     return bytes;
 }
@@ -516,18 +627,20 @@ function exportMapHTML() {
     }
     
     const data = AppState.donneesValides;
-    const bounds = {
-        minLat: safeMin(data.map(d => d.lat)),
-        maxLat: safeMax(data.map(d => d.lat)),
-        minLon: safeMin(data.map(d => d.lon)),
-        maxLon: safeMax(data.map(d => d.lon))
-    };
+    const [minLon, minLat, maxLon, maxLat] = emprise(data);
+    const bounds = { minLat, maxLat, minLon, maxLon };
     const centerLat = (bounds.minLat + bounds.maxLat) / 2;
     const centerLon = (bounds.minLon + bounds.maxLon) / 2;
     
-    const pointsJS = data.map(d => 
+    const points = data.filter(d => geometrieDe(d).type === 'Point');
+    const pointsJS = points.map(d => 
         `{lat:${d.lat},lon:${d.lon},cp:"${d.zipcode||''}",pr:"${d.pr||''}"}`
     ).join(',');
+    
+    // v1.2 : lignes et polygones
+    const formesJS = JSON.stringify(data.filter(d => geometrieDe(d).type !== 'Point').map(d => ({
+        type: 'Feature', geometry: d.geom, properties: { type: d.geom.type, cp: d.zipcode || '', pr: d.pr || '' }
+    })));
     
     const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -552,7 +665,7 @@ function exportMapHTML() {
 <body>
     <div id="header">
         <h1>GeoValidator</h1>
-        <span>${data.length} points validés</span>
+        <span>${data.length} ${AppState.projection ? 'entités validées' : 'points validés'}</span>
     </div>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>
@@ -569,6 +682,7 @@ function exportMapHTML() {
             markers.addLayer(m);
         });
         map.addLayer(markers);
+        L.geoJSON(${formesJS},{style:{color:'#003DA5',weight:2,fillColor:'#003DA5',fillOpacity:0.25},onEachFeature:(f,l)=>l.bindPopup('<div class="popup-title">'+f.properties.type+'</div>'+(f.properties.cp?'Code postal: '+f.properties.cp+'<br>':'')+(f.properties.pr?'Province: '+f.properties.pr:''))}).addTo(map);
         map.fitBounds([[${bounds.minLat},${bounds.minLon}],[${bounds.maxLat},${bounds.maxLon}]],{padding:[30,30]});
     <\/script>
 </body>
@@ -605,7 +719,7 @@ async function exportMapPDF() {
         pdf.setFont('helvetica', 'normal');
         pdf.setTextColor(100, 100, 100);
         const dateStr = new Date().toLocaleDateString('fr-CA', { year: 'numeric', month: 'long', day: 'numeric' });
-        pdf.text(`${AppState.donneesValides.length} points valides • Exporté le ${dateStr}`, pageWidth / 2, 22, { align: 'center' });
+        pdf.text(`${AppState.donneesValides.length} ${AppState.projection ? 'entités valides' : 'points valides'} • Exporté le ${dateStr}`, pageWidth / 2, 22, { align: 'center' });
         
         const mapContainer = document.getElementById('map');
         const canvas = await html2canvas(mapContainer, {
@@ -656,7 +770,7 @@ async function exportMapPDF() {
         pdf.setFillColor(0, 61, 165);
         pdf.circle(legendX, legendY, 2, 'F');
         pdf.setFontSize(9);
-        pdf.text('Point valide', legendX + 5, legendY + 1);
+        pdf.text(AppState.projection ? 'Entité valide' : 'Point valide', legendX + 5, legendY + 1);
         
         pdf.setFontSize(7);
         pdf.setTextColor(128, 128, 128);

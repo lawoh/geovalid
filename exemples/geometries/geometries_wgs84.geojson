@@ -1,0 +1,465 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.9,
+       45.4
+      ],
+      [
+       -73.5,
+       45.4
+      ],
+      [
+       -73.5,
+       45.7
+      ],
+      [
+       -73.9,
+       45.7
+      ],
+      [
+       -73.9,
+       45.4
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Montréal",
+    "code_postal": "H2X1Y4",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -71.4,
+       46.7
+      ],
+      [
+       -71.1,
+       46.7
+      ],
+      [
+       -71.1,
+       46.9
+      ],
+      [
+       -71.4,
+       46.9
+      ],
+      [
+       -71.4,
+       46.7
+      ]
+     ],
+     [
+      [
+       -71.3,
+       46.75
+      ],
+      [
+       -71.3,
+       46.85
+      ],
+      [
+       -71.2,
+       46.85
+      ],
+      [
+       -71.2,
+       46.75
+      ],
+      [
+       -71.3,
+       46.75
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Québec avec trou",
+    "code_postal": "G1R4P5",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        -73.9,
+        45.4
+       ],
+       [
+        -73.5,
+        45.4
+       ],
+       [
+        -73.5,
+        45.7
+       ],
+       [
+        -73.9,
+        45.7
+       ],
+       [
+        -73.9,
+        45.4
+       ]
+      ]
+     ],
+     [
+      [
+       [
+        -71.4,
+        46.7
+       ],
+       [
+        -71.1,
+        46.7
+       ],
+       [
+        -71.1,
+        46.9
+       ],
+       [
+        -71.4,
+        46.9
+       ],
+       [
+        -71.4,
+        46.7
+       ]
+      ],
+      [
+       [
+        -71.3,
+        46.75
+       ],
+       [
+        -71.3,
+        46.85
+       ],
+       [
+        -71.2,
+        46.85
+       ],
+       [
+        -71.2,
+        46.75
+       ],
+       [
+        -71.3,
+        46.75
+       ]
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Multipolygone",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.57,
+      45.5
+     ],
+     [
+      -72.55,
+      46.35
+     ],
+     [
+      -71.21,
+      46.81
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Montréal-Québec",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "MultiLineString",
+    "coordinates": [
+     [
+      [
+       -73.57,
+       45.5
+      ],
+      [
+       -72.55,
+       46.35
+      ]
+     ],
+     [
+      [
+       -72.55,
+       46.35
+      ],
+      [
+       -71.21,
+       46.81
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Deux tronçons",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.5674,
+     45.5019
+    ]
+   },
+   "properties": {
+    "nom": "Point Montréal",
+    "code_postal": "H2X1Y4",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "MultiPoint",
+    "coordinates": [
+     [
+      -73.5674,
+      45.5019
+     ],
+     [
+      -71.2082,
+      46.8139
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Deux villes",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -72.0,
+       45.3
+      ],
+      [
+       -71.8,
+       45.5
+      ],
+      [
+       -71.8,
+       45.3
+      ],
+      [
+       -72.0,
+       45.5
+      ],
+      [
+       -72.0,
+       45.3
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Papillon",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "invalide : auto-intersection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -75.8,
+       45.4
+      ],
+      [
+       -75.6,
+       45.4
+      ],
+      [
+       -75.6,
+       45.6
+      ],
+      [
+       -75.8,
+       45.6
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Non fermé",
+    "code_postal": "",
+    "province": "ON",
+    "attendu": "invalide : non fermé"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -81.0,
+       25.0
+      ],
+      [
+       -80.5,
+       25.0
+      ],
+      [
+       -80.5,
+       25.5
+      ],
+      [
+       -81.0,
+       25.5
+      ],
+      [
+       -81.0,
+       25.0
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Floride",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "invalide : hors Canada"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.57,
+      45.5
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Ligne 1 point",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "invalide : moins de 2 points"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -80.19,
+     25.77
+    ]
+   },
+   "properties": {
+    "nom": "Miami",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "invalide : latitude hors Canada"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.9,
+       45.4
+      ],
+      [
+       -73.5,
+       45.4
+      ],
+      [
+       -73.5,
+       45.7
+      ],
+      [
+       -73.9,
+       45.7
+      ],
+      [
+       -73.9,
+       45.4
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Mauvais code postal",
+    "code_postal": "12345",
+    "province": "QC",
+    "attendu": "invalide : code postal"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "nom": "Sans géométrie",
+    "code_postal": "",
+    "province": "QC",
+    "attendu": "invalide : géométrie vide"
+   }
+  }
+ ]
+}
