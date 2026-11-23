@@ -43,6 +43,26 @@ Object.entries(UTM_CSRS).forEach(([z, code]) => {
 for (let z = 1; z <= 60; z++) {
     PROJECTIONS[32600 + z] = { nom: `WGS 84 / UTM zone ${z}N`, def: `+proj=utm +zone=${z} +datum=WGS84 +units=m +no_defs` };
 }
+// UTM WGS 84 zones 1 à 60 sud (EPSG:32701 à 32760)
+for (let z = 1; z <= 60; z++) {
+    PROJECTIONS[32700 + z] = { nom: `WGS 84 / UTM zone ${z}S`, def: `+proj=utm +zone=${z} +south +datum=WGS84 +units=m +no_defs` };
+}
+// Maroc : Merchich (Lambert Nord Maroc, Sud Maroc, Sahara Nord, Sahara Sud)
+const MERCHICH = '+ellps=clrk80ign +towgs84=31,146,47,0,0,0,0 +units=m +no_defs';
+PROJECTIONS[4261] = { nom: 'Merchich', def: '+proj=longlat +ellps=clrk80ign +towgs84=31,146,47,0,0,0,0 +no_defs' };
+PROJECTIONS[26191] = { nom: 'Merchich / Nord Maroc', def: `+proj=lcc +lat_1=33.3 +lat_0=33.3 +lon_0=-5.4 +k_0=0.999625769 +x_0=500000 +y_0=300000 ${MERCHICH}` };
+PROJECTIONS[26192] = { nom: 'Merchich / Sud Maroc', def: `+proj=lcc +lat_1=29.7 +lat_0=29.7 +lon_0=-5.4 +k_0=0.999615596 +x_0=500000 +y_0=300000 ${MERCHICH}` };
+PROJECTIONS[26194] = { nom: 'Merchich / Sahara Nord', def: `+proj=lcc +lat_1=26.1 +lat_0=26.1 +lon_0=-5.4 +k_0=0.999616304 +x_0=1200000 +y_0=400000 ${MERCHICH}` };
+PROJECTIONS[26195] = { nom: 'Merchich / Sahara Sud', def: `+proj=lcc +lat_1=22.5 +lat_0=22.5 +lon_0=-5.4 +k_0=0.999616437 +x_0=1500000 +y_0=400000 ${MERCHICH}` };
+// France : coniques conformes CC42 à CC50 (EPSG:3942 à 3950), Lambert II étendu, outre-mer
+for (let z = 42; z <= 50; z++) {
+    PROJECTIONS[3900 + z] = { nom: `RGF93 / CC${z}`, def: `+proj=lcc +lat_0=${z} +lon_0=3 +lat_1=${z - 0.75} +lat_2=${z + 0.75} +x_0=1700000 +y_0=${(z - 41) * 1000000 + 200000} +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` };
+}
+PROJECTIONS[27572] = { nom: 'NTF (Paris) / Lambert II étendu', def: '+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=0 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +ellps=clrk80ign +pm=paris +towgs84=-168,-60,320,0,0,0,0 +units=m +no_defs' };
+PROJECTIONS[5490] = { nom: 'RGAF09 / UTM zone 20N (Antilles)', def: '+proj=utm +zone=20 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs' };
+PROJECTIONS[2972] = { nom: 'RGFG95 / UTM zone 22N (Guyane)', def: '+proj=utm +zone=22 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs' };
+PROJECTIONS[2975] = { nom: 'RGR92 / UTM zone 40S (La Réunion)', def: '+proj=utm +zone=40 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs' };
+PROJECTIONS[4471] = { nom: 'RGM04 / UTM zone 38S (Mayotte)', def: '+proj=utm +zone=38 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs' };
 // MTM NAD83 zones 1 à 10 (Québec et Maritimes, EPSG:32181 à 32190)
 // Méridiens centraux : 53° O, 56° O, puis 58,5° O + 3° par zone
 for (let z = 1; z <= 10; z++) {
@@ -323,7 +343,7 @@ function validerGeometrie(geom) {
     if (geom.type === 'Point') {
         erreursPays(geom.coordinates[0], geom.coordinates[1]).forEach(e => erreurs.push(e));
     } else if (sommets.some(([lon, lat]) => erreursPays(lon, lat).length > 0)) {
-        erreurs.push(`Géométrie hors ${paysActif().nom}`);
+        erreurs.push(`Géométrie hors ${paysActif().nomCourt || paysActif().nom}`);
     }
 
     return [...new Set(erreurs)];

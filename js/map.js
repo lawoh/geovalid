@@ -9,8 +9,8 @@ function initMap() {
         AppState.map.remove();
     }
     
-    // Emprise du pays sélectionné (v2.0)
-    const e = paysActif().emprise;
+    // Emprise du pays sélectionné (v2.0) ; pour un pays à plusieurs territoires, le premier
+    const e = paysActif().emprises[0];
     AppState.map = L.map('map').fitBounds([[e.latitude.min, e.longitude.min], [e.latitude.max, e.longitude.max]]);
     
     // Couches de base

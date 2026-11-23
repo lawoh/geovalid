@@ -9,13 +9,30 @@
 
 // Le long des côtes, un point à moins de cette distance est accepté : le contour simplifié
 // coupe les estuaires et les petites îles (ex : Québec, sur le Saint-Laurent).
-// Aucune tolérance le long des frontières terrestres.
+// Aucune tolérance si le segment le plus proche est une frontière terrestre (ex : Detroit, Monaco).
 const TOLERANCE_COTE_KM = 3;
+
+// Régions métropolitaines françaises (codes ISO 3166-2:FR)
+const REGIONS_FRANCE_METROPOLE = {
+    'Auvergne-Rhône-Alpes': ['FR-ARA', 'ARA'],
+    'Bourgogne-Franche-Comté': ['FR-BFC', 'BFC'],
+    'Bretagne': ['FR-BRE', 'BRE'],
+    'Centre-Val de Loire': ['FR-CVL', 'CVL'],
+    'Corse': ['FR-20R', '20R', 'COR'],
+    'Grand Est': ['FR-GES', 'GES'],
+    'Hauts-de-France': ['FR-HDF', 'HDF'],
+    'Île-de-France': ['FR-IDF', 'IDF'],
+    'Normandie': ['FR-NOR', 'NOR'],
+    'Nouvelle-Aquitaine': ['FR-NAQ', 'NAQ'],
+    'Occitanie': ['FR-OCC', 'OCC'],
+    'Pays de la Loire': ['FR-PDL', 'PDL'],
+    "Provence-Alpes-Côte d'Azur": ['FR-PAC', 'PAC', 'PACA']
+};
 
 const PAYS = {
     CAN: {
         nom: 'Canada',
-        emprise: LIMITES_CANADA,
+        emprises: [LIMITES_CANADA],
         libelleRegion: 'Province',
         libelleRegions: 'Provinces',
         colonneRegion: 'province',
@@ -41,10 +58,9 @@ const PAYS = {
     },
     NER: {
         nom: 'Niger',
-        emprise: {
-            latitude: { min: 11.69, max: 23.52 },
-            longitude: { min: 0.15, max: 15.98 }
-        },
+        emprises: [
+            { latitude: { min: 11.69, max: 23.52 }, longitude: { min: 0.15, max: 15.98 } }
+        ],
         libelleRegion: 'Région',
         libelleRegions: 'Régions',
         colonneRegion: 'region',
@@ -61,6 +77,73 @@ const PAYS = {
         },
         // Code postal : 4 chiffres (ex : 8001 Niamey)
         codePostal: cp => /^\d{4}$/.test(cp),
+        zonesCanada: false
+    },
+    MAR: {
+        nom: 'Maroc',
+        // Contour Natural Earth « point de vue du Maroc » : Sahara occidental, Ceuta et Melilla inclus
+        emprises: [
+            { latitude: { min: 20.76, max: 35.93 }, longitude: { min: -17.11, max: -1.03 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:MA (MA-01 à MA-12, découpage de 2015)
+        regions: {
+            'Tanger-Tétouan-Al Hoceïma': ['MA-01', '01'],
+            "L'Oriental": ['MA-02', '02', 'Oriental'],
+            'Fès-Meknès': ['MA-03', '03'],
+            'Rabat-Salé-Kénitra': ['MA-04', '04'],
+            'Béni Mellal-Khénifra': ['MA-05', '05'],
+            'Casablanca-Settat': ['MA-06', '06'],
+            'Marrakech-Safi': ['MA-07', '07'],
+            'Drâa-Tafilalet': ['MA-08', '08', 'Drâa-Tafilalt'],
+            'Souss-Massa': ['MA-09', '09'],
+            'Guelmim-Oued Noun': ['MA-10', '10'],
+            'Laâyoune-Sakia El Hamra': ['MA-11', '11'],
+            'Dakhla-Oued Ed-Dahab': ['MA-12', '12']
+        },
+        // Code postal : 5 chiffres (ex : 20000 Casablanca)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    FXX: {
+        nom: 'France métropolitaine',
+        emprises: [
+            { latitude: { min: 41.36, max: 51.09 }, longitude: { min: -5.14, max: 9.57 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:FR des 13 régions métropolitaines (Corse comprise)
+        regions: REGIONS_FRANCE_METROPOLE,
+        // Code postal : 5 chiffres
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    FRA: {
+        nom: 'France (avec outre-mer)',
+        nomCourt: 'France',
+        // Métropole et Corse, Antilles (Guadeloupe, Martinique), Guyane, La Réunion, Mayotte
+        emprises: [
+            { latitude: { min: 41.36, max: 51.09 }, longitude: { min: -5.14, max: 9.57 } },
+            { latitude: { min: 14.40, max: 16.52 }, longitude: { min: -61.81, max: -60.80 } },
+            { latitude: { min: 2.11, max: 5.75 }, longitude: { min: -54.62, max: -51.64 } },
+            { latitude: { min: -21.38, max: -20.86 }, longitude: { min: 55.22, max: 55.86 } },
+            { latitude: { min: -13.00, max: -12.64 }, longitude: { min: 45.04, max: 45.30 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // 13 régions métropolitaines + 5 régions d'outre-mer (codes ISO 3166-2:FR)
+        regions: Object.assign({}, REGIONS_FRANCE_METROPOLE, {
+            'Guadeloupe': ['FR-971', '971', 'GP'],
+            'Martinique': ['FR-972', '972', 'MQ'],
+            'Guyane': ['FR-973', '973', 'GF', 'Guyane française'],
+            'La Réunion': ['FR-974', '974', 'RE', 'Réunion'],
+            'Mayotte': ['FR-976', '976', 'YT']
+        }),
+        codePostal: cp => /^\d{5}$/.test(cp),
         zonesCanada: false
     }
 };
@@ -90,10 +173,14 @@ function trouverRegion(valeur, pays, pourDetection = false) {
     return null;
 }
 
-// Le point est-il dans l'emprise (rectangle) du pays ?
+// Le point est-il dans l'emprise du pays (un rectangle par territoire) ?
 function dansEmprise(pays, lon, lat) {
-    const e = pays.emprise;
-    return lat >= e.latitude.min && lat <= e.latitude.max && lon >= e.longitude.min && lon <= e.longitude.max;
+    return pays.emprises.some(e => lat >= e.latitude.min && lat <= e.latitude.max && lon >= e.longitude.min && lon <= e.longitude.max);
+}
+
+// Surface totale des emprises (en degrés carrés) : départage deux pays qui se recouvrent
+function surfaceEmprises(pays) {
+    return pays.emprises.reduce((s, e) => s + (e.latitude.max - e.latitude.min) * (e.longitude.max - e.longitude.min), 0);
 }
 
 // ============================================
@@ -114,12 +201,13 @@ function pointsEchantillon(data, colonnes) {
     return points;
 }
 
-// Pays dont l'emprise contient le plus de points (Canada par défaut)
+// Pays dont l'emprise contient le plus de points (Canada par défaut).
+// À égalité, le pays à l'emprise la plus petite (ex : France métropolitaine plutôt qu'avec outre-mer)
 function suggererPays(points) {
     let meilleur = 'CAN', max = 0;
     Object.entries(PAYS).forEach(([iso, pays]) => {
         const n = points.filter(([lon, lat]) => dansEmprise(pays, lon, lat)).length;
-        if (n > max) {
+        if (n > max || (n === max && n > 0 && surfaceEmprises(pays) < surfaceEmprises(PAYS[meilleur]))) {
             max = n;
             meilleur = iso;
         }
@@ -153,28 +241,30 @@ async function chargerContour(iso) {
         }
     });
 
-    // Polygones avec leur emprise, et segments de côte (le contour moins les frontières)
+    // Polygones avec leur emprise ; segments de côte et de frontière avec leur emprise
+    const segment = (a, b) => ({
+        a, b,
+        minX: Math.min(a[0], b[0]), maxX: Math.max(a[0], b[0]),
+        minY: Math.min(a[1], b[1]), maxY: Math.max(a[1], b[1])
+    });
     const polygones = [];
     const cotes = [];
+    const segmentsTerrestres = [];
     contour.forEach(anneaux => {
         const xs = anneaux[0].map(c => c[0]), ys = anneaux[0].map(c => c[1]);
         polygones.push({ anneaux, minX: safeMin(xs), maxX: safeMax(xs), minY: safeMin(ys), maxY: safeMax(ys) });
         anneaux.forEach(a => {
             for (let i = 0; i < a.length - 1; i++) {
-                if (segmentsFrontiere.has(cle(a[i], a[i + 1]))) continue;
-                cotes.push({
-                    a: a[i], b: a[i + 1],
-                    minX: Math.min(a[i][0], a[i + 1][0]), maxX: Math.max(a[i][0], a[i + 1][0]),
-                    minY: Math.min(a[i][1], a[i + 1][1]), maxY: Math.max(a[i][1], a[i + 1][1])
-                });
+                if (segmentsFrontiere.has(cle(a[i], a[i + 1]))) segmentsTerrestres.push(segment(a[i], a[i + 1]));
+                else cotes.push(segment(a[i], a[i + 1]));
             }
         });
     });
 
-    contoursCharges[iso] = { polygones, cotes };
+    contoursCharges[iso] = { polygones, cotes, frontieres: segmentsTerrestres };
 }
 
-// Le point est-il dans le pays ? (dans le contour, ou à moins de TOLERANCE_COTE_KM d'une côte)
+// Le point est-il dans le pays ? (dans le contour, ou près d'une côte plus que d'une frontière)
 function dansLePays(lon, lat) {
     const c = contoursCharges[AppState.pays];
     if (!c) throw new Error('Contour du pays non chargé');
@@ -184,17 +274,19 @@ function dansLePays(lon, lat) {
         if (lon < poly.minX || lon > poly.maxX || lat < poly.minY || lat > poly.maxY) continue;
         if (pointDansAnneau(p, poly.anneaux[0]) && !poly.anneaux.slice(1).some(trou => pointDansAnneau(p, trou))) return true;
     }
-    return distanceCoteKm(c, lon, lat) <= TOLERANCE_COTE_KM;
+    const dCote = distanceKm(c.cotes, lon, lat);
+    return dCote <= TOLERANCE_COTE_KM && dCote < distanceKm(c.frontieres, lon, lat);
 }
 
-// Distance (km) du point à la côte la plus proche, en ne regardant que les côtes voisines
-function distanceCoteKm(c, lon, lat) {
+// Distance (km) du point au segment le plus proche, en ne regardant que les segments voisins
+// (Infinity si aucun segment à moins de TOLERANCE_COTE_KM)
+function distanceKm(segments, lon, lat) {
     const k = Math.cos(lat * Math.PI / 180);
     const margeLat = TOLERANCE_COTE_KM / 111.32;
     const margeLon = margeLat / Math.max(k, 0.05);
     let min = Infinity;
 
-    for (const s of c.cotes) {
+    for (const s of segments) {
         if (lon < s.minX - margeLon || lon > s.maxX + margeLon || lat < s.minY - margeLat || lat > s.maxY + margeLat) continue;
         // Distance point-segment, coordonnées ramenées en degrés de latitude
         const ax = (s.a[0] - lon) * k, ay = s.a[1] - lat;
@@ -209,10 +301,16 @@ function distanceCoteKm(c, lon, lat) {
 // Erreurs d'un point par rapport au pays sélectionné (liste vide s'il est dans le pays)
 function erreursPays(lon, lat) {
     const pays = paysActif();
-    const e = pays.emprise;
+    const nom = pays.nomCourt || pays.nom;
     const erreurs = [];
-    if (lat < e.latitude.min || lat > e.latitude.max) erreurs.push(`Latitude hors ${pays.nom}`);
-    if (lon < e.longitude.min || lon > e.longitude.max) erreurs.push(`Longitude hors ${pays.nom}`);
-    if (erreurs.length === 0 && !dansLePays(lon, lat)) erreurs.push(`Point hors ${pays.nom}`);
+    if (pays.emprises.length === 1) {
+        // Un seul territoire : on précise si c'est la latitude ou la longitude qui sort
+        const e = pays.emprises[0];
+        if (lat < e.latitude.min || lat > e.latitude.max) erreurs.push(`Latitude hors ${nom}`);
+        if (lon < e.longitude.min || lon > e.longitude.max) erreurs.push(`Longitude hors ${nom}`);
+    } else if (!dansEmprise(pays, lon, lat)) {
+        erreurs.push(`Point hors ${nom}`);
+    }
+    if (erreurs.length === 0 && !dansLePays(lon, lat)) erreurs.push(`Point hors ${nom}`);
     return erreurs;
 }

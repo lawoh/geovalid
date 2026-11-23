@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,attendu
+Paris,48.8566,2.3522,IDF,valide
+Lille,50.6292,3.0573,Hauts-de-France,valide
+Bordeaux,44.8378,-0.5792,Nouvelle-Aquitaine,valide
+Toulouse,43.6047,1.4442,Occitanie,valide
+Nice,43.7102,7.2620,Provence-Alpes-Côte d'Azur,valide
+Bastia,42.6977,9.4508,Corse,valide

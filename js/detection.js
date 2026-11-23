@@ -128,7 +128,7 @@ function scoreLatitude(values) {
         const num = parseCoordinate(val);
         if (!isNaN(num) && num >= -90 && num <= 90) {
             validCount++;
-            if (Object.values(PAYS).some(p => num >= p.emprise.latitude.min && num <= p.emprise.latitude.max)) {
+            if (Object.values(PAYS).some(p => p.emprises.some(e => num >= e.latitude.min && num <= e.latitude.max))) {
                 canadaCount++;
             }
         }
@@ -154,7 +154,7 @@ function scoreLongitude(values) {
         const num = parseCoordinate(val);
         if (!isNaN(num) && num >= -180 && num <= 180) {
             validCount++;
-            if (Object.values(PAYS).some(p => num >= p.emprise.longitude.min && num <= p.emprise.longitude.max)) {
+            if (Object.values(PAYS).some(p => p.emprises.some(e => num >= e.longitude.min && num <= e.longitude.max))) {
                 canadaCount++;
             }
         }

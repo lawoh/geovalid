@@ -1,0 +1,18 @@
+nom,latitude,longitude,region,code_postal,attendu
+Rabat,34.0209,-6.8416,Rabat-Salé-Kénitra,10000,valide
+Casablanca,33.5731,-7.5898,MA-06,20000,valide
+Marrakech,31.6295,-7.9811,Marrakech-Safi,40000,valide
+Fès,34.0181,-5.0078,FES-MEKNES,30000,valide
+Tanger,35.7595,-5.8340,Tanger-Tetouan-Al Hoceima,90000,valide
+Agadir,30.4278,-9.5981,Souss-Massa,80000,valide
+Oujda,34.6814,-1.9086,Oriental,60000,valide
+Laâyoune,27.1536,-13.2033,MA-11,70000,valide
+Dakhla,23.6848,-15.9580,Dakhla-Oued Ed Dahab,73000,valide
+Ceuta,35.8894,-5.3213,Tanger-Tétouan-Al Hoceïma,,valide (option A)
+Melilla,35.2923,-2.9381,Oriental,,valide (option A)
+Tindouf (Algérie),27.6711,-8.1474,Guelmim-Oued Noun,,invalide : point hors Maroc
+Nouadhibou (Mauritanie),20.9310,-17.0347,Dakhla-Oued Ed-Dahab,,invalide : point hors Maroc
+Las Palmas (Canaries),28.1235,-15.4363,Souss-Massa,,invalide : point hors Maroc
+Oran (Algérie),35.6971,-0.6308,Oriental,,invalide : longitude hors Maroc
+Algésiras (Espagne),36.1408,-5.4562,Tanger-Tétouan-Al Hoceïma,,invalide : latitude hors Maroc
+Code postal faux,33.5731,-7.5898,Casablanca-Settat,2000,invalide : code postal

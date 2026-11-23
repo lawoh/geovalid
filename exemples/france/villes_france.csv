@@ -1,0 +1,17 @@
+nom,latitude,longitude,region,code_postal,attendu
+Paris,48.8566,2.3522,Île-de-France,75001,valide
+Marseille,43.2965,5.3698,PACA,13001,valide
+Lyon,45.7640,4.8357,FR-ARA,69001,valide
+Ajaccio,41.9192,8.7386,Corse,20000,valide
+Brest,48.3904,-4.4861,Bretagne,29200,valide
+Strasbourg,48.5734,7.7521,Grand Est,67000,valide
+Pointe-à-Pitre,16.2411,-61.5331,Guadeloupe,97110,valide
+Fort-de-France,14.6161,-61.0588,972,97200,valide
+Cayenne,4.9224,-52.3135,Guyane,97300,valide
+Saint-Denis (Réunion),-20.8823,55.4504,La Réunion,97400,valide
+Mamoudzou,-12.7806,45.2279,Mayotte,97600,valide
+Bruxelles (Belgique),50.8503,4.3517,Hauts-de-France,,invalide : point hors France
+Genève (Suisse),46.2044,6.1432,Auvergne-Rhône-Alpes,,invalide : point hors France
+Monaco,43.7384,7.4246,PACA,,invalide : point hors France
+Saint-Martin (collectivité),18.0708,-63.0501,Guadeloupe,,invalide : point hors France
+Code postal faux,48.8566,2.3522,Île-de-France,7501,invalide : code postal

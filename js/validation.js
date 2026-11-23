@@ -43,8 +43,6 @@ function validateData(data, colonnesDetectees) {
             lat = parseCoordinate(latStr); // Supporte DD et DMS
             if (isNaN(lat)) {
                 erreurs.push('Latitude invalide (format non reconnu)');
-            } else if (lat < paysActif().emprise.latitude.min || lat > paysActif().emprise.latitude.max) {
-                erreurs.push(`Latitude hors ${paysActif().nom}`);
             }
         }
         
@@ -57,14 +55,12 @@ function validateData(data, colonnesDetectees) {
             lon = parseCoordinate(lonStr); // Supporte DD et DMS
             if (isNaN(lon)) {
                 erreurs.push('Longitude invalide (format non reconnu)');
-            } else if (lon < paysActif().emprise.longitude.min || lon > paysActif().emprise.longitude.max) {
-                erreurs.push(`Longitude hors ${paysActif().nom}`);
             }
         }
         
-        // v2.0 : dans l'emprise, vérifier le contour réel du pays
-        if (geom === undefined && erreurs.length === 0 && !dansLePays(lon, lat)) {
-            erreurs.push(`Point hors ${paysActif().nom}`);
+        // v2.0 : emprise et contour réel du pays sélectionné
+        if (geom === undefined && erreurs.length === 0) {
+            erreursPays(lon, lat).forEach(e => erreurs.push(e));
         }
         
         // Valider code postal (optionnel mais vérifié si fourni)
