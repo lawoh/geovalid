@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Bissau,11.8636,-15.5977,Bissau,valide
+Bafatá,12.1667,-14.6500,Bafatá,valide
+Gabú,12.2833,-14.2167,Gabú,valide
+Ziguinchor (Sénégal),12.5641,-16.2640,Cacheu,invalide : point hors Guinée-Bissau
+Boké (Guinée),10.9409,-14.2967,Tombali,invalide : point hors Guinée-Bissau

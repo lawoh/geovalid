@@ -366,6 +366,231 @@ const PAYS = {
         // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
         codePostal: null,
         zonesCanada: false
+    },
+    // ---------- Lot 2 Afrique de l'Ouest et du Centre (contours Natural Earth 10m)
+    MRT: {
+        nom: 'Mauritanie',
+        emprises: [
+            { latitude: { min: 14.73, max: 27.29 }, longitude: { min: -17.09, max: -4.82 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:MR (15 régions, dont les 3 de Nouakchott)
+        regions: {
+            'Adrar': ['MR-07'],
+            'Assaba': ['MR-03'],
+            'Brakna': ['MR-05'],
+            'Dakhlet Nouâdhibou': ['MR-08', 'Dakhlet Nouadhibou'],
+            'Gorgol': ['MR-04'],
+            'Guidimaka': ['MR-10'],
+            'Hodh ech Chargui': ['MR-01'],
+            'Hodh el Gharbi': ['MR-02'],
+            'Inchiri': ['MR-12'],
+            'Nouakchott-Nord': ['MR-14'],
+            'Nouakchott-Ouest': ['MR-13'],
+            'Nouakchott-Sud': ['MR-15'],
+            'Tagant': ['MR-09'],
+            'Tiris Zemmour': ['MR-11'],
+            'Trarza': ['MR-06']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    CMR: {
+        nom: 'Cameroun',
+        emprises: [
+            { latitude: { min: 1.65, max: 13.09 }, longitude: { min: 8.5, max: 16.21 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:CM (10 régions, noms français et anglais)
+        regions: {
+            'Adamaoua': ['CM-AD', 'Adamawa'],
+            'Centre': ['CM-CE'],
+            'Est': ['CM-ES', 'East'],
+            'Extrême-Nord': ['CM-EN', 'Far North'],
+            'Littoral': ['CM-LT'],
+            'Nord': ['CM-NO', 'North'],
+            'Nord-Ouest': ['CM-NW', 'North-West'],
+            'Sud': ['CM-SU', 'South'],
+            'Sud-Ouest': ['CM-SW', 'South-West'],
+            'Ouest': ['CM-OU', 'West']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    CAF: {
+        nom: 'Centrafrique',
+        emprises: [
+            { latitude: { min: 2.23, max: 11.01 }, longitude: { min: 14.38, max: 27.45 } }
+        ],
+        libelleRegion: 'Préfecture',
+        libelleRegions: 'Préfectures',
+        colonneRegion: 'prefecture',
+        // Codes ISO 3166-2:CF (14 préfectures, 2 préfectures économiques, commune de Bangui ; le découpage de 2020 n'y figure pas encore)
+        regions: {
+            'Bamingui-Bangoran': ['CF-BB'],
+            'Bangui': ['CF-BGF'],
+            'Basse-Kotto': ['CF-BK'],
+            'Gribingui': ['CF-KB', 'Nana-Grébizi'],
+            'Haut-Mbomou': ['CF-HM'],
+            'Haute-Kotto': ['CF-HK'],
+            'Mambéré-Kadéï': ['CF-HS', 'Haute-Sangha'],
+            'Kémo-Gribingui': ['CF-KG', 'Kémo'],
+            'Lobaye': ['CF-LB'],
+            'Mbomou': ['CF-MB'],
+            'Nana-Mambéré': ['CF-NM'],
+            'Ombella-Mpoko': ['CF-MP', 'Ombella-M\'Poko'],
+            'Ouaka': ['CF-UK'],
+            'Ouham': ['CF-AC'],
+            'Ouham-Pendé': ['CF-OP'],
+            'Sangha': ['CF-SE', 'Sangha-Mbaéré'],
+            'Vakaga': ['CF-VK']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    GAB: {
+        nom: 'Gabon',
+        emprises: [
+            { latitude: { min: -3.94, max: 2.33 }, longitude: { min: 8.69, max: 14.5 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:GA (9 provinces)
+        regions: {
+            'Estuaire': ['GA-1'],
+            'Haut-Ogooué': ['GA-2'],
+            'Moyen-Ogooué': ['GA-3'],
+            'Ngounié': ['GA-4'],
+            'Nyanga': ['GA-5'],
+            'Ogooué-Ivindo': ['GA-6'],
+            'Ogooué-Lolo': ['GA-7'],
+            'Ogooué-Maritime': ['GA-8'],
+            'Woleu-Ntem': ['GA-9']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    COG: {
+        nom: 'Congo',
+        emprises: [
+            { latitude: { min: -5.02, max: 3.71 }, longitude: { min: 11.11, max: 18.65 } }
+        ],
+        libelleRegion: 'Département',
+        libelleRegions: 'Départements',
+        colonneRegion: 'departement',
+        // Codes ISO 3166-2:CG (12 départements)
+        regions: {
+            'Bouenza': ['CG-11'],
+            'Brazzaville': ['CG-BZV'],
+            'Cuvette': ['CG-8'],
+            'Cuvette-Ouest': ['CG-15'],
+            'Kouilou': ['CG-5'],
+            'Lékoumou': ['CG-2'],
+            'Likouala': ['CG-7'],
+            'Niari': ['CG-9'],
+            'Plateaux': ['CG-14'],
+            'Pointe-Noire': ['CG-16'],
+            'Pool': ['CG-12'],
+            'Sangha': ['CG-13']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    COD: {
+        nom: 'RD Congo',
+        emprises: [
+            { latitude: { min: -13.46, max: 5.38 }, longitude: { min: 12.21, max: 31.29 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:CD (26 provinces, découpage de 2015)
+        regions: {
+            'Bas-Uélé': ['CD-BU'],
+            'Équateur': ['CD-EQ'],
+            'Haut-Katanga': ['CD-HK'],
+            'Haut-Lomami': ['CD-HL'],
+            'Haut-Uélé': ['CD-HU'],
+            'Ituri': ['CD-IT'],
+            'Kasaï': ['CD-KS'],
+            'Kasaï Central': ['CD-KC'],
+            'Kasaï Oriental': ['CD-KE'],
+            'Kinshasa': ['CD-KN'],
+            'Kongo Central': ['CD-BC'],
+            'Kwango': ['CD-KG'],
+            'Kwilu': ['CD-KL'],
+            'Lomami': ['CD-LO'],
+            'Lualaba': ['CD-LU'],
+            'Mai-Ndombe': ['CD-MN'],
+            'Maniema': ['CD-MA'],
+            'Mongala': ['CD-MO'],
+            'Nord-Kivu': ['CD-NK'],
+            'Nord-Ubangi': ['CD-NU'],
+            'Sankuru': ['CD-SA'],
+            'Sud-Kivu': ['CD-SK'],
+            'Sud-Ubangi': ['CD-SU'],
+            'Tanganyika': ['CD-TA'],
+            'Tshopo': ['CD-TO'],
+            'Tshuapa': ['CD-TU']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    GNB: {
+        nom: 'Guinée-Bissau',
+        emprises: [
+            { latitude: { min: 10.92, max: 12.68 }, longitude: { min: -16.73, max: -13.66 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:GW (8 régions + secteur autonome de Bissau)
+        regions: {
+            'Bafatá': ['GW-BA'],
+            'Biombo': ['GW-BM'],
+            'Bissau': ['GW-BS', 'Setor Autónomo de Bissau'],
+            'Bolama': ['GW-BL', 'Bolama-Bijagós'],
+            'Cacheu': ['GW-CA'],
+            'Gabú': ['GW-GA'],
+            'Oio': ['GW-OI'],
+            'Quinara': ['GW-QU'],
+            'Tombali': ['GW-TO']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    GMB: {
+        nom: 'Gambie',
+        emprises: [
+            { latitude: { min: 13.06, max: 13.82 }, longitude: { min: -16.83, max: -13.81 } }
+        ],
+        libelleRegion: 'Division',
+        libelleRegions: 'Divisions',
+        colonneRegion: 'division',
+        // Codes ISO 3166-2:GM (5 divisions + ville de Banjul)
+        regions: {
+            'Banjul': ['GM-B'],
+            'Central River': ['GM-M'],
+            'Lower River': ['GM-L'],
+            'North Bank': ['GM-N'],
+            'Upper River': ['GM-U'],
+            'West Coast': ['GM-W', 'Western']
+        },
+        // Pas de système de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
     }
 };
 
@@ -422,17 +647,25 @@ function pointsEchantillon(data, colonnes) {
     return points;
 }
 
-// Pays dont l'emprise contient le plus de points (Canada par défaut).
-// À égalité, le pays à l'emprise la plus petite (ex : France métropolitaine plutôt qu'avec outre-mer)
-function suggererPays(points) {
-    let meilleur = 'CAN', max = 0;
-    Object.entries(PAYS).forEach(([iso, pays]) => {
-        const n = points.filter(([lon, lat]) => dansEmprise(pays, lon, lat)).length;
-        if (n > max || (n === max && n > 0 && surfaceEmprises(pays) < surfaceEmprises(PAYS[meilleur]))) {
+// Pays qui contient le plus de points (Canada par défaut).
+// 1) Candidats : pays dont l'emprise contient au moins un point
+// 2) S'il y en a plusieurs, on compte les points dans leur contour réel (ex : la Gambie,
+//    enclavée dans l'emprise du Sénégal). À égalité, le pays à la plus petite emprise
+//    (ex : France métropolitaine plutôt qu'avec outre-mer)
+async function suggererPays(points) {
+    const candidats = Object.keys(PAYS).filter(iso => points.some(([lon, lat]) => dansEmprise(PAYS[iso], lon, lat)));
+    if (candidats.length === 0) return 'CAN';
+    if (candidats.length === 1) return candidats[0];
+
+    let meilleur = candidats[0], max = -1;
+    for (const iso of candidats) {
+        await chargerContour(iso);
+        const n = points.filter(([lon, lat]) => dansEmprise(PAYS[iso], lon, lat) && dansLePays(lon, lat, iso)).length;
+        if (n > max || (n === max && surfaceEmprises(PAYS[iso]) < surfaceEmprises(PAYS[meilleur]))) {
             max = n;
             meilleur = iso;
         }
-    });
+    }
     return meilleur;
 }
 
@@ -486,8 +719,8 @@ async function chargerContour(iso) {
 }
 
 // Le point est-il dans le pays ? (dans le contour, ou près d'une côte plus que d'une frontière)
-function dansLePays(lon, lat) {
-    const c = contoursCharges[AppState.pays];
+function dansLePays(lon, lat, iso = AppState.pays) {
+    const c = contoursCharges[iso];
     if (!c) throw new Error('Contour du pays non chargé');
 
     const p = [lon, lat];

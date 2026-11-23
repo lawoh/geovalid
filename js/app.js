@@ -141,7 +141,7 @@ async function handleFileSelect(file) {
         }
         
         // v2.0 : pays suggéré d'après les coordonnées ; l'utilisateur peut le changer
-        AppState.paysSuggere = suggererPays(pointsEchantillon(result.data, AppState.colonnesDetectees));
+        AppState.paysSuggere = await suggererPays(pointsEchantillon(result.data, AppState.colonnesDetectees));
         AppState.pays = AppState.paysSuggere;
         afficherChoixPays();
         

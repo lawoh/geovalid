@@ -1,0 +1,6 @@
+nom,latitude,longitude,departement,attendu
+Brazzaville,-4.2634,15.2429,Brazzaville,valide (limite : fleuve frontière)
+Pointe-Noire,-4.7761,11.8635,Pointe-Noire,valide
+Dolisie,-4.1989,12.6667,Niari,valide
+Kinshasa (RD Congo),-4.4419,15.2663,Pool,invalide : point hors Congo (limite)
+Libreville (Gabon),0.4162,9.4673,Kouilou,invalide : longitude hors Congo

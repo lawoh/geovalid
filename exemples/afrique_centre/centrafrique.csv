@@ -1,0 +1,6 @@
+nom,latitude,longitude,prefecture,attendu
+Bangui,4.3612,18.5550,Bangui,valide (limite : fleuve frontière)
+Berbérati,4.2612,15.7922,Mambéré-Kadéï,valide
+Bambari,5.7679,20.6757,Ouaka,valide
+Moundou (Tchad),8.5667,16.0833,Ouham-Pendé,invalide : point hors Centrafrique
+Juba (Soudan du Sud),4.8594,31.5713,Haut-Mbomou,invalide : longitude hors Centrafrique

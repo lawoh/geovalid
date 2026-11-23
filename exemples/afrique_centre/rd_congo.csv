@@ -1,0 +1,8 @@
+nom,latitude,longitude,province,attendu
+Kinshasa,-4.4419,15.2663,Kinshasa,valide
+Lubumbashi,-11.6647,27.4794,Haut-Katanga,valide
+Kisangani,0.5153,25.1910,Tshopo,valide
+Goma,-1.6792,29.2228,Nord-Kivu,"valide en réalité, mais rejeté : à 30 m de la frontière du contour Natural Earth"
+Brazzaville (Congo),-4.2634,15.2429,Kinshasa,invalide : point hors RD Congo (limite)
+Kigali (Rwanda),-1.9441,30.0619,Sud-Kivu,invalide : point hors RD Congo
+Luanda (Angola),-8.8390,13.2894,Kongo Central,invalide : point hors RD Congo

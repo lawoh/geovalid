@@ -1,0 +1,6 @@
+nom,latitude,longitude,division,attendu
+Banjul,13.4549,-16.5790,Banjul,valide
+Serekunda,13.4382,-16.6781,West Coast,valide
+Basse Santa Su,13.3100,-14.2200,Upper River,valide
+Vélingara (Sénégal),13.1500,-14.1100,Upper River,invalide : point hors Gambie
+Kaolack (Sénégal),14.1520,-16.0726,North Bank,invalide : latitude hors Gambie

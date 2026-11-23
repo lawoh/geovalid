@@ -1,0 +1,6 @@
+nom,latitude,longitude,province,attendu
+Libreville,0.4162,9.4673,Estuaire,valide
+Port-Gentil,-0.7193,8.7815,Ogooué-Maritime,valide
+Franceville,-1.6333,13.5833,Haut-Ogooué,valide
+Bata (Guinée équatoriale),1.8639,9.7658,Woleu-Ntem,invalide : point hors Gabon
+Pointe-Noire (Congo),-4.7761,11.8635,Nyanga,invalide : latitude hors Gabon

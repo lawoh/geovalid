@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,attendu
+Nouakchott,18.0735,-15.9582,Nouakchott-Ouest,valide
+Nouadhibou,20.9310,-17.0347,Dakhlet Nouadhibou,valide
+Atar,20.5169,-13.0499,Adrar,valide
+Dakhla (Sahara occidental),23.6848,-15.9580,Dakhlet Nouâdhibou,invalide : point hors Mauritanie
+Saint-Louis (Sénégal),16.0179,-16.4896,Trarza,invalide : point hors Mauritanie
+Kayes (Mali),14.4469,-11.4450,Guidimaka,invalide : latitude hors Mauritanie

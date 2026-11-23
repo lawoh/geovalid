@@ -1,0 +1,8 @@
+nom,latitude,longitude,region,attendu
+Yaoundé,3.8480,11.5021,Centre,valide
+Douala,4.0511,9.7679,Littoral,valide
+Garoua,9.3014,13.3977,North,valide
+Kousseri,12.0769,15.0306,Far North,valide (limite : fleuve frontière)
+N'Djamena (Tchad),12.1348,15.0557,Extrême-Nord,invalide : point hors Cameroun (limite)
+Malabo (Guinée équatoriale),3.7504,8.7371,Sud-Ouest,invalide : point hors Cameroun
+Calabar (Nigeria),4.9757,8.3417,Sud-Ouest,invalide : longitude hors Cameroun
