@@ -1,0 +1,6 @@
+nom,latitude,longitude,gouvernorat,code_postal,attendu
+Tunis,36.8065,10.1815,Tunis,1002,valide
+Sfax,34.7406,10.7603,Sfax,,valide
+Houmt Souk (Djerba),33.8756,10.8575,Médenine,,valide
+Tébessa (Algérie),35.4040,8.1242,Kasserine,,invalide : point hors Tunisie
+Tripoli (Libye),32.8872,13.1913,Médenine,,invalide : longitude hors Tunisie

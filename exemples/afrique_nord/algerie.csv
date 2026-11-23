@@ -1,0 +1,9 @@
+nom,latitude,longitude,wilaya,code_postal,attendu
+Alger,36.7538,3.0588,16,16000,valide
+Oran,35.6971,-0.6308,Oran,31000,valide
+Constantine,36.3650,6.6147,Constantine,,valide
+Tamanrasset,22.7850,5.5228,Tamanrasset,,valide
+Oujda (Maroc),34.6814,-1.9086,Tlemcen,,invalide : point hors Algérie
+Tunis (Tunisie),36.8065,10.1815,El Tarf,,invalide : point hors Algérie
+Agadez (Niger),16.9733,7.9911,Tamanrasset,,invalide : latitude hors Algérie
+Code postal faux,36.7538,3.0588,Alger,1600,invalide : code postal

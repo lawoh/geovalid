@@ -1,0 +1,7 @@
+nom,latitude,longitude,etat,attendu
+Juba,4.8594,31.5713,Central Equatoria,valide
+Wau,7.7011,27.9953,Western Bahr el Ghazal,valide
+Malakal,9.5334,31.6605,Upper Nile,valide
+Abyei,9.5956,28.4364,Warrap,invalide : zone attribuée au Soudan
+Khartoum (Soudan),15.5007,32.5599,Upper Nile,invalide : latitude hors Soudan du Sud
+Gulu (Ouganda),2.7724,32.2881,Eastern Equatoria,invalide : latitude hors Soudan du Sud

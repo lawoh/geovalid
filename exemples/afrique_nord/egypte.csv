@@ -1,0 +1,9 @@
+nom,latitude,longitude,gouvernorat,code_postal,attendu
+Le Caire,30.0444,31.2357,Le Caire,11511,valide
+Alexandrie,31.2001,29.9187,Alexandrie,,valide
+Assouan,24.0889,32.8998,Aswan,,valide
+Halaïb (triangle de Hala'ib),22.2167,36.6333,Red Sea,,valide (zone contestée attribuée à l'Égypte)
+Gaza,31.5017,34.4668,North Sinai,,invalide : point hors Égypte
+Eilat (Israël),29.5577,34.9519,South Sinai,,invalide : point hors Égypte
+Wadi Halfa (Soudan),21.8000,31.3500,Aswan,,invalide : latitude hors Égypte
+Code postal faux,30.0444,31.2357,Cairo,1151,invalide : code postal

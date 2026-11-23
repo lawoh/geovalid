@@ -591,6 +591,256 @@ const PAYS = {
         // Pas de système de code postal confirmé : valeur gardée sans contrôle
         codePostal: null,
         zonesCanada: false
+    },
+    // ---------- Lot 3 Afrique du Nord (contours Natural Earth 10m)
+    DZA: {
+        nom: 'Algérie',
+        emprises: [
+            { latitude: { min: 18.97, max: 37.1 }, longitude: { min: -8.69, max: 11.97 } }
+        ],
+        libelleRegion: 'Wilaya',
+        libelleRegions: 'Wilayas',
+        colonneRegion: 'wilaya',
+        // Codes ISO 3166-2:DZ (58 wilayas, numéros acceptés)
+        regions: {
+            'Adrar': ['DZ-01', '01'],
+            'Chlef': ['DZ-02', '02'],
+            'Laghouat': ['DZ-03', '03'],
+            'Oum el Bouaghi': ['DZ-04', '04'],
+            'Batna': ['DZ-05', '05'],
+            'Béjaïa': ['DZ-06', '06'],
+            'Biskra': ['DZ-07', '07'],
+            'Béchar': ['DZ-08', '08'],
+            'Blida': ['DZ-09', '09'],
+            'Bouira': ['DZ-10', '10'],
+            'Tamanrasset': ['DZ-11', '11'],
+            'Tébessa': ['DZ-12', '12'],
+            'Tlemcen': ['DZ-13', '13'],
+            'Tiaret': ['DZ-14', '14'],
+            'Tizi Ouzou': ['DZ-15', '15'],
+            'Alger': ['DZ-16', '16', 'Algiers'],
+            'Djelfa': ['DZ-17', '17'],
+            'Jijel': ['DZ-18', '18'],
+            'Sétif': ['DZ-19', '19'],
+            'Saïda': ['DZ-20', '20'],
+            'Skikda': ['DZ-21', '21'],
+            'Sidi Bel Abbès': ['DZ-22', '22'],
+            'Annaba': ['DZ-23', '23'],
+            'Guelma': ['DZ-24', '24'],
+            'Constantine': ['DZ-25', '25'],
+            'Médéa': ['DZ-26', '26'],
+            'Mostaganem': ['DZ-27', '27'],
+            'M\'sila': ['DZ-28', '28'],
+            'Mascara': ['DZ-29', '29'],
+            'Ouargla': ['DZ-30', '30'],
+            'Oran': ['DZ-31', '31'],
+            'El Bayadh': ['DZ-32', '32'],
+            'Illizi': ['DZ-33', '33'],
+            'Bordj Bou Arréridj': ['DZ-34', '34'],
+            'Boumerdès': ['DZ-35', '35'],
+            'El Tarf': ['DZ-36', '36'],
+            'Tindouf': ['DZ-37', '37'],
+            'Tissemsilt': ['DZ-38', '38'],
+            'El Oued': ['DZ-39', '39'],
+            'Khenchela': ['DZ-40', '40'],
+            'Souk Ahras': ['DZ-41', '41'],
+            'Tipaza': ['DZ-42', '42'],
+            'Mila': ['DZ-43', '43'],
+            'Aïn Defla': ['DZ-44', '44'],
+            'Naama': ['DZ-45', '45'],
+            'Aïn Témouchent': ['DZ-46', '46'],
+            'Ghardaïa': ['DZ-47', '47'],
+            'Relizane': ['DZ-48', '48'],
+            'Timimoun': ['DZ-49', '49'],
+            'Bordj Badji Mokhtar': ['DZ-50', '50'],
+            'Ouled Djellal': ['DZ-51', '51'],
+            'Béni Abbès': ['DZ-52', '52'],
+            'In Salah': ['DZ-53', '53'],
+            'In Guezzam': ['DZ-54', '54'],
+            'Touggourt': ['DZ-55', '55'],
+            'Djanet': ['DZ-56', '56'],
+            'El Meghaier': ['DZ-57', '57'],
+            'El Meniaa': ['DZ-58', '58']
+        },
+        // Code postal : 5 chiffres, numéro de wilaya + 3 chiffres (ex : 16000 Alger)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    TUN: {
+        nom: 'Tunisie',
+        emprises: [
+            { latitude: { min: 30.22, max: 37.35 }, longitude: { min: 7.47, max: 11.57 } }
+        ],
+        libelleRegion: 'Gouvernorat',
+        libelleRegions: 'Gouvernorats',
+        colonneRegion: 'gouvernorat',
+        // Codes ISO 3166-2:TN (24 gouvernorats)
+        regions: {
+            'Béja': ['TN-31'],
+            'Ben Arous': ['TN-13'],
+            'Bizerte': ['TN-23'],
+            'Gabès': ['TN-81'],
+            'Gafsa': ['TN-71'],
+            'Jendouba': ['TN-32'],
+            'Kairouan': ['TN-41'],
+            'Kasserine': ['TN-42'],
+            'Kébili': ['TN-73'],
+            'L\'Ariana': ['TN-12', 'Ariana'],
+            'La Manouba': ['TN-14', 'Manouba'],
+            'Le Kef': ['TN-33', 'Kef'],
+            'Mahdia': ['TN-53'],
+            'Médenine': ['TN-82'],
+            'Monastir': ['TN-52'],
+            'Nabeul': ['TN-21'],
+            'Sfax': ['TN-61'],
+            'Sidi Bouzid': ['TN-43'],
+            'Siliana': ['TN-34'],
+            'Sousse': ['TN-51'],
+            'Tataouine': ['TN-83'],
+            'Tozeur': ['TN-72'],
+            'Tunis': ['TN-11'],
+            'Zaghouan': ['TN-22']
+        },
+        // Code postal : 4 chiffres (ex : 1002 Tunis, source UPU)
+        codePostal: cp => /^\d{4}$/.test(cp),
+        zonesCanada: false
+    },
+    LBY: {
+        nom: 'Libye',
+        emprises: [
+            { latitude: { min: 19.49, max: 33.19 }, longitude: { min: 9.28, max: 25.16 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:LY (22 districts, noms translittérés et usuels)
+        regions: {
+            'Al Buţnān': ['LY-BU', 'Butnan'],
+            'Al Jabal al Akhḑar': ['LY-JA', 'Jabal al Akhdar'],
+            'Al Jabal al Gharbī': ['LY-JG', 'Jabal al Gharbi'],
+            'Al Jafārah': ['LY-JI', 'Jafara'],
+            'Al Jufrah': ['LY-JU', 'Jufra'],
+            'Al Kufrah': ['LY-KF', 'Kufra'],
+            'Al Marj': ['LY-MJ', 'Marj'],
+            'Al Marqab': ['LY-MB', 'Murqub'],
+            'Al Wāḩāt': ['LY-WA', 'Wahat'],
+            'An Nuqāţ al Khams': ['LY-NQ', 'Nuqat al Khams'],
+            'Az Zāwiyah': ['LY-ZA', 'Zawiya'],
+            'Banghāzī': ['LY-BA', 'Benghazi'],
+            'Darnah': ['LY-DR', 'Derna'],
+            'Ghāt': ['LY-GT', 'Ghat'],
+            'Mişrātah': ['LY-MI', 'Misrata'],
+            'Murzuq': ['LY-MQ'],
+            'Nālūt': ['LY-NL', 'Nalut'],
+            'Sabhā': ['LY-SB', 'Sabha'],
+            'Surt': ['LY-SR', 'Sirte'],
+            'Ţarābulus': ['LY-TB', 'Tripoli'],
+            'Wādī al Ḩayāt': ['LY-WD', 'Wadi al Hayaa'],
+            'Wādī ash Shāţi\'': ['LY-WS', 'Wadi al Shatii']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    EGY: {
+        nom: 'Égypte',
+        emprises: [
+            { latitude: { min: 21.99, max: 31.66 }, longitude: { min: 24.68, max: 36.9 } }
+        ],
+        libelleRegion: 'Gouvernorat',
+        libelleRegions: 'Gouvernorats',
+        colonneRegion: 'gouvernorat',
+        // Codes ISO 3166-2:EG (27 gouvernorats) ; triangle de Hala'ib inclus (choix de Natural Earth)
+        regions: {
+            'Ad Daqahlīyah': ['EG-DK', 'Dakahlia'],
+            'Al Baḩr al Aḩmar': ['EG-BA', 'Red Sea', 'Mer Rouge'],
+            'Al Buḩayrah': ['EG-BH', 'Beheira'],
+            'Al Fayyūm': ['EG-FYM', 'Faiyum', 'Fayoum'],
+            'Al Gharbīyah': ['EG-GH', 'Gharbia'],
+            'Al Iskandarīyah': ['EG-ALX', 'Alexandria', 'Alexandrie'],
+            'Al Ismā\'īlīyah': ['EG-IS', 'Ismailia'],
+            'Al Jīzah': ['EG-GZ', 'Giza', 'Gizeh'],
+            'Al Minūfīyah': ['EG-MNF', 'Monufia'],
+            'Al Minyā': ['EG-MN', 'Minya'],
+            'Al Qāhirah': ['EG-C', 'Cairo', 'Le Caire'],
+            'Al Qalyūbīyah': ['EG-KB', 'Qalyubia'],
+            'Al Uqşur': ['EG-LX', 'Luxor', 'Louxor'],
+            'Al Wādī al Jadīd': ['EG-WAD', 'New Valley'],
+            'As Suways': ['EG-SUZ', 'Suez'],
+            'Ash Sharqīyah': ['EG-SHR', 'Sharqia'],
+            'Aswān': ['EG-ASN', 'Assouan'],
+            'Asyūţ': ['EG-AST', 'Asyut', 'Assiout'],
+            'Banī Suwayf': ['EG-BNS', 'Beni Suef'],
+            'Būr Sa\'īd': ['EG-PTS', 'Port Said', 'Port-Saïd'],
+            'Dumyāţ': ['EG-DT', 'Damietta', 'Damiette'],
+            'Janūb Sīnā\'': ['EG-JS', 'South Sinai'],
+            'Kafr ash Shaykh': ['EG-KFS', 'Kafr el-Sheikh'],
+            'Maţrūḩ': ['EG-MT', 'Matruh'],
+            'Qinā': ['EG-KN', 'Qena'],
+            'Shamāl Sīnā\'': ['EG-SIN', 'North Sinai'],
+            'Sūhāj': ['EG-SHG', 'Sohag']
+        },
+        // Code postal : 5 ou 7 chiffres (les deux formats circulent)
+        codePostal: cp => /^\d{5}(\d{2})?$/.test(cp),
+        zonesCanada: false
+    },
+    SDN: {
+        nom: 'Soudan',
+        emprises: [
+            { latitude: { min: 8.68, max: 22.23 }, longitude: { min: 21.8, max: 38.61 } }
+        ],
+        libelleRegion: 'État',
+        libelleRegions: 'États',
+        colonneRegion: 'etat',
+        // Codes ISO 3166-2:SD (18 États) ; Abyei et Kafia Kingi inclus (choix de Natural Earth)
+        regions: {
+            'Al Baḩr al Aḩmar': ['SD-RS', 'Red Sea'],
+            'Al Jazīrah': ['SD-GZ', 'Gezira'],
+            'Al Kharţūm': ['SD-KH', 'Khartoum'],
+            'Al Qaḑārif': ['SD-GD', 'Gedaref'],
+            'An Nīl al Abyaḑ': ['SD-NW', 'White Nile'],
+            'An Nīl al Azraq': ['SD-NB', 'Blue Nile'],
+            'Ash Shamālīyah': ['SD-NO', 'Northern'],
+            'Gharb Dārfūr': ['SD-DW', 'West Darfur'],
+            'Gharb Kurdufān': ['SD-GK', 'West Kordofan'],
+            'Janūb Dārfūr': ['SD-DS', 'South Darfur'],
+            'Janūb Kurdufān': ['SD-KS', 'South Kordofan'],
+            'Kassalā': ['SD-KA', 'Kassala'],
+            'Nahr an Nīl': ['SD-NR', 'River Nile'],
+            'Shamāl Dārfūr': ['SD-DN', 'North Darfur'],
+            'Shamāl Kurdufān': ['SD-KN', 'North Kordofan'],
+            'Sharq Dārfūr': ['SD-DE', 'East Darfur'],
+            'Sinnār': ['SD-SI', 'Sennar'],
+            'Wasaţ Dārfūr': ['SD-DC', 'Central Darfur']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    SSD: {
+        nom: 'Soudan du Sud',
+        emprises: [
+            { latitude: { min: 3.49, max: 12.22 }, longitude: { min: 24.12, max: 35.93 } }
+        ],
+        libelleRegion: 'État',
+        libelleRegions: 'États',
+        colonneRegion: 'etat',
+        // Codes ISO 3166-2:SS (10 États)
+        regions: {
+            'Central Equatoria': ['SS-EC'],
+            'Eastern Equatoria': ['SS-EE'],
+            'Jonglei': ['SS-JG'],
+            'Lakes': ['SS-LK'],
+            'Northern Bahr el Ghazal': ['SS-BN'],
+            'Unity': ['SS-UY'],
+            'Upper Nile': ['SS-NU'],
+            'Warrap': ['SS-WR'],
+            'Western Bahr el Ghazal': ['SS-BW'],
+            'Western Equatoria': ['SS-EW']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
     }
 };
 

@@ -1,0 +1,7 @@
+nom,latitude,longitude,district,attendu
+Tripoli,32.8872,13.1913,Tripoli,valide
+Benghazi,32.1167,20.0667,Benghazi,valide
+Sebha,27.0377,14.4283,Sabha,valide
+Ben Guerdane (Tunisie),33.1389,11.2197,An Nuqat al Khams,invalide : point hors Libye
+Djanet (Algérie),24.5550,9.4848,Ghat,invalide : point hors Libye
+Siwa (Égypte),29.2032,25.5195,Al Butnan,invalide : longitude hors Libye
