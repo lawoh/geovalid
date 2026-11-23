@@ -78,11 +78,20 @@ function parseCSVLine(line, separator) {
     for (let i = 0; i < line.length; i++) {
         const char = line[i];
         if (char === '"') {
+            const suite = line.slice(i + 1).trimStart();
             if (inQuotes && line[i + 1] === '"') {
+                // Guillemet doublé "" dans un champ entre guillemets
                 current += '"';
                 i++;
+            } else if (!inQuotes && current.trim() === '') {
+                // Guillemet en début de champ : ouverture
+                inQuotes = true;
+            } else if (inQuotes && (suite === '' || suite[0] === separator)) {
+                // Guillemet suivi d'un séparateur ou de la fin de ligne : fermeture
+                inQuotes = false;
             } else {
-                inQuotes = !inQuotes;
+                // Guillemet dans une valeur (ex: secondes DMS 45°30'15"N)
+                current += '"';
             }
         } else if (char === separator && !inQuotes) {
             result.push(current.trim());
