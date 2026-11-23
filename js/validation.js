@@ -67,7 +67,8 @@ function validateData(data, colonnesDetectees) {
         let cp = '';
         if (cpStr) {
             const cpClean = cpStr.replace(/\s/g, '').toUpperCase();
-            const cpValid = paysActif().codePostal(cpClean);
+            // Pas de contrôle de format si le pays n'a pas de format officiel confirmé
+            const cpValid = !paysActif().codePostal || paysActif().codePostal(cpClean);
             if (!cpValid) {
                 erreurs.push('Format code postal invalide');
             } else {

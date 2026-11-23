@@ -1,0 +1,7 @@
+nom,latitude,longitude,departement,attendu
+Cotonou,6.3703,2.3912,Littoral,valide
+Porto-Novo,6.4969,2.6283,Ouémé,valide
+Parakou,9.3372,2.6303,Borgou,valide
+Malanville,11.8619,3.3862,Alibori,valide (limite : fleuve frontière)
+Gaya (Niger),11.8844,3.4460,Alibori,invalide : point hors Bénin
+Lomé (Togo),6.1375,1.2123,Mono,invalide : point hors Bénin

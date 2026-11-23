@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Dakar,14.7167,-17.4677,Dakar,valide
+Saint-Louis,16.0179,-16.4896,Saint-Louis,valide
+Ziguinchor,12.5641,-16.2640,SN-ZG,valide
+Banjul (Gambie),13.4549,-16.5790,Fatick,invalide : point hors Sénégal
+Kayes (Mali),14.4469,-11.4450,Tambacounda,invalide : point hors Sénégal

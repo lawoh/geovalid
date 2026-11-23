@@ -1,0 +1,5 @@
+nom,latitude,longitude,region,attendu
+Lomé,6.1375,1.2123,Maritime,valide (limite : 1 km de la frontière)
+Sokodé,8.9833,1.1333,Centrale,valide
+Kara,9.5511,1.1861,Kara,valide
+Ho (Ghana),6.6000,0.4700,Plateaux,invalide : point hors Togo

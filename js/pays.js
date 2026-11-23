@@ -145,6 +145,227 @@ const PAYS = {
         }),
         codePostal: cp => /^\d{5}$/.test(cp),
         zonesCanada: false
+    },
+    // ---------- Lot 1 Afrique de l'Ouest et du Centre (contours Natural Earth 10m)
+    MLI: {
+        nom: 'Mali',
+        emprises: [
+            { latitude: { min: 10.14, max: 25.0 }, longitude: { min: -12.27, max: 4.24 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:ML (10 régions + district de Bamako ; le découpage national de 2023 n'y figure pas encore)
+        regions: {
+            'Kayes': ['ML-1'],
+            'Koulikoro': ['ML-2'],
+            'Sikasso': ['ML-3'],
+            'Ségou': ['ML-4'],
+            'Mopti': ['ML-5'],
+            'Tombouctou': ['ML-6', 'Timbuktu'],
+            'Gao': ['ML-7'],
+            'Kidal': ['ML-8'],
+            'Ménaka': ['ML-9'],
+            'Taoudénit': ['ML-10', 'Taoudenni', 'Taoudéni'],
+            'Bamako': ['ML-BKO', 'District de Bamako']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    BFA: {
+        nom: 'Burkina Faso',
+        emprises: [
+            { latitude: { min: 9.39, max: 15.08 }, longitude: { min: -5.53, max: 2.4 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:BF (13 régions ; le découpage national de 2025 n'y figure pas encore)
+        regions: {
+            'Boucle du Mouhoun': ['BF-01'],
+            'Cascades': ['BF-02'],
+            'Centre': ['BF-03'],
+            'Centre-Est': ['BF-04'],
+            'Centre-Nord': ['BF-05'],
+            'Centre-Ouest': ['BF-06'],
+            'Centre-Sud': ['BF-07'],
+            'Est': ['BF-08'],
+            'Hauts-Bassins': ['BF-09'],
+            'Nord': ['BF-10'],
+            'Plateau-Central': ['BF-11'],
+            'Sahel': ['BF-12'],
+            'Sud-Ouest': ['BF-13']
+        },
+        // Code postal : 5 chiffres (ex : 10010 Ouagadougou, source UPU)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    SEN: {
+        nom: 'Sénégal',
+        emprises: [
+            { latitude: { min: 12.3, max: 16.7 }, longitude: { min: -17.54, max: -11.37 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:SN (14 régions)
+        regions: {
+            'Dakar': ['SN-DK'],
+            'Diourbel': ['SN-DB'],
+            'Fatick': ['SN-FK'],
+            'Kaffrine': ['SN-KA'],
+            'Kaolack': ['SN-KL'],
+            'Kédougou': ['SN-KE'],
+            'Kolda': ['SN-KD'],
+            'Louga': ['SN-LG'],
+            'Matam': ['SN-MT'],
+            'Saint-Louis': ['SN-SL'],
+            'Sédhiou': ['SN-SE'],
+            'Tambacounda': ['SN-TC'],
+            'Thiès': ['SN-TH'],
+            'Ziguinchor': ['SN-ZG']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    CIV: {
+        nom: 'Côte d\'Ivoire',
+        emprises: [
+            { latitude: { min: 4.34, max: 10.73 }, longitude: { min: -8.62, max: -2.5 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:CI (12 districts + 2 districts autonomes)
+        regions: {
+            'Abidjan': ['CI-AB', 'District autonome d\'Abidjan'],
+            'Yamoussoukro': ['CI-YM', 'District autonome de Yamoussoukro'],
+            'Bas-Sassandra': ['CI-BS'],
+            'Comoé': ['CI-CM'],
+            'Denguélé': ['CI-DN'],
+            'Gôh-Djiboua': ['CI-GD'],
+            'Lacs': ['CI-LC'],
+            'Lagunes': ['CI-LG'],
+            'Montagnes': ['CI-MG'],
+            'Sassandra-Marahoué': ['CI-SM'],
+            'Savanes': ['CI-SV'],
+            'Vallée du Bandama': ['CI-VB'],
+            'Woroba': ['CI-WR'],
+            'Zanzan': ['CI-ZZ']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    BEN: {
+        nom: 'Bénin',
+        emprises: [
+            { latitude: { min: 6.21, max: 12.4 }, longitude: { min: 0.75, max: 3.84 } }
+        ],
+        libelleRegion: 'Département',
+        libelleRegions: 'Départements',
+        colonneRegion: 'departement',
+        // Codes ISO 3166-2:BJ (12 départements)
+        regions: {
+            'Alibori': ['BJ-AL'],
+            'Atacora': ['BJ-AK'],
+            'Atlantique': ['BJ-AQ'],
+            'Borgou': ['BJ-BO'],
+            'Collines': ['BJ-CO'],
+            'Couffo': ['BJ-KO'],
+            'Donga': ['BJ-DO'],
+            'Littoral': ['BJ-LI'],
+            'Mono': ['BJ-MO'],
+            'Ouémé': ['BJ-OU'],
+            'Plateau': ['BJ-PL'],
+            'Zou': ['BJ-ZO']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    TGO: {
+        nom: 'Togo',
+        emprises: [
+            { latitude: { min: 6.1, max: 11.14 }, longitude: { min: -0.17, max: 1.79 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:TG (5 régions)
+        regions: {
+            'Centrale': ['TG-C'],
+            'Kara': ['TG-K'],
+            'Maritime': ['TG-M'],
+            'Plateaux': ['TG-P'],
+            'Savanes': ['TG-S']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    GIN: {
+        nom: 'Guinée',
+        emprises: [
+            { latitude: { min: 7.19, max: 12.68 }, longitude: { min: -15.09, max: -7.66 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:GN (7 régions + gouvernorat de Conakry)
+        regions: {
+            'Boké': ['GN-B'],
+            'Faranah': ['GN-F'],
+            'Kankan': ['GN-K'],
+            'Kindia': ['GN-D'],
+            'Labé': ['GN-L'],
+            'Mamou': ['GN-M'],
+            'Nzérékoré': ['GN-N', 'N\'Zérékoré'],
+            'Conakry': ['GN-C']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    TCD: {
+        nom: 'Tchad',
+        emprises: [
+            { latitude: { min: 7.45, max: 23.45 }, longitude: { min: 13.44, max: 23.99 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:TD (23 provinces)
+        regions: {
+            'Bahr el Ghazal': ['TD-BG', 'Barh-el-Ghazal'],
+            'Batha': ['TD-BA'],
+            'Borkou': ['TD-BO'],
+            'Chari-Baguirmi': ['TD-CB'],
+            'Ennedi-Est': ['TD-EE'],
+            'Ennedi-Ouest': ['TD-EO'],
+            'Guéra': ['TD-GR'],
+            'Hadjer-Lamis': ['TD-HL'],
+            'Kanem': ['TD-KA'],
+            'Lac': ['TD-LC'],
+            'Logone-Occidental': ['TD-LO'],
+            'Logone-Oriental': ['TD-LR'],
+            'Mandoul': ['TD-MA'],
+            'Mayo-Kebbi-Est': ['TD-ME'],
+            'Mayo-Kebbi-Ouest': ['TD-MO'],
+            'Moyen-Chari': ['TD-MC'],
+            'Ouaddaï': ['TD-OD'],
+            'Salamat': ['TD-SA'],
+            'Sila': ['TD-SI'],
+            'Tandjilé': ['TD-TA'],
+            'Tibesti': ['TD-TI'],
+            'N\'Djamena': ['TD-ND', 'Ville de Ndjamena', 'Ndjamena'],
+            'Wadi Fira': ['TD-WF']
+        },
+        // Pas de format de code postal officiel confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
     }
 };
 

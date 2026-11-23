@@ -102,9 +102,15 @@ function detectColumns(headers, data) {
         }
     }
     
-    // v2.0 : latitude et longitude se ressemblent (ex : au Niger, toutes deux entre 0 et 24) ;
-    // garder l'ordre qui place le plus de points dans l'emprise d'un pays pris en charge
-    if (detected.latitude && detected.longitude) {
+    // v2.0 : latitude et longitude se ressemblent (ex : au Sahel, toutes deux entre 0 et 24).
+    // Si les noms des colonnes sont explicites, ils décident ; sinon, garder l'ordre qui place
+    // le plus de points dans l'emprise d'un pays pris en charge
+    const nomSimple = h => normaliserTexte(h).replace(/[^A-Z]/g, '');
+    const nomLat = h => ['LAT', 'LATITUDE', 'Y', 'COORDY', 'YCOORD'].includes(nomSimple(h));
+    const nomLon = h => ['LON', 'LNG', 'LONG', 'LONGITUDE', 'X', 'COORDX', 'XCOORD'].includes(nomSimple(h));
+    if (detected.latitude && detected.longitude && nomLat(detected.longitude) && nomLon(detected.latitude)) {
+        [detected.latitude, detected.longitude] = [detected.longitude, detected.latitude];
+    } else if (detected.latitude && detected.longitude && !(nomLat(detected.latitude) && nomLon(detected.longitude))) {
         const dansUnPays = (colLat, colLon) => sampleData.filter(r => {
             const lat = parseCoordinate(r[colLat]), lon = parseCoordinate(r[colLon]);
             return Object.values(PAYS).some(p => dansEmprise(p, lon, lat));

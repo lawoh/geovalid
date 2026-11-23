@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Conakry,9.6412,-13.5784,Conakry,valide
+Kankan,10.3854,-9.3057,Kankan,valide
+Labé,11.3182,-12.2833,Labé,valide
+Freetown (Sierra Leone),8.4657,-13.2317,Kindia,invalide : point hors Guinée
+Bamako (Mali),12.6392,-8.0029,Kankan,invalide : point hors Guinée

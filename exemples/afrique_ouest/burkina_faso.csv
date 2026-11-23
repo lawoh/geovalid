@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,code_postal,attendu
+Ouagadougou,12.3714,-1.5197,Centre,10010,valide
+Bobo-Dioulasso,11.1771,-4.2979,Hauts-Bassins,,valide
+Niamey (Niger),13.5127,2.1128,Est,,invalide : point hors Burkina Faso
+Tamale (Ghana),9.4008,-0.8393,Centre-Sud,,invalide : point hors Burkina Faso
+Code postal faux,12.3714,-1.5197,Centre,1001,invalide : code postal

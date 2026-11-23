@@ -1,0 +1,7 @@
+nom,latitude,longitude,province,attendu
+N'Djamena,12.1348,15.0557,N'Djamena,valide (limite : fleuve frontière)
+Moundou,8.5667,16.0833,Logone-Occidental,valide
+Abéché,13.8292,20.8324,Ouaddaï,valide
+Kousseri (Cameroun),12.0769,15.0306,N'Djamena,invalide : point hors Tchad (limite)
+Maroua (Cameroun),10.5913,14.3159,Mayo-Kebbi-Ouest,invalide : point hors Tchad
+Bangui (Centrafrique),4.3612,18.5550,Moyen-Chari,invalide : latitude hors Tchad

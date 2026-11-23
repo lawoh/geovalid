@@ -1,0 +1,6 @@
+nom,latitude,longitude,district,attendu
+Abidjan,5.3600,-4.0083,Abidjan,valide
+Yamoussoukro,6.8276,-5.2893,Yamoussoukro,valide
+Bouaké,7.6906,-5.0303,Vallée du Bandama,valide
+Harper (Liberia),4.3750,-7.7169,Bas-Sassandra,invalide : point hors Côte d'Ivoire
+Kumasi (Ghana),6.6885,-1.6244,Zanzan,invalide : longitude hors Côte d'Ivoire

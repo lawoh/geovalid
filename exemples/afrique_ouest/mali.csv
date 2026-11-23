@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Bamako,12.6392,-8.0029,Bamako,valide
+Mopti,14.4843,-4.1827,ML-5,valide
+Gao,16.2717,-0.0447,Gao,valide
+Siguiri (Guinée),11.4228,-9.1680,Kayes,invalide : point hors Mali
+Bobo-Dioulasso (Burkina Faso),11.1771,-4.2979,Sikasso,invalide : point hors Mali
