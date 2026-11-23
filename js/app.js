@@ -16,6 +16,13 @@ function init() {
 }
 
 function setupEventListeners() {
+    // v2.0 : choix du pays des données
+    document.getElementById('selectPays').addEventListener('change', e => {
+        AppState.pays = e.target.value;
+        afficherChoixPays();
+        displayDetectedColumns(AppState.colonnesDetectees);
+    });
+    
     // Zone de dépôt de fichier
     UI.dropZone.addEventListener('click', () => UI.inputFile.click());
     
@@ -133,6 +140,11 @@ async function handleFileSelect(file) {
             AppState.colonnesDetectees.longitude = result.headers.includes('_longitude_') ? '_longitude_' : null;
         }
         
+        // v2.0 : pays suggéré d'après les coordonnées ; l'utilisateur peut le changer
+        AppState.paysSuggere = suggererPays(pointsEchantillon(result.data, AppState.colonnesDetectees));
+        AppState.pays = AppState.paysSuggere;
+        afficherChoixPays();
+        
         // Afficher la section aperçu
         showPreviewSection();
         
@@ -181,6 +193,9 @@ async function runAnalysis() {
         // Étape 2: Validation
         updateProgress(40, 'Validation des coordonnées...');
         await sleep(100);
+        
+        // v2.0 : contour du pays sélectionné
+        await chargerContour(AppState.pays);
         
         const result = validateData(AppState.donneesBrutes, AppState.colonnesDetectees);
         

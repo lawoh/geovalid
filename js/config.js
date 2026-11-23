@@ -96,6 +96,8 @@ const AppState = {
     donneesInvalides: [],
     statistiques: null,
     projection: null,       // v1.2 : projection détectée (fichiers avec géométries)
+    pays: 'CAN',            // v2.0 : pays des données (code ISO 3166-1 alpha-3)
+    paysSuggere: null,      // v2.0 : pays suggéré d'après les coordonnées
     map: null,
     markersLayer: null,
     geometriesLayer: null,  // v1.2 : lignes et polygones sur la carte
@@ -113,4 +115,6 @@ function resetAppState() {
     AppState.donneesInvalides = [];
     AppState.statistiques = null;
     AppState.projection = null;
+    AppState.pays = 'CAN';
+    AppState.paysSuggere = null;
 }

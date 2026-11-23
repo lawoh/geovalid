@@ -4,6 +4,7 @@
  * 
  * v1.1: Support des coordonnées DMS (Degrés Minutes Secondes)
  * v1.2: Validation des géométries (lignes, polygones, multi-géométries)
+ * v2.0: Validation selon le pays sélectionné (emprise, contour réel, régions, code postal)
  */
 
 // Valider toutes les données
@@ -42,8 +43,8 @@ function validateData(data, colonnesDetectees) {
             lat = parseCoordinate(latStr); // Supporte DD et DMS
             if (isNaN(lat)) {
                 erreurs.push('Latitude invalide (format non reconnu)');
-            } else if (lat < LIMITES_CANADA.latitude.min || lat > LIMITES_CANADA.latitude.max) {
-                erreurs.push('Latitude hors Canada');
+            } else if (lat < paysActif().emprise.latitude.min || lat > paysActif().emprise.latitude.max) {
+                erreurs.push(`Latitude hors ${paysActif().nom}`);
             }
         }
         
@@ -56,16 +57,21 @@ function validateData(data, colonnesDetectees) {
             lon = parseCoordinate(lonStr); // Supporte DD et DMS
             if (isNaN(lon)) {
                 erreurs.push('Longitude invalide (format non reconnu)');
-            } else if (lon < LIMITES_CANADA.longitude.min || lon > LIMITES_CANADA.longitude.max) {
-                erreurs.push('Longitude hors Canada');
+            } else if (lon < paysActif().emprise.longitude.min || lon > paysActif().emprise.longitude.max) {
+                erreurs.push(`Longitude hors ${paysActif().nom}`);
             }
+        }
+        
+        // v2.0 : dans l'emprise, vérifier le contour réel du pays
+        if (geom === undefined && erreurs.length === 0 && !dansLePays(lon, lat)) {
+            erreurs.push(`Point hors ${paysActif().nom}`);
         }
         
         // Valider code postal (optionnel mais vérifié si fourni)
         let cp = '';
         if (cpStr) {
             const cpClean = cpStr.replace(/\s/g, '').toUpperCase();
-            const cpValid = /^[A-Z]\d[A-Z]$/.test(cpClean) || /^[A-Z]\d[A-Z]\d[A-Z]\d$/.test(cpClean);
+            const cpValid = paysActif().codePostal(cpClean);
             if (!cpValid) {
                 erreurs.push('Format code postal invalide');
             } else {
@@ -73,16 +79,9 @@ function validateData(data, colonnesDetectees) {
             }
         }
         
-        // Province (optionnelle, convertir code numérique en texte si nécessaire)
-        let prov = provStr;
-        if (prov) {
-            if (PROVINCES_CODES_NUM[prov]) {
-                prov = PROVINCES_CODES_NUM[prov];
-            }
-            else if (!PROVINCES_CANADA.includes(prov)) {
-                prov = provStr;
-            }
-        }
+        // Province / région (optionnelle) : code, numéro ou nom ramené à la valeur de référence du pays
+        const region = provStr ? trouverRegion(provStr, paysActif()) : null;
+        let prov = region || provStr;
         
         // Classer la donnée
         if (erreurs.length === 0) {
@@ -106,7 +105,7 @@ function validateData(data, colonnesDetectees) {
             }
             
             // Stats par zone géographique
-            const zone = getGeoZone(lat, lon);
+            const zone = paysActif().zonesCanada ? getGeoZone(lat, lon) : null;
             if (zone) {
                 statsZones[zone] = (statsZones[zone] || 0) + 1;
             }

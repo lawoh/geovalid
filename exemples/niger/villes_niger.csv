@@ -1,0 +1,17 @@
+nom,x,y,region,code_postal,attendu
+Niamey,2.1128,13.5127,Niamey,8001,valide
+Zinder,8.9883,13.8050,ZINDER,,valide
+Maradi,7.1017,13.5000,NE-4,,valide
+Agadez,7.9911,16.9733,agadez,,valide
+Tahoua,5.2692,14.8888,5,,valide
+Dosso,3.1940,13.0490,Dosso,,valide
+Diffa,12.6113,13.3154,Diffa,,valide
+Tillabéri,1.4531,14.2117,Tillabery,,valide
+Arlit,7.3853,18.7369,Agadez,,valide
+Gaya,3.4460,11.8844,Dosso,,valide (près du fleuve frontière)
+Malanville (Bénin),3.3862,11.8619,Dosso,,invalide : point hors Niger
+Kano (Nigeria),8.5920,12.0022,Zinder,,invalide : point hors Niger
+N'Djamena (Tchad),15.0557,12.1348,Diffa,,invalide : point hors Niger
+Tamanrasset (Algérie),5.5228,22.7850,Agadez,,invalide : point hors Niger
+Gao (Mali),-0.0447,16.2717,Tillabéri,,invalide : longitude hors Niger
+Code postal faux,2.1128,13.5127,Niamey,80010,invalide : code postal

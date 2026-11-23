@@ -319,14 +319,11 @@ function validerGeometrie(geom) {
             break;
     }
 
-    // Emprise du Canada
-    const L = LIMITES_CANADA;
+    // Emprise et contour du pays sélectionné (v2.0)
     if (geom.type === 'Point') {
-        const [lon, lat] = geom.coordinates;
-        if (lat < L.latitude.min || lat > L.latitude.max) erreurs.push('Latitude hors Canada');
-        if (lon < L.longitude.min || lon > L.longitude.max) erreurs.push('Longitude hors Canada');
-    } else if (sommets.some(([lon, lat]) => lat < L.latitude.min || lat > L.latitude.max || lon < L.longitude.min || lon > L.longitude.max)) {
-        erreurs.push('Géométrie hors Canada');
+        erreursPays(geom.coordinates[0], geom.coordinates[1]).forEach(e => erreurs.push(e));
+    } else if (sommets.some(([lon, lat]) => erreursPays(lon, lat).length > 0)) {
+        erreurs.push(`Géométrie hors ${paysActif().nom}`);
     }
 
     return [...new Set(erreurs)];

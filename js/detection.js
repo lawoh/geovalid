@@ -102,10 +102,22 @@ function detectColumns(headers, data) {
         }
     }
     
+    // v2.0 : latitude et longitude se ressemblent (ex : au Niger, toutes deux entre 0 et 24) ;
+    // garder l'ordre qui place le plus de points dans l'emprise d'un pays pris en charge
+    if (detected.latitude && detected.longitude) {
+        const dansUnPays = (colLat, colLon) => sampleData.filter(r => {
+            const lat = parseCoordinate(r[colLat]), lon = parseCoordinate(r[colLon]);
+            return Object.values(PAYS).some(p => dansEmprise(p, lon, lat));
+        }).length;
+        if (dansUnPays(detected.longitude, detected.latitude) > dansUnPays(detected.latitude, detected.longitude)) {
+            [detected.latitude, detected.longitude] = [detected.longitude, detected.latitude];
+        }
+    }
+    
     return detected;
 }
 
-// Score pour latitude: valeurs entre -90 et 90, bonus pour plage Canada (40-85)
+// Score pour latitude: valeurs entre -90 et 90, bonus si dans la plage d'un pays pris en charge (v2.0)
 // v1.1: Support DMS
 function scoreLatitude(values) {
     let validCount = 0;
@@ -116,8 +128,7 @@ function scoreLatitude(values) {
         const num = parseCoordinate(val);
         if (!isNaN(num) && num >= -90 && num <= 90) {
             validCount++;
-            // Plage typique du Canada
-            if (num >= 40 && num <= 85) {
+            if (Object.values(PAYS).some(p => num >= p.emprise.latitude.min && num <= p.emprise.latitude.max)) {
                 canadaCount++;
             }
         }
@@ -128,11 +139,11 @@ function scoreLatitude(values) {
     const validRatio = validCount / values.length;
     const canadaRatio = canadaCount / values.length;
     
-    // Score: validité * 0.5 + bonus Canada * 0.5
+    // Score: validité * 0.5 + bonus pays * 0.5
     return validRatio * 0.5 + canadaRatio * 0.5;
 }
 
-// Score pour longitude: valeurs entre -180 et 180, bonus pour plage Canada (-145 à -50)
+// Score pour longitude: valeurs entre -180 et 180, bonus si dans la plage d'un pays pris en charge (v2.0)
 // v1.1: Support DMS
 function scoreLongitude(values) {
     let validCount = 0;
@@ -143,8 +154,7 @@ function scoreLongitude(values) {
         const num = parseCoordinate(val);
         if (!isNaN(num) && num >= -180 && num <= 180) {
             validCount++;
-            // Plage typique du Canada (longitudes négatives ouest)
-            if (num >= -145 && num <= -50) {
+            if (Object.values(PAYS).some(p => num >= p.emprise.longitude.min && num <= p.emprise.longitude.max)) {
                 canadaCount++;
             }
         }
@@ -185,16 +195,13 @@ function scoreCodePostal(values) {
     return strictRatio * 0.6 + looseRatio * 0.4;
 }
 
-// Score pour province canadienne: codes 2 lettres OU codes numériques
+// Score pour province / région: code, numéro ou nom d'une région d'un pays pris en charge (v2.0)
 function scoreProvince(values) {
     let validCount = 0;
     
     values.forEach(val => {
         const clean = String(val).trim().toUpperCase();
-        if (PROVINCES_CANADA.includes(clean)) {
-            validCount++;
-        }
-        else if (PROVINCES_CODES_NUM_LIST.includes(clean)) {
+        if (Object.values(PAYS).some(p => trouverRegion(clean, p, true))) {
             validCount++;
         }
     });

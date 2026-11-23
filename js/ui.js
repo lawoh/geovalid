@@ -114,7 +114,7 @@ function displayDetectedColumns(detected) {
     if (detected.province) {
         const provTag = document.createElement('span');
         provTag.className = 'tag ok';
-        provTag.textContent = `Province: ${detected.province}`;
+        provTag.textContent = `${paysActif().libelleRegion}: ${detected.province}`;
         UI.detectedTags.appendChild(provTag);
     }
 }
@@ -176,6 +176,23 @@ function displayStats(stats) {
     
     UI.validPercent.textContent = `${validPct}%`;
     UI.invalidPercent.textContent = `${invalidPct}%`;
+    
+    // v2.0 : « Provinces » ou « Régions » selon le pays
+    document.querySelector('.tab[data-tab="provinces"]').textContent = paysActif().libelleRegions;
+}
+
+// v2.0 : liste des pays, positionnée sur le pays sélectionné
+function afficherChoixPays() {
+    const select = document.getElementById('selectPays');
+    if (select.options.length === 0) {
+        Object.entries(PAYS)
+            .sort((a, b) => a[1].nom.localeCompare(b[1].nom, 'fr'))
+            .forEach(([iso, p]) => select.add(new Option(p.nom, iso)));
+    }
+    select.value = AppState.pays;
+    document.getElementById('paysSuggestion').textContent =
+        AppState.pays === AppState.paysSuggere ? 'Suggéré d\'après les coordonnées' : '';
+    document.getElementById('headerPays').textContent = paysActif().nom;
 }
 
 // Afficher le contenu des onglets
@@ -185,7 +202,7 @@ function displayTabContent(tabName, stats) {
     if (tabName === 'provinces') {
         const entries = Object.entries(stats.parProvince).sort((a, b) => b[1] - a[1]);
         if (entries.length === 0) {
-            html = '<p style="color: var(--gray-400); font-size: 0.8rem; text-align: center; padding: 1rem;">Aucune province détectée dans les données.<br>Utilisez un fichier avec une colonne province pour voir cette statistique.</p>';
+            html = '<p style="color: var(--gray-400); font-size: 0.8rem; text-align: center; padding: 1rem;">Aucune ${paysActif().libelleRegion.toLowerCase()} détectée dans les données.<br>Utilisez un fichier avec une colonne ${paysActif().libelleRegion.toLowerCase()} pour voir cette statistique.</p>';
         } else {
             entries.forEach(([prov, count]) => {
                 const pct = stats.valides > 0 ? Math.round((count / stats.valides) * 100) : 0;

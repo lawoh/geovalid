@@ -109,7 +109,8 @@ function emprise(data) {
 function exportCSV(data, filename, includeErrors = false) {
     // v1.2 : lignes et polygones exportés en WKT
     const formes = contientFormes(data);
-    let header = formes ? 'wkt,code_postal,province' : 'longitude,latitude,code_postal,province';
+    const colRegion = paysActif().colonneRegion;
+    let header = formes ? `wkt,code_postal,${colRegion}` : `longitude,latitude,code_postal,${colRegion}`;
     if (includeErrors) header += ',erreurs';
     
     const rows = data.map(d => {
@@ -128,7 +129,8 @@ function exportCSV(data, filename, includeErrors = false) {
 function exportExcel(data, filename, includeErrors = false) {
     // v1.2 : lignes et polygones exportés en WKT
     const formes = contientFormes(data);
-    let header = formes ? ['wkt', 'code_postal', 'province'] : ['longitude', 'latitude', 'code_postal', 'province'];
+    const colRegion = paysActif().colonneRegion;
+    let header = formes ? ['wkt', 'code_postal', colRegion] : ['longitude', 'latitude', 'code_postal', colRegion];
     if (includeErrors) header.push('erreurs');
     
     const wsData = [header];
@@ -165,7 +167,7 @@ function exportGeoJSON(data, filename) {
             properties: {
                 id: i + 1,
                 code_postal: d.zipcode || '',
-                province: d.pr || ''
+                [paysActif().colonneRegion]: d.pr || ''
             },
             geometry: geometrieDe(d)
         }))
@@ -195,7 +197,7 @@ function exportTopoJSON(data, filename) {
         properties: {
             id: i + 1,
             code_postal: d.zipcode || '',
-            province: d.pr || ''
+            [paysActif().colonneRegion]: d.pr || ''
         }
     }));
     
@@ -239,7 +241,7 @@ function exportGML(data, filename) {
     <gml:featureMember>
         <Entite gml:id="entite_${i + 1}">
             <code_postal>${d.zipcode || ''}</code_postal>
-            <province>${d.pr || ''}</province>
+            <${paysActif().colonneRegion}>${d.pr || ''}</${paysActif().colonneRegion}>
             <geometrie>${versGML(geometrieDe(d))}</geometrie>
         </Entite>
     </gml:featureMember>`).join('');
@@ -459,7 +461,7 @@ function generateDBF(data) {
     const numRecords = data.length;
     const fields = [
         { name: 'CODE_POST', type: 'C', length: 10 },
-        { name: 'PROVINCE', type: 'C', length: 20 }
+        { name: paysActif().colonneRegion.toUpperCase(), type: 'C', length: 20 }
     ];
     
     const headerSize = 32 + (fields.length * 32) + 1;
@@ -577,7 +579,7 @@ async function exportGeoPackage(data, filename) {
             fid INTEGER PRIMARY KEY AUTOINCREMENT,
             geom BLOB,
             code_postal TEXT,
-            province TEXT
+            ${paysActif().colonneRegion} TEXT
         )`);
         
         const [minX, minY, maxX, maxY] = emprise(data);
@@ -588,7 +590,7 @@ async function exportGeoPackage(data, filename) {
         db.run(`INSERT INTO gpkg_geometry_columns VALUES ('${table}', 'geom', '${typeTable}', 4326, 0, 0)`);
         
         data.forEach(d => {
-            db.run(`INSERT INTO ${table} (geom, code_postal, province) VALUES (?, ?, ?)`,
+            db.run(`INSERT INTO ${table} (geom, code_postal, ${paysActif().colonneRegion}) VALUES (?, ?, ?)`,
                 [createGpkgBlob(geometrieDe(d)), d.zipcode || '', d.pr || '']);
         });
         
@@ -678,11 +680,11 @@ function exportMapHTML() {
         const markers=L.markerClusterGroup({maxClusterRadius:50});
         points.forEach(p=>{
             const m=L.circleMarker([p.lat,p.lon],{radius:6,fillColor:'#003DA5',color:'#fff',weight:2,fillOpacity:0.8});
-            m.bindPopup('<div class="popup-title">📍 Point</div>Lat: '+p.lat.toFixed(5)+'<br>Lon: '+p.lon.toFixed(5)+(p.cp?'<br>Code postal: '+p.cp:'')+(p.pr?'<br>Province: '+p.pr:''));
+            m.bindPopup('<div class="popup-title">📍 Point</div>Lat: '+p.lat.toFixed(5)+'<br>Lon: '+p.lon.toFixed(5)+(p.cp?'<br>Code postal: '+p.cp:'')+(p.pr?'<br>${paysActif().libelleRegion}: '+p.pr:''));
             markers.addLayer(m);
         });
         map.addLayer(markers);
-        L.geoJSON(${formesJS},{style:{color:'#003DA5',weight:2,fillColor:'#003DA5',fillOpacity:0.25},onEachFeature:(f,l)=>l.bindPopup('<div class="popup-title">'+f.properties.type+'</div>'+(f.properties.cp?'Code postal: '+f.properties.cp+'<br>':'')+(f.properties.pr?'Province: '+f.properties.pr:''))}).addTo(map);
+        L.geoJSON(${formesJS},{style:{color:'#003DA5',weight:2,fillColor:'#003DA5',fillOpacity:0.25},onEachFeature:(f,l)=>l.bindPopup('<div class="popup-title">'+f.properties.type+'</div>'+(f.properties.cp?'Code postal: '+f.properties.cp+'<br>':'')+(f.properties.pr?'${paysActif().libelleRegion}: '+f.properties.pr:''))}).addTo(map);
         map.fitBounds([[${bounds.minLat},${bounds.minLon}],[${bounds.maxLat},${bounds.maxLon}]],{padding:[30,30]});
     <\/script>
 </body>

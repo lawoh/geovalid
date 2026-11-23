@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../css/aide.css?v=1.2.0">
+    <link rel="stylesheet" href="../css/aide.css?v=2.0.0">
 </head>
 <body>
     <div class="container">
@@ -157,6 +157,30 @@
             </div>
         </section>
 
+        <!-- Pays pris en charge (v2.0) -->
+        <section class="validation">
+            <h2>Pays pris en charge</h2>
+            <div class="validation-grid">
+                <div class="validation-box valid">
+                    <h3><i class="fa-solid fa-earth-africa"></i> Choix du pays</h3>
+                    <ul>
+                        <li>Pays disponibles : Canada, Niger</li>
+                        <li>Le pays est suggéré d'après les coordonnées du fichier</li>
+                        <li>Vous pouvez le changer avant de lancer l'analyse</li>
+                    </ul>
+                </div>
+                <div class="validation-box valid">
+                    <h3><i class="fa-solid fa-map-location-dot"></i> Contrôle des coordonnées</h3>
+                    <ul>
+                        <li>Chaque point est comparé au contour réel du pays (Natural Earth)</li>
+                        <li>Tolérance de 3 km le long des côtes, aucune le long des frontières terrestres</li>
+                        <li>Régions reconnues par leur code, leur numéro ou leur nom</li>
+                        <li>Code postal vérifié selon le format du pays</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
         <!-- Géométries et projections (v1.2) -->
         <section class="validation">
             <h2>Géométries et projections</h2>
@@ -214,7 +238,7 @@
         <!-- Footer -->
         <footer class="footer">
             <p>Développé par <strong>Laouali ADA AYA</strong> — Ingénieur SIG DATA</p>
-            <p class="version">GeoValidator v1.2 • 2026</p>
+            <p class="version">GeoValidator v2.0 • 2026</p>
         </footer>
     </div>
     
@@ -223,6 +247,6 @@
         <i class="fa-solid fa-chevron-up"></i>
     </button>
     
-    <script src="../js/aide.js?v=1.2.0"></script>
+    <script src="../js/aide.js?v=2.0.0"></script>
 </body>
 </html>

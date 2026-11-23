@@ -195,6 +195,13 @@ body {
 .tag.missing::before { content: '✗ '; }
 .tag.optional { background: var(--gray-100); color: var(--gray-500); }
 
+/* v2.0 : choix du pays */
+.pays-choix { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; font-size: 0.85rem; }
+.pays-choix label { font-weight: 600; color: var(--gray-700); display: flex; align-items: center; gap: 0.4rem; }
+.pays-choix label i { color: var(--blue); }
+.pays-choix select { padding: 0.35rem 0.6rem; border: 1px solid var(--gray-300); border-radius: 0.3rem; font-size: 0.85rem; background: #fff; }
+.pays-suggestion { font-size: 0.75rem; color: var(--gray-500); font-style: italic; }
+
 .preview-count { font-weight: 400; color: var(--gray-400); font-size: 0.8rem; margin-left: 0.5rem; }
 
 .preview-table-container {

@@ -9,8 +9,9 @@ function initMap() {
         AppState.map.remove();
     }
     
-    // Centre du Canada
-    AppState.map = L.map('map').setView([56.13, -106.35], 3);
+    // Emprise du pays sélectionné (v2.0)
+    const e = paysActif().emprise;
+    AppState.map = L.map('map').fitBounds([[e.latitude.min, e.longitude.min], [e.latitude.max, e.longitude.max]]);
     
     // Couches de base
     AppState.baseLayers = {
@@ -95,7 +96,7 @@ function displayPointsOnMap(donnees) {
                 <table style="font-size: 12px; width: 100%;">
                     <tr><td style="color: #666;">Sommets</td><td style="font-weight: 500;">${listerSommets(d.geom).length}</td></tr>`;
             if (d.zipcode) contenu += `<tr><td style="color: #666;">Code postal</td><td style="font-weight: 500;">${d.zipcode}</td></tr>`;
-            if (d.pr) contenu += `<tr><td style="color: #666;">Province</td><td style="font-weight: 500;">${d.pr}</td></tr>`;
+            if (d.pr) contenu += `<tr><td style="color: #666;">${paysActif().libelleRegion}</td><td style="font-weight: 500;">${d.pr}</td></tr>`;
             contenu += '</table></div>';
             forme.bindPopup(contenu);
             
@@ -124,7 +125,7 @@ function displayPointsOnMap(donnees) {
             popupContent += `<tr><td style="color: #666;">Code postal</td><td style="font-weight: 500;">${d.zipcode}</td></tr>`;
         }
         if (d.pr) {
-            popupContent += `<tr><td style="color: #666;">Province</td><td style="font-weight: 500;">${d.pr}</td></tr>`;
+            popupContent += `<tr><td style="color: #666;">${paysActif().libelleRegion}</td><td style="font-weight: 500;">${d.pr}</td></tr>`;
         }
         
         popupContent += '</table></div>';

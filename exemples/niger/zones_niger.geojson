@@ -1,0 +1,125 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       2.0,
+       13.4
+      ],
+      [
+       2.25,
+       13.4
+      ],
+      [
+       2.25,
+       13.65
+      ],
+      [
+       2.0,
+       13.65
+      ],
+      [
+       2.0,
+       13.4
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Secteur Niamey",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      2.1128,
+      13.5127
+     ],
+     [
+      2.65,
+      13.3
+     ],
+     [
+      3.194,
+      13.049
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Route Niamey-Dosso",
+    "attendu": "valide"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       8.2,
+       12.6
+      ],
+      [
+       8.8,
+       12.6
+      ],
+      [
+       8.8,
+       13.3
+      ],
+      [
+       8.2,
+       13.3
+      ],
+      [
+       8.2,
+       12.6
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Secteur à cheval Niger-Nigeria",
+    "attendu": "invalide : géométrie hors Niger"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      3.194,
+      13.049
+     ],
+     [
+      3.446,
+      11.8844
+     ],
+     [
+      3.3862,
+      11.8619
+     ],
+     [
+      2.6,
+      9.35
+     ]
+    ]
+   },
+   "properties": {
+    "nom": "Route Dosso-Gaya-Bénin",
+    "attendu": "invalide : géométrie hors Niger"
+   }
+  }
+ ]
+}
