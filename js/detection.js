@@ -1,5 +1,5 @@
 /**
- * GéoValid - Détection Automatique des Colonnes
+ * GeoValidator - Détection Automatique des Colonnes
  * Fichier: js/detection.js
  * 
  * IMPORTANT: La détection se fait principalement par l'ANALYSE DES VALEURS,

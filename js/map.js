@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Carte Leaflet
+ * GeoValidator - Carte Leaflet
  * Fichier: js/map.js
  */
 

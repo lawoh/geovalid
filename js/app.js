@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Application Principale
+ * GeoValidator - Application Principale
  * Fichier: js/app.js
  * Orchestration et gestion des événements
  */

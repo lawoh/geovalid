@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Module de Conversion SIG
+ * GeoValidator - Module de Conversion SIG
  * Fichier: js/conversion.js
  * Formats: GeoJSON, GeoPackage, Shapefile
  */

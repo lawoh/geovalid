@@ -1,4 +1,4 @@
-# GéoValid
+# GeoValidator
 
 Application web de validation et visualisation de données géographiques canadiennes.
 

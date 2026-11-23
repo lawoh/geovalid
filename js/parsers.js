@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Parseurs Multi-Formats
+ * GeoValidator - Parseurs Multi-Formats
  * Fichier: js/parsers.js
  */
 

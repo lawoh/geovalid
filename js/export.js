@@ -1,5 +1,5 @@
 /**
- * GéoValid - Export Multi-Formats
+ * GeoValidator - Export Multi-Formats
  * Fichier: js/export.js
  */
 
@@ -195,7 +195,7 @@ function exportKML(data, filename) {
     const kml = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>GéoValid Export</name>
+    <name>GeoValidator Export</name>
     ${placemarks}
   </Document>
 </kml>`;
@@ -243,7 +243,7 @@ function exportGPX(data, filename) {
   </wpt>`).join('');
     
     const gpx = `<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="GéoValid">
+<gpx version="1.1" creator="GeoValidator">
   ${waypoints}
 </gpx>`;
     
@@ -534,7 +534,7 @@ function exportMapHTML() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GéoValid - Carte des points validés</title>
+    <title>GeoValidator - Carte des points validés</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
@@ -551,7 +551,7 @@ function exportMapHTML() {
 </head>
 <body>
     <div id="header">
-        <h1>GéoValid</h1>
+        <h1>GeoValidator</h1>
         <span>${data.length} points validés</span>
     </div>
     <div id="map"></div>
@@ -599,7 +599,7 @@ async function exportMapPDF() {
         pdf.setFontSize(18);
         pdf.setFont('helvetica', 'bold');
         pdf.setTextColor(0, 61, 165);
-        pdf.text('GéoValid - Carte des données validées', pageWidth / 2, 15, { align: 'center' });
+        pdf.text('GeoValidator - Carte des données validées', pageWidth / 2, 15, { align: 'center' });
         
         pdf.setFontSize(10);
         pdf.setFont('helvetica', 'normal');
@@ -665,7 +665,7 @@ async function exportMapPDF() {
         pdf.setFontSize(8);
         pdf.setTextColor(0, 61, 165);
         pdf.setFont('helvetica', 'bold');
-        pdf.text('GéoValid', pageWidth - margin, pageHeight - 8, { align: 'right' });
+        pdf.text('GeoValidator', pageWidth - margin, pageHeight - 8, { align: 'right' });
         
         pdf.save('carte_geovalid.pdf');
         showNotification('Export PDF réussi', 'success');

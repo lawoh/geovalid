@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Utilitaires
+ * GeoValidator - Utilitaires
  * Fichier: js/utils.js
  */
 

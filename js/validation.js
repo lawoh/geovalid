@@ -1,5 +1,5 @@
 /**
- * GéoValid - Validation des Données
+ * GeoValidator - Validation des Données
  * Fichier: js/validation.js
  * 
  * v1.1: Support des coordonnées DMS (Degrés Minutes Secondes)

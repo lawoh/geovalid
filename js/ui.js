@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Gestion de l'Interface
+ * GeoValidator - Gestion de l'Interface
  * Fichier: js/ui.js
  */
 

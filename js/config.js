@@ -1,5 +1,5 @@
 /**
- * GéoValid Québec - Configuration et État Global
+ * GeoValidator - Configuration et État Global
  * Fichier: js/config.js
  */
 

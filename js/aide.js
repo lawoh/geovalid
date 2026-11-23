@@ -1,5 +1,5 @@
 /**
- * GéoValid - Page d'aide
+ * GeoValidator - Page d'aide
  * Animations et interactions
  */
 
