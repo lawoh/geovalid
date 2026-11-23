@@ -1,0 +1,8 @@
+nom,latitude,longitude,province,code_postal,attendu
+Antananarivo,-18.8792,47.5079,Antananarivo,101,valide
+Toamasina,-18.1443,49.3958,Toamasina,501,valide
+Toliara,-23.3516,43.6855,Toliara,,valide
+Antsiranana,-12.2787,49.2917,Antsiranana,,valide
+Hell-Ville (Nosy Be),-13.4000,48.2667,Antsiranana,,valide
+Mamoudzou (Mayotte),-12.7806,45.2279,Mahajanga,,invalide : point hors Madagascar
+Moroni (Comores),-11.7172,43.2473,Mahajanga,,invalide : latitude hors Madagascar

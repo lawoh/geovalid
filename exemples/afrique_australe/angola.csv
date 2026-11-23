@@ -1,0 +1,8 @@
+nom,latitude,longitude,province,attendu
+Luanda,-8.8390,13.2894,Luanda,valide
+Huambo,-12.7761,15.7392,Huambo,valide
+Lubango,-14.9177,13.4925,Huíla,valide
+Cabinda (enclave),-5.5500,12.2000,Cabinda,valide
+Pointe-Noire (Congo),-4.7761,11.8635,Cabinda,invalide : point hors Angola
+Matadi (RD Congo),-5.8167,13.4500,Zaire,invalide : point hors Angola
+Windhoek (Namibie),-22.5609,17.0658,Cunene,invalide : latitude hors Angola

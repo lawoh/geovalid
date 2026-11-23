@@ -1,0 +1,7 @@
+nom,latitude,longitude,district,attendu
+Gaborone,-24.6282,25.9231,Gaborone,valide
+Francistown,-21.1700,27.5100,Francistown,valide
+Maun,-19.9833,23.4167,North West,valide
+Mahikeng (Afrique du Sud),-25.8560,25.6400,South East,invalide : point hors Botswana
+Bulawayo (Zimbabwe),-20.1325,28.6265,Central,invalide : point hors Botswana
+Windhoek (Namibie),-22.5609,17.0658,Ghanzi,invalide : longitude hors Botswana

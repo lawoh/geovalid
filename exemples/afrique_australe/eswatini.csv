@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,code_postal,attendu
+Mbabane,-26.3054,31.1367,Hhohho,H100,valide
+Manzini,-26.4833,31.3667,Manzini,M200,valide
+Siteki,-26.4500,31.9500,Lubombo,,valide
+eMkhondo (Afrique du Sud),-27.0067,30.8000,Shiselweni,,invalide : point hors Eswatini
+Komatipoort (Afrique du Sud),-25.4333,31.9500,Lubombo,,invalide : latitude hors Eswatini
+Code postal faux,-26.3054,31.1367,Hhohho,100,invalide : code postal

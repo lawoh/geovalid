@@ -1,0 +1,9 @@
+nom,latitude,longitude,province,code_postal,attendu
+Johannesburg,-26.2041,28.0473,Gauteng,2000,valide
+Le Cap,-33.9249,18.4241,Western Cape,8001,valide
+Durban,-29.8587,31.0218,KwaZulu-Natal,,valide
+Pretoria,-25.7479,28.2293,Gauteng,0002,valide
+Thaba-Tseka (Lesotho),-29.5220,28.6084,Free State,,invalide : point hors Afrique du Sud (Lesotho enclavé)
+Mbabane (Eswatini),-26.3054,31.1367,Mpumalanga,,invalide : point hors Afrique du Sud
+Gaborone (Botswana),-24.6282,25.9231,North West,,invalide : point hors Afrique du Sud
+Code postal faux,-26.2041,28.0473,Gauteng,20000,invalide : code postal

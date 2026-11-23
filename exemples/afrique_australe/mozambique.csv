@@ -1,0 +1,8 @@
+nom,latitude,longitude,province,code_postal,attendu
+Maputo,-25.9692,32.5732,Maputo City,1100,valide
+Beira,-19.8436,34.8389,Sofala,,valide
+Nampula,-15.1165,39.2666,Nampula,,valide
+Pemba,-12.9740,40.5178,Cabo Delgado,,valide
+Île de Likoma (Malawi),-12.0667,34.7333,Niassa,,invalide : point hors Mozambique (île malawite)
+Blantyre (Malawi),-15.7861,35.0058,Tete,,invalide : point hors Mozambique
+Mbabane (Eswatini),-26.3054,31.1367,Maputo (province),,invalide : point hors Mozambique

@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,attendu
+Lilongwe,-13.9626,33.7741,Central,valide
+Blantyre,-15.7861,35.0058,Southern,valide
+Mzuzu,-11.4656,34.0207,Northern,valide
+Île de Likoma,-12.0667,34.7333,Northern,valide (île malawite dans les eaux du Mozambique)
+Lichinga (Mozambique),-13.3128,35.2406,Southern,invalide : point hors Malawi
+Chipata (Zambie),-13.6333,32.6500,Central,invalide : longitude hors Malawi

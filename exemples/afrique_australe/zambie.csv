@@ -1,0 +1,7 @@
+nom,latitude,longitude,province,code_postal,attendu
+Lusaka,-15.3875,28.3228,Lusaka,10101,valide
+Ndola,-12.9587,28.6366,Copperbelt,,valide
+Livingstone,-17.8419,25.8543,Southern,,valide
+Lubumbashi (RD Congo),-11.6647,27.4794,Copperbelt,,invalide : point hors Zambie
+Harare (Zimbabwe),-17.8252,31.0335,Lusaka,,invalide : point hors Zambie
+Code postal faux,-15.3875,28.3228,Lusaka,1010,invalide : code postal

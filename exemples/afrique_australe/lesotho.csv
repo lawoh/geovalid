@@ -1,0 +1,7 @@
+nom,latitude,longitude,district,code_postal,attendu
+Maseru,-29.3151,27.4869,Maseru,100,valide (limite : 1 km de la frontière)
+Teyateyaneng,-29.1500,27.7500,Berea,,valide
+Mokhotlong,-29.2833,29.0667,Mokhotlong,,valide
+Thaba-Tseka,-29.5220,28.6084,Thaba-Tseka,,valide
+Ladybrand (Afrique du Sud),-29.1950,27.4580,Maseru,,invalide : point hors Lesotho
+Bloemfontein (Afrique du Sud),-29.0852,26.1596,Mafeteng,,invalide : longitude hors Lesotho

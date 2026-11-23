@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,attendu
+Windhoek,-22.5609,17.0658,Khomas,valide
+Walvis Bay,-22.9575,14.5053,Erongo,valide
+Katima Mulilo,-17.5000,24.2667,Zambezi,valide
+Upington (Afrique du Sud),-28.3880,21.2560,//Karas,invalide : point hors Namibie
+Maun (Botswana),-19.9833,23.4167,Kavango East,invalide : point hors Namibie
+Lubango (Angola),-14.9177,13.4925,Kunene,invalide : latitude hors Namibie

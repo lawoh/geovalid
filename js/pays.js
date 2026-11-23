@@ -1145,6 +1145,285 @@ const PAYS = {
         // Code postal : 5 chiffres (source TCRA)
         codePostal: cp => /^\d{5}$/.test(cp),
         zonesCanada: false
+    },
+    // ---------- Lot 5 Afrique australe (contours Natural Earth 10m)
+    AGO: {
+        nom: 'Angola',
+        emprises: [
+            { latitude: { min: -18.04, max: -4.39 }, longitude: { min: 11.66, max: 24.07 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:AO (18 provinces, Cabinda comprise ; le découpage de 2024 n'y figure pas encore)
+        regions: {
+            'Bengo': ['AO-BGO'],
+            'Benguela': ['AO-BGU'],
+            'Bié': ['AO-BIE'],
+            'Cabinda': ['AO-CAB'],
+            'Cuando Cubango': ['AO-CCU', 'Kuando Kubango'],
+            'Cuanza Norte': ['AO-CNO', 'Kwanza Norte'],
+            'Cuanza Sul': ['AO-CUS', 'Kwanza Sul'],
+            'Cunene': ['AO-CNN'],
+            'Huambo': ['AO-HUA'],
+            'Huíla': ['AO-HUI'],
+            'Luanda': ['AO-LUA'],
+            'Lunda Norte': ['AO-LNO'],
+            'Lunda Sul': ['AO-LSU'],
+            'Malanje': ['AO-MAL', 'Malange'],
+            'Moxico': ['AO-MOX'],
+            'Namibe': ['AO-NAM'],
+            'Uíge': ['AO-UIG'],
+            'Zaire': ['AO-ZAI']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    ZMB: {
+        nom: 'Zambie',
+        emprises: [
+            { latitude: { min: -18.07, max: -8.19 }, longitude: { min: 21.97, max: 33.68 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:ZM (10 provinces)
+        regions: {
+            'Central': ['ZM-02'],
+            'Copperbelt': ['ZM-08'],
+            'Eastern': ['ZM-03'],
+            'Luapula': ['ZM-04'],
+            'Lusaka': ['ZM-09'],
+            'Muchinga': ['ZM-10'],
+            'North-Western': ['ZM-06'],
+            'Northern': ['ZM-05'],
+            'Southern': ['ZM-07'],
+            'Western': ['ZM-01']
+        },
+        // Code postal : 5 chiffres (ex : 10101 Lusaka)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    MWI: {
+        nom: 'Malawi',
+        emprises: [
+            { latitude: { min: -17.14, max: -9.38 }, longitude: { min: 32.66, max: 35.91 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:MW (3 régions)
+        regions: {
+            'Northern': ['MW-N', 'Chakumpoto', 'Nord'],
+            'Central': ['MW-C', 'Chapakati', 'Centre'],
+            'Southern': ['MW-S', 'Chakumwera', 'Sud']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    MOZ: {
+        nom: 'Mozambique',
+        emprises: [
+            { latitude: { min: -26.87, max: -10.46 }, longitude: { min: 30.21, max: 40.85 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:MZ (10 provinces + ville de Maputo)
+        regions: {
+            'Cabo Delgado': ['MZ-P'],
+            'Gaza': ['MZ-G'],
+            'Inhambane': ['MZ-I'],
+            'Manica': ['MZ-B'],
+            'Maputo (ville)': ['MZ-MPM', 'Maputo City', 'Cidade de Maputo'],
+            'Maputo (province)': ['MZ-L', 'Província de Maputo'],
+            'Nampula': ['MZ-N'],
+            'Niassa': ['MZ-A'],
+            'Sofala': ['MZ-S'],
+            'Tete': ['MZ-T'],
+            'Zambézia': ['MZ-Q']
+        },
+        // Code postal : 4 chiffres (ex : 1100 Maputo, source UPU)
+        codePostal: cp => /^\d{4}$/.test(cp),
+        zonesCanada: false
+    },
+    ZWE: {
+        nom: 'Zimbabwe',
+        emprises: [
+            { latitude: { min: -22.4, max: -15.61 }, longitude: { min: 25.21, max: 33.05 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:ZW (8 provinces + 2 villes)
+        regions: {
+            'Bulawayo': ['ZW-BU'],
+            'Harare': ['ZW-HA'],
+            'Manicaland': ['ZW-MA'],
+            'Mashonaland Central': ['ZW-MC'],
+            'Mashonaland East': ['ZW-ME'],
+            'Mashonaland West': ['ZW-MW'],
+            'Masvingo': ['ZW-MV'],
+            'Matabeleland North': ['ZW-MN'],
+            'Matabeleland South': ['ZW-MS'],
+            'Midlands': ['ZW-MI']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    BWA: {
+        nom: 'Botswana',
+        emprises: [
+            { latitude: { min: -26.9, max: -17.78 }, longitude: { min: 19.97, max: 29.36 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:BW (districts, villes et communes)
+        regions: {
+            'Central': ['BW-CE'],
+            'Chobe': ['BW-CH'],
+            'Francistown': ['BW-FR'],
+            'Gaborone': ['BW-GA'],
+            'Ghanzi': ['BW-GH'],
+            'Jwaneng': ['BW-JW'],
+            'Kgalagadi': ['BW-KG'],
+            'Kgatleng': ['BW-KL'],
+            'Kweneng': ['BW-KW'],
+            'Lobatse': ['BW-LO'],
+            'North East': ['BW-NE'],
+            'North West': ['BW-NW'],
+            'Selibe Phikwe': ['BW-SP'],
+            'South East': ['BW-SE'],
+            'Southern': ['BW-SO'],
+            'Sowa Town': ['BW-ST']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    NAM: {
+        nom: 'Namibie',
+        emprises: [
+            { latitude: { min: -28.96, max: -16.95 }, longitude: { min: 11.71, max: 25.26 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:NA (14 régions)
+        regions: {
+            'Erongo': ['NA-ER'],
+            'Hardap': ['NA-HA'],
+            '//Karas': ['NA-KA', 'Karas', 'ǁKaras'],
+            'Kavango East': ['NA-KE'],
+            'Kavango West': ['NA-KW'],
+            'Khomas': ['NA-KH'],
+            'Kunene': ['NA-KU'],
+            'Ohangwena': ['NA-OW'],
+            'Omaheke': ['NA-OH'],
+            'Omusati': ['NA-OS'],
+            'Oshana': ['NA-ON'],
+            'Oshikoto': ['NA-OT'],
+            'Otjozondjupa': ['NA-OD'],
+            'Zambezi': ['NA-CA', 'Caprivi']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    ZAF: {
+        nom: 'Afrique du Sud',
+        // Continent, îles du Prince-Édouard
+        emprises: [
+            { latitude: { min: -34.83, max: -22.12 }, longitude: { min: 16.46, max: 32.9 } },
+            { latitude: { min: -46.97, max: -46.59 }, longitude: { min: 37.57, max: 37.98 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:ZA (9 provinces) ; le Lesotho est un trou dans le contour
+        regions: {
+            'Eastern Cape': ['ZA-EC'],
+            'Free State': ['ZA-FS'],
+            'Gauteng': ['ZA-GP'],
+            'KwaZulu-Natal': ['ZA-KZN'],
+            'Limpopo': ['ZA-LP'],
+            'Mpumalanga': ['ZA-MP'],
+            'North West': ['ZA-NW', 'North-West'],
+            'Northern Cape': ['ZA-NC'],
+            'Western Cape': ['ZA-WC']
+        },
+        // Code postal : 4 chiffres (source UPU)
+        codePostal: cp => /^\d{4}$/.test(cp),
+        zonesCanada: false
+    },
+    LSO: {
+        nom: 'Lesotho',
+        emprises: [
+            { latitude: { min: -30.66, max: -28.57 }, longitude: { min: 27.0, max: 29.44 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:LS (10 districts)
+        regions: {
+            'Berea': ['LS-D'],
+            'Botha-Bothe': ['LS-B', 'Butha-Buthe'],
+            'Leribe': ['LS-C'],
+            'Mafeteng': ['LS-E'],
+            'Maseru': ['LS-A'],
+            'Mohale\'s Hoek': ['LS-F'],
+            'Mokhotlong': ['LS-J'],
+            'Qacha\'s Nek': ['LS-H'],
+            'Quthing': ['LS-G'],
+            'Thaba-Tseka': ['LS-K']
+        },
+        // Code postal : 3 chiffres (ex : 100 Maseru, source UPU)
+        codePostal: cp => /^\d{3}$/.test(cp),
+        zonesCanada: false
+    },
+    SWZ: {
+        nom: 'Eswatini',
+        emprises: [
+            { latitude: { min: -27.32, max: -25.73 }, longitude: { min: 30.78, max: 32.12 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:SZ (4 régions)
+        regions: {
+            'Hhohho': ['SZ-HH'],
+            'Lubombo': ['SZ-LU'],
+            'Manzini': ['SZ-MA'],
+            'Shiselweni': ['SZ-SH']
+        },
+        // Code postal : lettre de la région (H, L, M, S) + 3 chiffres
+        codePostal: cp => /^[HLMS]\d{3}$/.test(cp),
+        zonesCanada: false
+    },
+    MDG: {
+        nom: 'Madagascar',
+        emprises: [
+            { latitude: { min: -25.6, max: -11.94 }, longitude: { min: 43.22, max: 50.51 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:MG (6 anciennes provinces ; les 23 régions actuelles n'y figurent pas)
+        regions: {
+            'Antananarivo': ['MG-T'],
+            'Antsiranana': ['MG-D'],
+            'Fianarantsoa': ['MG-F'],
+            'Mahajanga': ['MG-M'],
+            'Toamasina': ['MG-A'],
+            'Toliara': ['MG-U']
+        },
+        // Code postal : 3 chiffres (ex : 101 Antananarivo)
+        codePostal: cp => /^\d{3}$/.test(cp),
+        zonesCanada: false
     }
 };
 

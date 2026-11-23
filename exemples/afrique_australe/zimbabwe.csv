@@ -1,0 +1,6 @@
+nom,latitude,longitude,province,attendu
+Harare,-17.8252,31.0335,Harare,valide
+Bulawayo,-20.1325,28.6265,Bulawayo,valide
+Mutare,-18.9707,32.6709,Manicaland,valide
+Livingstone (Zambie),-17.8419,25.8543,Matabeleland North,invalide : point hors Zimbabwe
+Francistown (Botswana),-21.1700,27.5100,Matabeleland South,invalide : point hors Zimbabwe
