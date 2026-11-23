@@ -157,7 +157,15 @@
             <h2>Questions fréquentes</h2>
             <details>
                 <summary>Mes colonnes ne sont pas détectées automatiquement</summary>
-                <p>Vérifiez que vos données de latitude sont des nombres entre -90 et 90, et vos longitudes entre -180 et 180. Pour de meilleurs résultats avec des données canadiennes, les latitudes devraient être entre 40 et 85, et les longitudes entre -145 et -50.</p>
+                <p>Vérifiez que vos données de latitude sont entre -90 et 90, et vos longitudes entre -180 et 180. Pour de meilleurs résultats avec des données canadiennes, les latitudes devraient être entre 40 et 85, et les longitudes entre -145 et -50.</p>
+                <p><strong>Formats de coordonnées supportés :</strong></p>
+                <ul>
+                    <li>Degrés décimaux (DD) : <code>45.5019</code>, <code>-73.5674</code></li>
+                    <li>DMS avec symboles : <code>45°30'15"N</code>, <code>73°34'02"W</code></li>
+                    <li>DMS avec espaces : <code>45 30 15 N</code>, <code>73 34 02 W</code></li>
+                    <li>DMS avec tirets : <code>45-30-15-N</code></li>
+                    <li>DMS avec lettres : <code>45d30m15sN</code></li>
+                </ul>
             </details>
             <details>
                 <summary>Puis-je utiliser des données hors du Canada ?</summary>

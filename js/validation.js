@@ -1,6 +1,8 @@
 /**
- * GéoValid Québec - Validation des Données
+ * GéoValid - Validation des Données
  * Fichier: js/validation.js
+ * 
+ * v1.1: Support des coordonnées DMS (Degrés Minutes Secondes)
  */
 
 // Valider toutes les données
@@ -21,27 +23,27 @@ function validateData(data, colonnesDetectees) {
         const cpStr = colonnesDetectees.codePostal ? String(row[colonnesDetectees.codePostal] || '').trim() : '';
         const provStr = colonnesDetectees.province ? String(row[colonnesDetectees.province] || '').trim().toUpperCase() : '';
         
-        // Valider latitude (obligatoire)
+        // Valider latitude (obligatoire) - v1.1: support DMS
         let lat = null;
         if (!latStr) {
             erreurs.push('Latitude manquante');
         } else {
-            lat = parseFloat(latStr);
+            lat = parseCoordinate(latStr); // Supporte DD et DMS
             if (isNaN(lat)) {
-                erreurs.push('Latitude non numérique');
+                erreurs.push('Latitude invalide (format non reconnu)');
             } else if (lat < LIMITES_CANADA.latitude.min || lat > LIMITES_CANADA.latitude.max) {
                 erreurs.push('Latitude hors Canada');
             }
         }
         
-        // Valider longitude (obligatoire)
+        // Valider longitude (obligatoire) - v1.1: support DMS
         let lon = null;
         if (!lonStr) {
             erreurs.push('Longitude manquante');
         } else {
-            lon = parseFloat(lonStr);
+            lon = parseCoordinate(lonStr); // Supporte DD et DMS
             if (isNaN(lon)) {
-                erreurs.push('Longitude non numérique');
+                erreurs.push('Longitude invalide (format non reconnu)');
             } else if (lon < LIMITES_CANADA.longitude.min || lon > LIMITES_CANADA.longitude.max) {
                 erreurs.push('Longitude hors Canada');
             }
@@ -62,14 +64,11 @@ function validateData(data, colonnesDetectees) {
         // Province (optionnelle, convertir code numérique en texte si nécessaire)
         let prov = provStr;
         if (prov) {
-            // Si c'est un code numérique, le convertir en code texte
             if (PROVINCES_CODES_NUM[prov]) {
                 prov = PROVINCES_CODES_NUM[prov];
             }
-            // Vérifier que c'est un code valide
             else if (!PROVINCES_CANADA.includes(prov)) {
-                // Code province invalide, on le garde mais on note
-                prov = provStr; // Garder la valeur originale
+                prov = provStr;
             }
         }
         
@@ -93,7 +92,7 @@ function validateData(data, colonnesDetectees) {
                 statsPrefixes[prefix] = (statsPrefixes[prefix] || 0) + 1;
             }
             
-            // Stats par zone géographique (toujours disponible)
+            // Stats par zone géographique
             const zone = getGeoZone(lat, lon);
             if (zone) {
                 statsZones[zone] = (statsZones[zone] || 0) + 1;

@@ -1,9 +1,11 @@
 /**
- * GéoValid Québec - Détection Automatique des Colonnes
+ * GéoValid - Détection Automatique des Colonnes
  * Fichier: js/detection.js
  * 
  * IMPORTANT: La détection se fait principalement par l'ANALYSE DES VALEURS,
  * pas par les noms de colonnes. L'utilisateur peut nommer ses colonnes comme il veut.
+ * 
+ * v1.1: Support des coordonnées DMS (Degrés Minutes Secondes)
  */
 
 // Détecter automatiquement les colonnes en analysant les valeurs
@@ -104,12 +106,14 @@ function detectColumns(headers, data) {
 }
 
 // Score pour latitude: valeurs entre -90 et 90, bonus pour plage Canada (40-85)
+// v1.1: Support DMS
 function scoreLatitude(values) {
     let validCount = 0;
     let canadaCount = 0;
     
     values.forEach(val => {
-        const num = parseFloat(val);
+        // Utiliser parseCoordinate pour supporter DD et DMS
+        const num = parseCoordinate(val);
         if (!isNaN(num) && num >= -90 && num <= 90) {
             validCount++;
             // Plage typique du Canada
@@ -129,12 +133,14 @@ function scoreLatitude(values) {
 }
 
 // Score pour longitude: valeurs entre -180 et 180, bonus pour plage Canada (-145 à -50)
+// v1.1: Support DMS
 function scoreLongitude(values) {
     let validCount = 0;
     let canadaCount = 0;
     
     values.forEach(val => {
-        const num = parseFloat(val);
+        // Utiliser parseCoordinate pour supporter DD et DMS
+        const num = parseCoordinate(val);
         if (!isNaN(num) && num >= -180 && num <= 180) {
             validCount++;
             // Plage typique du Canada (longitudes négatives ouest)
@@ -153,12 +159,9 @@ function scoreLongitude(values) {
 }
 
 // Score pour code postal canadien: format A1A ou A1A1A1
-// Reconnaît aussi les formats proches (invalides mais ressemblants) pour mieux détecter la colonne
 function scoreCodePostal(values) {
     const patternStrict3 = /^[A-Za-z]\d[A-Za-z]$/;
     const patternStrict6 = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/;
-    // Patterns plus souples: chaînes alphanumériques de 3-7 chars commençant par une lettre
-    // avec alternance lettres/chiffres typique des codes postaux
     const patternLoose = /^[A-Za-z]{1,2}\d[A-Za-z]\d?[A-Za-z]?\d?$/;
     
     let strictCount = 0;
@@ -176,7 +179,6 @@ function scoreCodePostal(values) {
     
     if (values.length === 0) return 0;
     
-    // Score combiné: les matches stricts comptent pleinement, les loose à moitié
     const strictRatio = strictCount / values.length;
     const looseRatio = looseCount / values.length;
     
@@ -189,11 +191,9 @@ function scoreProvince(values) {
     
     values.forEach(val => {
         const clean = String(val).trim().toUpperCase();
-        // Vérifier code texte (AB, QC, ON, etc.)
         if (PROVINCES_CANADA.includes(clean)) {
             validCount++;
         }
-        // Vérifier code numérique (10, 11, 12, 13, 24, 35, 46, 47, 48, 59, 60, 61, 62)
         else if (PROVINCES_CODES_NUM_LIST.includes(clean)) {
             validCount++;
         }

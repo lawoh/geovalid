@@ -114,3 +114,127 @@ function safeMax(arr) {
     }
     return max;
 }
+
+// ============================================
+// SUPPORT DMS (Degrés Minutes Secondes) - v1.1
+// ============================================
+
+// Patterns pour détecter les coordonnées DMS
+const DMS_PATTERNS = [
+    // 45°30'15"N ou 45°30'15.5"N
+    /^([NSEW]?)\s*(-?\d+)[°d]\s*(\d+)[′']\s*(\d+(?:\.\d+)?)[″"]\s*([NSEW]?)$/i,
+    // 45° 30' 15" N (avec espaces)
+    /^([NSEW]?)\s*(-?\d+)\s*°\s*(\d+)\s*[′']\s*(\d+(?:\.\d+)?)\s*[″"]\s*([NSEW]?)$/i,
+    // 45 30 15 N (espaces comme séparateurs)
+    /^([NSEW]?)\s*(-?\d+)\s+(\d+)\s+(\d+(?:\.\d+)?)\s*([NSEW]?)$/i,
+    // 45-30-15-N (tirets comme séparateurs)
+    /^([NSEW]?)\s*(-?\d+)-(\d+)-(\d+(?:\.\d+)?)-?([NSEW]?)$/i,
+    // 45d30m15s ou 45d30m15.5sN
+    /^([NSEW]?)\s*(-?\d+)d\s*(\d+)m\s*(\d+(?:\.\d+)?)s\s*([NSEW]?)$/i,
+    // Format sans secondes: 45°30'N ou 45°30.5'N
+    /^([NSEW]?)\s*(-?\d+)[°d]\s*(\d+(?:\.\d+)?)[′']\s*([NSEW]?)$/i,
+    // Format sans secondes avec espaces: 45 30.5 N
+    /^([NSEW]?)\s*(-?\d+)\s+(\d+(?:\.\d+)?)\s*([NSEW]?)$/i
+];
+
+// Vérifier si une valeur est en format DMS
+function isDMSFormat(value) {
+    if (!value) return false;
+    const str = String(value).trim();
+    
+    // Si c'est un nombre décimal simple, ce n'est pas DMS
+    if (/^-?\d+\.?\d*$/.test(str)) return false;
+    
+    // Tester les patterns DMS
+    for (const pattern of DMS_PATTERNS) {
+        if (pattern.test(str)) return true;
+    }
+    return false;
+}
+
+// Convertir DMS en degrés décimaux
+function dmsToDecimal(value) {
+    if (!value) return NaN;
+    const str = String(value).trim();
+    
+    // Si c'est déjà un nombre décimal, le retourner directement
+    if (/^-?\d+\.?\d*$/.test(str)) {
+        return parseFloat(str);
+    }
+    
+    let degrees = 0, minutes = 0, seconds = 0;
+    let direction = '';
+    let matched = false;
+    
+    // Tester chaque pattern
+    for (const pattern of DMS_PATTERNS) {
+        const match = str.match(pattern);
+        if (match) {
+            // Patterns avec secondes (index: dir1, deg, min, sec, dir2)
+            if (match.length === 6) {
+                direction = (match[1] || match[5] || '').toUpperCase();
+                degrees = parseFloat(match[2]);
+                minutes = parseFloat(match[3]);
+                seconds = parseFloat(match[4]);
+                matched = true;
+                break;
+            }
+            // Patterns sans secondes (index: dir1, deg, min, dir2)
+            else if (match.length === 5) {
+                direction = (match[1] || match[4] || '').toUpperCase();
+                degrees = parseFloat(match[2]);
+                minutes = parseFloat(match[3]);
+                seconds = 0;
+                matched = true;
+                break;
+            }
+        }
+    }
+    
+    if (!matched) return NaN;
+    
+    // Calculer les degrés décimaux
+    let decimal = Math.abs(degrees) + (minutes / 60) + (seconds / 3600);
+    
+    // Appliquer le signe selon la direction ou le signe original
+    if (direction === 'S' || direction === 'W' || degrees < 0) {
+        decimal = -decimal;
+    }
+    
+    return decimal;
+}
+
+// Convertir une coordonnée (DD ou DMS) en degrés décimaux
+function parseCoordinate(value) {
+    if (!value) return NaN;
+    const str = String(value).trim();
+    
+    // Essayer d'abord comme nombre décimal
+    const decimal = parseFloat(str);
+    if (!isNaN(decimal) && /^-?\d+\.?\d*$/.test(str)) {
+        return decimal;
+    }
+    
+    // Sinon essayer comme DMS
+    return dmsToDecimal(str);
+}
+
+// Détecter le format de coordonnées dans un tableau de valeurs
+function detectCoordinateFormat(values) {
+    let ddCount = 0;
+    let dmsCount = 0;
+    
+    values.forEach(val => {
+        if (!val) return;
+        const str = String(val).trim();
+        if (/^-?\d+\.?\d*$/.test(str)) {
+            ddCount++;
+        } else if (isDMSFormat(str)) {
+            dmsCount++;
+        }
+    });
+    
+    if (dmsCount > ddCount) return 'DMS';
+    if (ddCount > 0) return 'DD';
+    return 'unknown';
+}
