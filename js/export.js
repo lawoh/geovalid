@@ -727,7 +727,9 @@ async function exportMapPDF() {
         const canvas = await html2canvas(mapContainer, {
             useCORS: true,
             allowTaint: true,
-            scale: 2
+            scale: 2,
+            // Le sélecteur de fond de carte n'a pas sa place dans le PDF (la flèche du nord est en haut à droite)
+            ignoreElements: el => el.classList && el.classList.contains('leaflet-control-layers')
         });
         
         const imgData = canvas.toDataURL('image/png');

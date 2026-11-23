@@ -70,11 +70,6 @@ function setupEventListeners() {
         });
     });
     
-    // Changement de fond de carte
-    UI.mapLayerSelect.addEventListener('change', (e) => {
-        changeMapLayer(e.target.value);
-    });
-    
     // Boutons export
     document.querySelectorAll('.btn-export').forEach(btn => {
         btn.addEventListener('click', async (e) => {

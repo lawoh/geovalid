@@ -337,11 +337,6 @@ body {
 
 .map-toolbar { display: flex; align-items: center; gap: 0.5rem; }
 
-.map-toolbar select {
-    padding: 3px 6px; border: 1px solid var(--gray-200);
-    border-radius: 0.3rem; font-size: 0.7rem;
-}
-
 .map-pts {
     background: var(--blue-pale); color: var(--blue);
     padding: 2px 8px; border-radius: 100px; font-size: 0.65rem; font-weight: 600;
@@ -776,10 +771,6 @@ body {
     
     .map-container {
         min-height: 300px;
-    }
-    
-    .map-toolbar select {
-        font-size: 0.65rem;
     }
     
     .conversion-toggle {

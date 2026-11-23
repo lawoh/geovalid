@@ -37,7 +37,6 @@ const UI = {
     invalidPercent: document.getElementById('invalidPercent'),
     tabContent: document.getElementById('tabContent'),
     mapPts: document.getElementById('mapPts'),
-    mapLayerSelect: document.getElementById('mapLayerSelect'),
     btnNouvelleAnalyse: document.getElementById('btnNouvelleAnalyse')
 };
 

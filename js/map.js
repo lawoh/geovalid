@@ -32,6 +32,14 @@ function initMap() {
     // Ajouter OSM par défaut
     AppState.baseLayers.osm.addTo(AppState.map);
     
+    // Sélecteur de fond de carte intégré à la carte, en haut à droite
+    L.control.layers({
+        'OpenStreetMap': AppState.baseLayers.osm,
+        'Satellite': AppState.baseLayers.satellite,
+        'Terrain': AppState.baseLayers.terrain,
+        'Sombre': AppState.baseLayers.dark
+    }, null, { position: 'topright' }).addTo(AppState.map);
+    
     // Échelle en bas à droite
     L.control.scale({ metric: true, imperial: false, position: 'bottomright' }).addTo(AppState.map);
     
@@ -145,17 +153,4 @@ function displayPointsOnMap(donnees) {
     
     // Mettre à jour le compteur
     document.getElementById('mapPts').textContent = `${donnees.length} ${AppState.projection ? 'entités' : 'pts'}`;
-}
-
-// Changer le fond de carte
-function changeMapLayer(layerName) {
-    if (!AppState.map || !AppState.baseLayers[layerName]) return;
-    
-    Object.values(AppState.baseLayers).forEach(layer => {
-        if (AppState.map.hasLayer(layer)) {
-            AppState.map.removeLayer(layer);
-        }
-    });
-    
-    AppState.baseLayers[layerName].addTo(AppState.map);
 }
