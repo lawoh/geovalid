@@ -1,0 +1,6 @@
+nom,latitude,longitude,province,attendu
+Kigali,-1.9441,30.0619,Kigali,valide
+Huye,-2.5967,29.7394,Sud,valide
+Musanze,-1.4997,29.6347,Northern,valide
+Kabale (Ouganda),-1.2486,29.9899,Nord,invalide : point hors Rwanda
+Bujumbura (Burundi),-3.3614,29.3599,Sud,invalide : latitude hors Rwanda

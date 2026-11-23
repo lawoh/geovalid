@@ -1,0 +1,6 @@
+nom,latitude,longitude,province,attendu
+Bujumbura,-3.3614,29.3599,Bujumbura Mairie,valide
+Gitega,-3.4271,29.9246,Gitega,valide
+Ngozi,-2.9075,29.8306,Ngozi,valide
+Huye (Rwanda),-2.5967,29.7394,Ngozi,invalide : point hors Burundi
+Kigoma (Tanzanie),-4.8769,29.6267,Makamba,invalide : latitude hors Burundi

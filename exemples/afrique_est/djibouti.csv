@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Djibouti,11.5721,43.1456,Djibouti,valide
+Tadjourah,11.7833,42.8833,Tadjourah,valide
+Ali Sabieh,11.1558,42.7125,Ali Sabieh,valide
+Zeila (Somaliland),11.3530,43.4730,Ali Sabieh,invalide : longitude hors Djibouti
+Assab (Érythrée),13.0092,42.7394,Obock,invalide : latitude hors Djibouti

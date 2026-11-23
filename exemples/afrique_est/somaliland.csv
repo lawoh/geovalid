@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Hargeisa,9.5600,44.0650,Woqooyi Galbeed,valide
+Berbera,10.4396,45.0143,Woqooyi Galbeed,valide
+Burao,9.5221,45.5336,Togdheer,valide
+Garowe (Puntland, Somalie),8.4054,48.4845,Sool,invalide : point hors Somaliland
+Djibouti (Djibouti),11.5721,43.1456,Awdal,invalide : latitude hors Somaliland

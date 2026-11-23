@@ -1,0 +1,8 @@
+nom,latitude,longitude,region,attendu
+Kampala,0.3476,32.5825,Central,valide
+Gulu,2.7724,32.2881,Northern,valide
+Mbarara,-0.6072,30.6545,Western,valide
+Entebbe,0.0512,32.4637,Central,valide
+Kisumu (Kenya),-0.0917,34.7680,Eastern,invalide : point hors Ouganda
+Bunia (RD Congo),1.5594,30.2524,Western,invalide : point hors Ouganda
+Kigali (Rwanda),-1.9441,30.0619,Western,invalide : latitude hors Ouganda

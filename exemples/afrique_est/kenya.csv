@@ -1,0 +1,9 @@
+nom,latitude,longitude,comte,code_postal,attendu
+Nairobi,-1.2864,36.8172,30,00100,valide
+Mombasa,-4.0435,39.6682,Mombasa,80100,valide
+Kisumu,-0.0917,34.7680,Kisumu,,valide
+Lodwar,3.1191,35.5973,Turkana,,valide
+Kibish (triangle d'Ilemi),4.9500,35.4000,Turkana,,valide (zone contestée attribuée au Kenya)
+Arusha (Tanzanie),-3.3869,36.6830,Kajiado,,invalide : point hors Kenya
+Kampala (Ouganda),0.3476,32.5825,Busia,,invalide : longitude hors Kenya
+Code postal faux,-1.2864,36.8172,Nairobi,100,invalide : code postal

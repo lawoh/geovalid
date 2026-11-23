@@ -1,0 +1,10 @@
+nom,latitude,longitude,region,code_postal,attendu
+Dar es Salaam,-6.7924,39.2083,Dar es Salaam,,valide
+Dodoma,-6.1630,35.7516,TZ-03,,valide
+Arusha,-3.3869,36.6830,Arusha,,valide
+Zanzibar,-6.1659,39.2026,Mjini Magharibi,,valide
+Mwanza,-2.5164,32.9175,Mwanza,,valide
+Mombasa (Kenya),-4.0435,39.6682,Tanga,,invalide : point hors Tanzanie
+Bujumbura (Burundi),-3.3614,29.3599,Kigoma,,invalide : point hors Tanzanie
+Lilongwe (Malawi),-13.9626,33.7741,Mbeya,,invalide : latitude hors Tanzanie
+Code postal faux,-6.7924,39.2083,Dar es Salaam,1110,invalide : code postal

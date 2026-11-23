@@ -841,6 +841,310 @@ const PAYS = {
         // Pas de format de code postal confirmé : valeur gardée sans contrôle
         codePostal: null,
         zonesCanada: false
+    },
+    // ---------- Lot 4 Afrique de l'Est (contours Natural Earth 10m)
+    ETH: {
+        nom: 'Éthiopie',
+        emprises: [
+            { latitude: { min: 3.4, max: 14.88 }, longitude: { min: 32.98, max: 47.98 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:ET (régions et villes à charte ; la division de 2023 des Peuples du Sud n'y figure pas encore)
+        regions: {
+            'Addis-Abeba': ['ET-AA', 'Addis Ababa', 'Ādīs Ābeba'],
+            'Afar': ['ET-AF', 'Āfar'],
+            'Amhara': ['ET-AM', 'Āmara'],
+            'Benishangul-Gumuz': ['ET-BE', 'Bīnshangul Gumuz'],
+            'Dire Dawa': ['ET-DD', 'Dirē Dawa'],
+            'Gambela': ['ET-GA', 'Gambēla Hizboch'],
+            'Harari': ['ET-HA', 'Hārerī Hizb'],
+            'Oromia': ['ET-OR', 'Oromīya'],
+            'Sidama': ['ET-SI', 'Sīdama'],
+            'Somali': ['ET-SO', 'Sumalē'],
+            'Tigray': ['ET-TI'],
+            'Peuples du Sud': ['ET-SN', 'SNNPR', 'YeDebub Bihēroch Bihēreseboch na Hizboch'],
+            'Peuples du Sud-Ouest de l\'Éthiopie': ['ET-SW', 'South West Ethiopia', 'YeDebub M\'irab Ītyop\'iya Hizboch']
+        },
+        // Code postal : 4 chiffres (ex : 1000 Addis-Abeba, source UPU)
+        codePostal: cp => /^\d{4}$/.test(cp),
+        zonesCanada: false
+    },
+    ERI: {
+        nom: 'Érythrée',
+        emprises: [
+            { latitude: { min: 12.36, max: 18.01 }, longitude: { min: 36.42, max: 43.13 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:ER (6 régions)
+        regions: {
+            'Maekel': ['ER-MA', 'Central', 'Al Awsaţ'],
+            'Debub': ['ER-DU', 'Southern', 'Al Janūbī'],
+            'Anseba': ['ER-AN', 'Ansabā'],
+            'Debubawi Keyih Bahri': ['ER-DK', 'Southern Red Sea'],
+            'Gash-Barka': ['ER-GB', 'Qāsh-Barkah'],
+            'Semenawi Keyih Bahri': ['ER-SK', 'Northern Red Sea']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    DJI: {
+        nom: 'Djibouti',
+        emprises: [
+            { latitude: { min: 10.92, max: 12.71 }, longitude: { min: 41.74, max: 43.42 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:DJ (5 régions + ville de Djibouti)
+        regions: {
+            'Ali Sabieh': ['DJ-AS'],
+            'Arta': ['DJ-AR'],
+            'Dikhil': ['DJ-DI'],
+            'Djibouti': ['DJ-DJ'],
+            'Obock': ['DJ-OB'],
+            'Tadjourah': ['DJ-TA']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    SOM: {
+        nom: 'Somalie',
+        emprises: [
+            { latitude: { min: -1.7, max: 11.99 }, longitude: { min: 40.96, max: 51.42 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:SO (18 régions) ; contour sans le Somaliland (choix de Natural Earth)
+        regions: {
+            'Bakool': ['SO-BK'],
+            'Banaadir': ['SO-BN', 'Benadir'],
+            'Bari': ['SO-BR'],
+            'Bay': ['SO-BY'],
+            'Galguduud': ['SO-GA'],
+            'Gedo': ['SO-GE'],
+            'Hiiraan': ['SO-HI'],
+            'Jubbada Dhexe': ['SO-JD', 'Middle Juba'],
+            'Jubbada Hoose': ['SO-JH', 'Lower Juba'],
+            'Mudug': ['SO-MU'],
+            'Nugaal': ['SO-NU'],
+            'Shabeellaha Dhexe': ['SO-SD', 'Middle Shabelle'],
+            'Shabeellaha Hoose': ['SO-SH', 'Lower Shabelle'],
+            'Awdal': ['SO-AW'],
+            'Woqooyi Galbeed': ['SO-WO'],
+            'Togdheer': ['SO-TO'],
+            'Sanaag': ['SO-SA'],
+            'Sool': ['SO-SO']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    SOL: {
+        nom: 'Somaliland',
+        emprises: [
+            { latitude: { min: 7.99, max: 11.5 }, longitude: { min: 42.64, max: 48.94 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Entité à part dans Natural Earth (pas de code ISO) ; régions nord de la liste ISO 3166-2:SO
+        regions: {
+            'Awdal': ['SO-AW'],
+            'Woqooyi Galbeed': ['SO-WO'],
+            'Togdheer': ['SO-TO'],
+            'Sanaag': ['SO-SA'],
+            'Sool': ['SO-SO']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    KEN: {
+        nom: 'Kenya',
+        emprises: [
+            { latitude: { min: -4.68, max: 5.04 }, longitude: { min: 33.89, max: 41.89 } }
+        ],
+        libelleRegion: 'Comté',
+        libelleRegions: 'Comtés',
+        colonneRegion: 'comte',
+        // Codes ISO 3166-2:KE (47 comtés, numéros acceptés) ; triangle d'Ilemi inclus (choix de Natural Earth)
+        regions: {
+            'Baringo': ['KE-01', '01'],
+            'Bomet': ['KE-02', '02'],
+            'Bungoma': ['KE-03', '03'],
+            'Busia': ['KE-04', '04'],
+            'Elgeyo/Marakwet': ['KE-05', '05', 'Elgeyo-Marakwet'],
+            'Embu': ['KE-06', '06'],
+            'Garissa': ['KE-07', '07'],
+            'Homa Bay': ['KE-08', '08'],
+            'Isiolo': ['KE-09', '09'],
+            'Kajiado': ['KE-10', '10'],
+            'Kakamega': ['KE-11', '11'],
+            'Kericho': ['KE-12', '12'],
+            'Kiambu': ['KE-13', '13'],
+            'Kilifi': ['KE-14', '14'],
+            'Kirinyaga': ['KE-15', '15'],
+            'Kisii': ['KE-16', '16'],
+            'Kisumu': ['KE-17', '17'],
+            'Kitui': ['KE-18', '18'],
+            'Kwale': ['KE-19', '19'],
+            'Laikipia': ['KE-20', '20'],
+            'Lamu': ['KE-21', '21'],
+            'Machakos': ['KE-22', '22'],
+            'Makueni': ['KE-23', '23'],
+            'Mandera': ['KE-24', '24'],
+            'Marsabit': ['KE-25', '25'],
+            'Meru': ['KE-26', '26'],
+            'Migori': ['KE-27', '27'],
+            'Mombasa': ['KE-28', '28'],
+            'Murang\'a': ['KE-29', '29'],
+            'Nairobi City': ['KE-30', '30', 'Nairobi'],
+            'Nakuru': ['KE-31', '31'],
+            'Nandi': ['KE-32', '32'],
+            'Narok': ['KE-33', '33'],
+            'Nyamira': ['KE-34', '34'],
+            'Nyandarua': ['KE-35', '35'],
+            'Nyeri': ['KE-36', '36'],
+            'Samburu': ['KE-37', '37'],
+            'Siaya': ['KE-38', '38'],
+            'Taita/Taveta': ['KE-39', '39', 'Taita-Taveta'],
+            'Tana River': ['KE-40', '40'],
+            'Tharaka-Nithi': ['KE-41', '41'],
+            'Trans Nzoia': ['KE-42', '42'],
+            'Turkana': ['KE-43', '43'],
+            'Uasin Gishu': ['KE-44', '44'],
+            'Vihiga': ['KE-45', '45'],
+            'Wajir': ['KE-46', '46'],
+            'West Pokot': ['KE-47', '47']
+        },
+        // Code postal : 5 chiffres (ex : 00100 Nairobi)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    UGA: {
+        nom: 'Ouganda',
+        emprises: [
+            { latitude: { min: -1.48, max: 4.22 }, longitude: { min: 29.54, max: 35.01 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:UG (4 régions)
+        regions: {
+            'Central': ['UG-C', 'Centre'],
+            'Eastern': ['UG-E', 'Est'],
+            'Northern': ['UG-N', 'Nord'],
+            'Western': ['UG-W', 'Ouest']
+        },
+        // Code postal : 5 chiffres (source UPU)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
+    },
+    RWA: {
+        nom: 'Rwanda',
+        emprises: [
+            { latitude: { min: -2.83, max: -1.05 }, longitude: { min: 28.85, max: 30.89 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:RW (Kigali + 4 provinces)
+        regions: {
+            'Kigali': ['RW-01', 'City of Kigali', 'Ville de Kigali'],
+            'Est': ['RW-02', 'Eastern'],
+            'Nord': ['RW-03', 'Northern'],
+            'Ouest': ['RW-04', 'Western'],
+            'Sud': ['RW-05', 'Southern']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    BDI: {
+        nom: 'Burundi',
+        emprises: [
+            { latitude: { min: -4.47, max: -2.3 }, longitude: { min: 28.98, max: 30.84 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:BI (18 provinces ; le découpage de 2025 n'y figure pas encore)
+        regions: {
+            'Bubanza': ['BI-BB'],
+            'Bujumbura Mairie': ['BI-BM'],
+            'Bujumbura Rural': ['BI-BL'],
+            'Bururi': ['BI-BR'],
+            'Cankuzo': ['BI-CA'],
+            'Cibitoke': ['BI-CI'],
+            'Gitega': ['BI-GI'],
+            'Karuzi': ['BI-KR'],
+            'Kayanza': ['BI-KY'],
+            'Kirundo': ['BI-KI'],
+            'Makamba': ['BI-MA'],
+            'Muramvya': ['BI-MU'],
+            'Muyinga': ['BI-MY'],
+            'Mwaro': ['BI-MW'],
+            'Ngozi': ['BI-NG'],
+            'Rumonge': ['BI-RM'],
+            'Rutana': ['BI-RT'],
+            'Ruyigi': ['BI-RY']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    TZA: {
+        nom: 'Tanzanie',
+        emprises: [
+            { latitude: { min: -11.74, max: -0.98 }, longitude: { min: 29.32, max: 40.45 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:TZ (31 régions)
+        regions: {
+            'Arusha': ['TZ-01'],
+            'Dar es Salaam': ['TZ-02'],
+            'Dodoma': ['TZ-03'],
+            'Geita': ['TZ-27'],
+            'Iringa': ['TZ-04'],
+            'Kagera': ['TZ-05'],
+            'Kaskazini Pemba': ['TZ-06', 'Pemba North'],
+            'Kaskazini Unguja': ['TZ-07', 'Zanzibar North'],
+            'Katavi': ['TZ-28'],
+            'Kigoma': ['TZ-08'],
+            'Kilimanjaro': ['TZ-09'],
+            'Kusini Pemba': ['TZ-10', 'Pemba South'],
+            'Kusini Unguja': ['TZ-11', 'Zanzibar South'],
+            'Lindi': ['TZ-12'],
+            'Manyara': ['TZ-26'],
+            'Mara': ['TZ-13'],
+            'Mbeya': ['TZ-14'],
+            'Mjini Magharibi': ['TZ-15', 'Zanzibar Urban/West'],
+            'Morogoro': ['TZ-16'],
+            'Mtwara': ['TZ-17'],
+            'Mwanza': ['TZ-18'],
+            'Njombe': ['TZ-29'],
+            'Pwani': ['TZ-19', 'Coast'],
+            'Rukwa': ['TZ-20'],
+            'Ruvuma': ['TZ-21'],
+            'Shinyanga': ['TZ-22'],
+            'Simiyu': ['TZ-30'],
+            'Singida': ['TZ-23'],
+            'Songwe': ['TZ-31'],
+            'Tabora': ['TZ-24'],
+            'Tanga': ['TZ-25']
+        },
+        // Code postal : 5 chiffres (source TCRA)
+        codePostal: cp => /^\d{5}$/.test(cp),
+        zonesCanada: false
     }
 };
 

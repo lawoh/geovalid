@@ -1,0 +1,9 @@
+nom,latitude,longitude,region,code_postal,attendu
+Addis-Abeba,9.0300,38.7400,Addis Ababa,1000,valide
+Dire Dawa,9.6009,41.8501,Dire Dawa,,valide
+Mekele,13.4967,39.4753,Tigray,,valide
+Gondar,12.6030,37.4521,Amhara,,valide
+Hargeisa (Somaliland),9.5600,44.0650,Somali,,invalide : point hors Éthiopie
+Djibouti (Djibouti),11.5721,43.1456,Afar,,invalide : point hors Éthiopie
+Wajir (Kenya),1.7471,40.0573,Oromia,,invalide : latitude hors Éthiopie
+Code postal faux,9.0300,38.7400,Addis-Abeba,10000,invalide : code postal

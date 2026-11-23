@@ -1,0 +1,8 @@
+nom,latitude,longitude,region,attendu
+Mogadiscio,2.0469,45.3182,Banaadir,valide
+Kismayo,-0.3582,42.5454,Lower Juba,valide
+Garowe,8.4054,48.4845,Nugaal,valide
+Bosaso,11.2842,49.1816,Bari,valide
+Hargeisa (Somaliland),9.5600,44.0650,Woqooyi Galbeed,invalide : point hors Somalie (Somaliland à part dans Natural Earth)
+Berbera (Somaliland),10.4396,45.0143,Woqooyi Galbeed,invalide : point hors Somalie (Somaliland à part dans Natural Earth)
+Garissa (Kenya),-0.4532,39.6461,Lower Juba,invalide : longitude hors Somalie

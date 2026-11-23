@@ -1,0 +1,6 @@
+nom,latitude,longitude,region,attendu
+Asmara,15.3229,38.9251,Maekel,valide
+Massaoua,15.6097,39.4500,Northern Red Sea,valide
+Assab,13.0092,42.7394,Debubawi Keyih Bahri,valide
+Mekele (Éthiopie),13.4967,39.4753,Debub,invalide : point hors Érythrée
+Djibouti (Djibouti),11.5721,43.1456,Debubawi Keyih Bahri,invalide : latitude hors Érythrée
