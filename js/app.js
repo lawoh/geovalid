@@ -127,6 +127,12 @@ async function handleFileSelect(file) {
         // Détecter les colonnes automatiquement par VALEURS
         AppState.colonnesDetectees = detectColumns(result.headers, result.data);
         
+        // v1.2 : avec des géométries, les coordonnées viennent de la géométrie, pas d'une colonne
+        if (AppState.projection) {
+            AppState.colonnesDetectees.latitude = result.headers.includes('_latitude_') ? '_latitude_' : null;
+            AppState.colonnesDetectees.longitude = result.headers.includes('_longitude_') ? '_longitude_' : null;
+        }
+        
         // Afficher la section aperçu
         showPreviewSection();
         

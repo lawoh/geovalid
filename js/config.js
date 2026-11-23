@@ -53,6 +53,7 @@ const FORMATS_ENTREE = {
     gpx: { nom: 'GPX', icone: 'GPX', type: 'gpx' },
     // Formats SIG
     shp: { nom: 'Shapefile', icone: 'SHP', type: 'shapefile' },
+    zip: { nom: 'Shapefile (ZIP)', icone: 'SHP', type: 'shapefile' },
     dbf: { nom: 'dBASE', icone: 'DBF', type: 'dbf' },
     gml: { nom: 'GML', icone: 'GML', type: 'gml' },
     wkt: { nom: 'WKT', icone: 'WKT', type: 'wkt' },

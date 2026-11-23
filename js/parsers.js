@@ -411,54 +411,56 @@ async function parseWKT(file) {
 }
 
 // Parser Shapefile (ZIP contenant .shp, .dbf, .prj)
+// v1.2 : un ZIP peut contenir plusieurs Shapefiles (ex : points, lignes, polygones)
 async function parseShapefile(file) {
     const arrayBuffer = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(arrayBuffer);
     
-    let shpFile = null;
-    let dbfFile = null;
-    let prjTexte = null;
+    // Trouver un fichier du ZIP par son nom sans extension
+    const trouver = (base, ext) => Object.values(zip.files).find(e => e.name.toLowerCase() === (base + ext).toLowerCase());
+    const shpEntries = Object.values(zip.files).filter(e => e.name.toLowerCase().endsWith('.shp'));
     
-    for (const [filename, entry] of Object.entries(zip.files)) {
-        const lowerName = filename.toLowerCase();
-        if (lowerName.endsWith('.shp')) {
-            shpFile = await entry.async('arraybuffer');
-        } else if (lowerName.endsWith('.dbf')) {
-            dbfFile = await entry.async('arraybuffer');
-        } else if (lowerName.endsWith('.prj')) {
-            prjTexte = await entry.async('text');
-        }
-    }
+    if (shpEntries.length === 0) throw new Error('Fichier .shp non trouvé dans le ZIP');
     
-    if (!shpFile) throw new Error('Fichier .shp non trouvé dans le ZIP');
-    
-    const shpView = new DataView(shpFile);
     const data = [];
     const allKeys = new Set();
+    let srs = null;
     
-    // Lire les enregistrements SHP (points, lignes, polygones, multipoints)
-    let offset = 100;
-    while (offset < shpFile.byteLength - 8) {
-        const recordLength = shpView.getInt32(offset + 4, false) * 2;
-        data.push({ _geom_: lireGeometrieSHP(shpView, offset + 8) });
-        offset += 8 + recordLength;
-    }
-    
-    // Si DBF existe, fusionner les attributs
-    if (dbfFile && data.length > 0) {
-        const dbfData = parseDBFBuffer(dbfFile);
-        dbfData.headers.forEach(h => allKeys.add(h));
+    for (const shpEntry of shpEntries) {
+        const base = shpEntry.name.slice(0, -4);
+        const shpFile = await shpEntry.async('arraybuffer');
+        const dbfEntry = trouver(base, '.dbf');
+        const prjEntry = trouver(base, '.prj');
         
-        data.forEach((row, i) => {
-            if (dbfData.data[i]) {
-                Object.assign(row, dbfData.data[i]);
-            }
-        });
+        // Projection : celle du premier .prj trouvé
+        if (!srs && prjEntry) srs = { wkt: (await prjEntry.async('text')).trim() };
+        
+        // Lire les enregistrements SHP (points, lignes, polygones, multipoints)
+        const shpView = new DataView(shpFile);
+        const lignes = [];
+        let offset = 100;
+        while (offset < shpFile.byteLength - 8) {
+            const recordLength = shpView.getInt32(offset + 4, false) * 2;
+            lignes.push({ _geom_: lireGeometrieSHP(shpView, offset + 8) });
+            offset += 8 + recordLength;
+        }
+        
+        // Si DBF existe, fusionner les attributs
+        if (dbfEntry && lignes.length > 0) {
+            const dbfData = parseDBFBuffer(await dbfEntry.async('arraybuffer'));
+            dbfData.headers.forEach(h => allKeys.add(h));
+            lignes.forEach((row, i) => {
+                if (dbfData.data[i]) Object.assign(row, dbfData.data[i]);
+            });
+        }
+        
+        data.push(...lignes);
     }
     
     if (data.length === 0) throw new Error('Aucune entité trouvée dans le Shapefile');
-    return { headers: Array.from(allKeys), data, srs: prjTexte ? { wkt: prjTexte.trim() } : null };
+    return { headers: Array.from(allKeys), data, srs };
 }
+
 // Parser DBF
 async function parseDBF(file) {
     const arrayBuffer = await file.arrayBuffer();
