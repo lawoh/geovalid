@@ -1,0 +1,7 @@
+nom,latitude,longitude,district,code_postal,attendu
+Port-Louis,-20.1609,57.5012,Port Louis,,valide
+Curepipe,-20.3163,57.5259,Plaines Wilhems,,valide
+Port Mathurin (Rodrigues),-19.6833,63.4167,Rodrigues,,valide
+Saint-Denis (La Réunion),-20.8823,55.4504,Black River,,invalide : point hors Maurice
+Diego Garcia (Chagos),-7.3133,72.4111,Rodrigues,,invalide : point hors Maurice (Chagos)
+Code postal faux,-20.1609,57.5012,Port Louis,4260,invalide : code postal

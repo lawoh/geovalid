@@ -1424,6 +1424,293 @@ const PAYS = {
         // Code postal : 3 chiffres (ex : 101 Antananarivo)
         codePostal: cp => /^\d{3}$/.test(cp),
         zonesCanada: false
+    },
+    // ---------- Lot 6 Afrique de l'Ouest restante et îles (contours Natural Earth 10m)
+    NGA: {
+        nom: 'Nigeria',
+        emprises: [
+            { latitude: { min: 4.27, max: 13.89 }, longitude: { min: 2.67, max: 14.67 } }
+        ],
+        libelleRegion: 'État',
+        libelleRegions: 'États',
+        colonneRegion: 'etat',
+        // Codes ISO 3166-2:NG (36 États + territoire fédéral d'Abuja)
+        regions: {
+            'Abia': ['NG-AB'],
+            'Abuja Federal Capital Territory': ['NG-FC', 'FCT', 'Abuja'],
+            'Adamawa': ['NG-AD'],
+            'Akwa Ibom': ['NG-AK'],
+            'Anambra': ['NG-AN'],
+            'Bauchi': ['NG-BA'],
+            'Bayelsa': ['NG-BY'],
+            'Benue': ['NG-BE'],
+            'Borno': ['NG-BO'],
+            'Cross River': ['NG-CR'],
+            'Delta': ['NG-DE'],
+            'Ebonyi': ['NG-EB'],
+            'Edo': ['NG-ED'],
+            'Ekiti': ['NG-EK'],
+            'Enugu': ['NG-EN'],
+            'Gombe': ['NG-GO'],
+            'Imo': ['NG-IM'],
+            'Jigawa': ['NG-JI'],
+            'Kaduna': ['NG-KD'],
+            'Kano': ['NG-KN'],
+            'Katsina': ['NG-KT'],
+            'Kebbi': ['NG-KE'],
+            'Kogi': ['NG-KO'],
+            'Kwara': ['NG-KW'],
+            'Lagos': ['NG-LA'],
+            'Nasarawa': ['NG-NA'],
+            'Niger': ['NG-NI'],
+            'Ogun': ['NG-OG'],
+            'Ondo': ['NG-ON'],
+            'Osun': ['NG-OS'],
+            'Oyo': ['NG-OY'],
+            'Plateau': ['NG-PL'],
+            'Rivers': ['NG-RI'],
+            'Sokoto': ['NG-SO'],
+            'Taraba': ['NG-TA'],
+            'Yobe': ['NG-YO'],
+            'Zamfara': ['NG-ZA']
+        },
+        // Pas de contrôle : le code à 6 chiffres a été remplacé le 1er octobre 2026 par un code alphanumérique à 11 caractères
+        codePostal: null,
+        zonesCanada: false
+    },
+    GHA: {
+        nom: 'Ghana',
+        emprises: [
+            { latitude: { min: 4.73, max: 11.17 }, longitude: { min: -3.27, max: 1.19 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:GH (16 régions)
+        regions: {
+            'Ahafo': ['GH-AF'],
+            'Ashanti': ['GH-AH'],
+            'Bono': ['GH-BO'],
+            'Bono East': ['GH-BE'],
+            'Central': ['GH-CP'],
+            'Eastern': ['GH-EP'],
+            'Greater Accra': ['GH-AA'],
+            'North East': ['GH-NE'],
+            'Northern': ['GH-NP'],
+            'Oti': ['GH-OT'],
+            'Savannah': ['GH-SV'],
+            'Upper East': ['GH-UE'],
+            'Upper West': ['GH-UW'],
+            'Volta': ['GH-TV'],
+            'Western': ['GH-WP'],
+            'Western North': ['GH-WN']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    LBR: {
+        nom: 'Liberia',
+        emprises: [
+            { latitude: { min: 4.34, max: 8.57 }, longitude: { min: -11.48, max: -7.38 } }
+        ],
+        libelleRegion: 'Comté',
+        libelleRegions: 'Comtés',
+        colonneRegion: 'comte',
+        // Codes ISO 3166-2:LR (15 comtés)
+        regions: {
+            'Bomi': ['LR-BM'],
+            'Bong': ['LR-BG'],
+            'Gbarpolu': ['LR-GP'],
+            'Grand Bassa': ['LR-GB'],
+            'Grand Cape Mount': ['LR-CM'],
+            'Grand Gedeh': ['LR-GG'],
+            'Grand Kru': ['LR-GK'],
+            'Lofa': ['LR-LO'],
+            'Margibi': ['LR-MG'],
+            'Maryland': ['LR-MY'],
+            'Montserrado': ['LR-MO'],
+            'Nimba': ['LR-NI'],
+            'River Cess': ['LR-RI'],
+            'River Gee': ['LR-RG'],
+            'Sinoe': ['LR-SI']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    SLE: {
+        nom: 'Sierra Leone',
+        emprises: [
+            { latitude: { min: 6.91, max: 10.0 }, longitude: { min: -13.31, max: -10.28 } }
+        ],
+        libelleRegion: 'Province',
+        libelleRegions: 'Provinces',
+        colonneRegion: 'province',
+        // Codes ISO 3166-2:SL (4 provinces + Western Area)
+        regions: {
+            'Eastern': ['SL-E', 'Est'],
+            'North Western': ['SL-NW', 'Nord-Ouest'],
+            'Northern': ['SL-N', 'Nord'],
+            'Southern': ['SL-S', 'Sud'],
+            'Western Area': ['SL-W', 'Western']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    GNQ: {
+        nom: 'Guinée équatoriale',
+        // Continent et Bioko, Annobón
+        emprises: [
+            { latitude: { min: 0.87, max: 3.83 }, longitude: { min: 8.37, max: 11.39 } },
+            { latitude: { min: -1.53, max: -1.36 }, longitude: { min: 5.56, max: 5.7 } }
+        ],
+        libelleRegion: 'Région',
+        libelleRegions: 'Régions',
+        colonneRegion: 'region',
+        // Codes ISO 3166-2:GQ (2 régions)
+        regions: {
+            'Región Continental': ['GQ-C', 'Continental', 'Río Muni', 'Région Continentale'],
+            'Región Insular': ['GQ-I', 'Insular', 'Région Insulaire']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    CPV: {
+        nom: 'Cap-Vert',
+        emprises: [
+            { latitude: { min: 14.75, max: 17.25 }, longitude: { min: -25.42, max: -22.61 } }
+        ],
+        libelleRegion: 'Groupe d\'îles',
+        libelleRegions: 'Groupes d\'îles',
+        colonneRegion: 'groupe_iles',
+        // Codes ISO 3166-2:CV (îles au vent, îles sous le vent)
+        regions: {
+            'Ilhas de Barlavento': ['CV-B', 'Barlavento'],
+            'Ilhas de Sotavento': ['CV-S', 'Sotavento']
+        },
+        // Code postal : 4 chiffres (ex : 7600 Praia), avec ou sans suffixe de 3 chiffres
+        codePostal: cp => /^\d{4}(-\d{3})?$/.test(cp),
+        zonesCanada: false
+    },
+    STP: {
+        nom: 'Sao Tomé-et-Principe',
+        emprises: [
+            { latitude: { min: -0.03, max: 1.75 }, longitude: { min: 6.41, max: 7.52 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:ST (6 districts + région autonome de Príncipe)
+        regions: {
+            'Água Grande': ['ST-01'],
+            'Cantagalo': ['ST-02'],
+            'Caué': ['ST-03'],
+            'Lembá': ['ST-04'],
+            'Lobata': ['ST-05'],
+            'Mé-Zóchi': ['ST-06'],
+            'Príncipe': ['ST-P']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    COM: {
+        nom: 'Comores',
+        emprises: [
+            { latitude: { min: -12.44, max: -11.31 }, longitude: { min: 43.16, max: 44.58 } }
+        ],
+        libelleRegion: 'Île',
+        libelleRegions: 'Îles',
+        colonneRegion: 'ile',
+        // Codes ISO 3166-2:KM (3 îles ; Mayotte est rattachée à la France)
+        regions: {
+            'Grande Comore': ['KM-G', 'Ngazidja', 'Andjazîdja'],
+            'Anjouan': ['KM-A', 'Ndzuwani', 'Andjouân'],
+            'Mohéli': ['KM-M', 'Mwali', 'Moûhîlî']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
+    },
+    MUS: {
+        nom: 'Maurice',
+        // Maurice, Agaléga, Rodrigues
+        emprises: [
+            { latitude: { min: -20.57, max: -19.92 }, longitude: { min: 57.25, max: 57.85 } },
+            { latitude: { min: -10.46, max: -10.27 }, longitude: { min: 56.47, max: 56.62 } },
+            { latitude: { min: -19.82, max: -19.61 }, longitude: { min: 63.28, max: 63.55 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:MU (9 districts + Rodrigues, Agaléga, Cargados Carajos) ; Chagos hors contour (traité de 2025 non entré en vigueur)
+        regions: {
+            'Agaléga': ['MU-AG', 'Agalega Islands'],
+            'Black River': ['MU-BL', 'Rivière Noire'],
+            'Cargados Carajos': ['MU-CC', 'Cargados Carajos Shoals', 'Saint-Brandon'],
+            'Flacq': ['MU-FL'],
+            'Grand Port': ['MU-GP'],
+            'Moka': ['MU-MO'],
+            'Pamplemousses': ['MU-PA'],
+            'Plaines Wilhems': ['MU-PW'],
+            'Port Louis': ['MU-PL'],
+            'Rivière du Rempart': ['MU-RR'],
+            'Rodrigues': ['MU-RO', 'Rodrigues Island'],
+            'Savanne': ['MU-SA']
+        },
+        // Code postal : 5 chiffres, ou R + 4 chiffres à Rodrigues (source UPU)
+        codePostal: cp => /^(\d{5}|R\d{4})$/.test(cp),
+        zonesCanada: false
+    },
+    SYC: {
+        nom: 'Seychelles',
+        // Un rectangle par groupe d'îles
+        emprises: [
+            { latitude: { min: -9.81, max: -9.27 }, longitude: { min: 46.15, max: 47.57 } },
+            { latitude: { min: -5.5, max: -5.37 }, longitude: { min: 53.28, max: 53.4 } },
+            { latitude: { min: -5.92, max: -3.74 }, longitude: { min: 55.17, max: 56.01 } },
+            { latitude: { min: -7.25, max: -7.06 }, longitude: { min: 56.19, max: 56.34 } },
+            { latitude: { min: -7.06, max: -6.94 }, longitude: { min: 52.69, max: 52.8 } }
+        ],
+        libelleRegion: 'District',
+        libelleRegions: 'Districts',
+        colonneRegion: 'district',
+        // Codes ISO 3166-2:SC (27 districts)
+        regions: {
+            'Anse aux Pins': ['SC-01'],
+            'Anse Boileau': ['SC-02'],
+            'Anse Etoile': ['SC-03'],
+            'Anse Royale': ['SC-05'],
+            'Au Cap': ['SC-04'],
+            'Baie Lazare': ['SC-06'],
+            'Baie Sainte Anne': ['SC-07'],
+            'Beau Vallon': ['SC-08'],
+            'Bel Air': ['SC-09'],
+            'Bel Ombre': ['SC-10'],
+            'Cascade': ['SC-11'],
+            'English River': ['SC-16'],
+            'Glacis': ['SC-12'],
+            'Grand Anse Mahe': ['SC-13'],
+            'Grand Anse Praslin': ['SC-14'],
+            'Ile Perseverance I': ['SC-26'],
+            'Ile Perseverance II': ['SC-27'],
+            'La Digue': ['SC-15'],
+            'Les Mamelles': ['SC-24'],
+            'Mont Buxton': ['SC-17'],
+            'Mont Fleuri': ['SC-18'],
+            'Plaisance': ['SC-19'],
+            'Pointe Larue': ['SC-20'],
+            'Port Glaud': ['SC-21'],
+            'Roche Caiman': ['SC-25'],
+            'Saint Louis': ['SC-22'],
+            'Takamaka': ['SC-23']
+        },
+        // Pas de format de code postal confirmé : valeur gardée sans contrôle
+        codePostal: null,
+        zonesCanada: false
     }
 };
 

@@ -1,0 +1,5 @@
+nom,latitude,longitude,district,attendu
+São Tomé,0.3365,6.7273,Água Grande,valide
+Santo António (Príncipe),1.6391,7.4179,Príncipe,valide
+Malabo (Guinée équatoriale),3.7504,8.7371,Príncipe,invalide : latitude hors Sao Tomé-et-Principe
+Libreville (Gabon),0.4162,9.4673,Água Grande,invalide : longitude hors Sao Tomé-et-Principe

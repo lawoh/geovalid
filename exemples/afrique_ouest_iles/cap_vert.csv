@@ -1,0 +1,6 @@
+nom,latitude,longitude,groupe_iles,code_postal,attendu
+Praia,14.9330,-23.5133,Sotavento,7600,valide
+Mindelo,16.8901,-24.9804,Barlavento,,valide
+Espargos (Sal),16.7560,-22.9450,Barlavento,,valide
+Dakar (Sénégal),14.7167,-17.4677,Sotavento,,invalide : longitude hors Cap-Vert
+Code postal faux,14.9330,-23.5133,Sotavento,760,invalide : code postal

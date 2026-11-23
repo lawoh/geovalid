@@ -1,0 +1,8 @@
+nom,latitude,longitude,etat,attendu
+Lagos,6.5244,3.3792,Lagos,valide
+Abuja,9.0765,7.3986,FCT,valide
+Kano,12.0022,8.5920,Kano,valide
+Port Harcourt,4.8156,7.0498,Rivers,valide
+Maradi (Niger),13.5000,7.1017,Katsina,invalide : point hors Nigeria
+Maroua (Cameroun),10.5913,14.3159,Adamawa,invalide : point hors Nigeria
+Cotonou (Bénin),6.3703,2.3912,Ogun,invalide : longitude hors Nigeria

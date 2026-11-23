@@ -1,0 +1,7 @@
+nom,latitude,longitude,province,attendu
+Freetown,8.4657,-13.2317,Western Area,valide
+Bo,7.9647,-11.7383,Southern,valide
+Makeni,8.8800,-12.0500,Northern,valide
+Forécariah (Guinée),9.4300,-13.0900,North Western,invalide : point hors Sierra Leone
+Conakry (Guinée),9.6412,-13.5784,North Western,invalide : longitude hors Sierra Leone
+Monrovia (Liberia),6.3156,-10.8074,Eastern,invalide : latitude hors Sierra Leone

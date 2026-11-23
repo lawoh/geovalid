@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,attendu
+Malabo (Bioko),3.7504,8.7371,Insular,valide
+Bata,1.8639,9.7658,Continental,valide
+San Antonio de Palé (Annobón),-1.4067,5.6322,Insular,valide
+Ebolowa (Cameroun),2.9000,11.1500,Continental,invalide : point hors Guinée équatoriale
+São Tomé (Sao Tomé-et-Principe),0.3365,6.7273,Insular,invalide : point hors Guinée équatoriale
+Libreville (Gabon),0.4162,9.4673,Continental,invalide : point hors Guinée équatoriale

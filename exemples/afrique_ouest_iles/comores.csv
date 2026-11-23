@@ -1,0 +1,5 @@
+nom,latitude,longitude,ile,attendu
+Moroni,-11.7172,43.2473,Grande Comore,valide
+Mutsamudu,-12.1675,44.3994,Anjouan,valide
+Fomboni,-12.2800,43.7425,Mohéli,valide
+Mamoudzou (Mayotte),-12.7806,45.2279,Anjouan,invalide : hors Comores (Mayotte est française)

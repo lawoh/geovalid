@@ -1,0 +1,7 @@
+nom,latitude,longitude,region,attendu
+Accra,5.6037,-0.1870,Greater Accra,valide
+Kumasi,6.6885,-1.6244,Ashanti,valide
+Tamale,9.4008,-0.8393,Northern,valide
+Sokodé (Togo),8.9833,1.1333,Oti,invalide : point hors Ghana
+Lomé (Togo),6.1375,1.2123,Volta,invalide : longitude hors Ghana
+Ouagadougou (Burkina Faso),12.3714,-1.5197,Upper East,invalide : latitude hors Ghana

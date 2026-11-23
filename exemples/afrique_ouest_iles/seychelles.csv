@@ -1,0 +1,6 @@
+nom,latitude,longitude,district,attendu
+Victoria (Mahé),-4.6191,55.4513,English River,valide
+Baie Sainte Anne (Praslin),-4.3333,55.7667,Baie Sainte Anne,valide
+La Digue,-4.3500,55.8333,La Digue,valide
+Port-Louis (Maurice),-20.1609,57.5012,Mont Fleuri,invalide : point hors Seychelles
+Antsiranana (Madagascar),-12.2787,49.2917,Glacis,invalide : point hors Seychelles

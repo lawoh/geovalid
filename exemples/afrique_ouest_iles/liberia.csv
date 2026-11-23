@@ -1,0 +1,7 @@
+nom,latitude,longitude,comte,attendu
+Monrovia,6.3156,-10.8074,Montserrado,valide
+Gbarnga,6.9956,-9.4722,Bong,valide
+Harper,4.3750,-7.7169,Maryland,valide
+Man (Côte d'Ivoire),7.4125,-7.5539,Nimba,invalide : point hors Liberia
+Nzérékoré (Guinée),7.7562,-8.8179,Lofa,invalide : point hors Liberia
+Freetown (Sierra Leone),8.4657,-13.2317,Grand Cape Mount,invalide : longitude hors Liberia
